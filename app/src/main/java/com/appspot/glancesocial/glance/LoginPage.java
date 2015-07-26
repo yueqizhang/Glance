@@ -1,5 +1,6 @@
 package com.appspot.glancesocial.glance;
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
@@ -16,8 +17,10 @@ import com.twitter.sdk.android.core.identity.TwitterLoginButton;
 
 import io.fabric.sdk.android.Fabric;
 
-public class MainActivity extends ActionBarActivity {
+public class LoginPage extends ActionBarActivity {
 
+    public static final String INSTA_ID = "83f264e6915b4dceb166f6a0962dd57b";
+    public static final String INSTA_REDIRECT = "http://glancesocial.appspot.com";
     // Note: Your consumer key and secret should be obfuscated in your source code before shipping.
     private static final String TWITTER_KEY = "otG6EvQxlUAQmxqmdRmnsOKBi";
     private static final String TWITTER_SECRET = "Eh7kzCtbQHCY0Oxg5E60t0BgSzRLIMZRvthdgZEesAa2m96dY7";
@@ -25,10 +28,11 @@ public class MainActivity extends ActionBarActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        Context context = this;
         super.onCreate(savedInstanceState);
         TwitterAuthConfig authConfig = new TwitterAuthConfig(TWITTER_KEY, TWITTER_SECRET);
         Fabric.with(this, new Twitter(authConfig));
-        setContentView(R.layout.fragment_main);
+        setContentView(R.layout.login_page);
         loginButton = (TwitterLoginButton) findViewById(R.id.twitter_login_button);
         loginButton.setCallback(new Callback<TwitterSession>() {
             @Override
