@@ -1,10 +1,12 @@
 package com.appspot.glancesocial.glance;
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.Toast;
 
 import com.twitter.sdk.android.Twitter;
 import com.twitter.sdk.android.core.Callback;
@@ -34,12 +36,37 @@ public class MainActivity extends ActionBarActivity {
             @Override
             public void success(Result<TwitterSession> result) {
                 // Do something with result, which provides a TwitterSession for making API calls
-
+                // TODO:
+                        // Here we need to get the User's Favorites and Retweets and determine who
+                        // they interact with the most. Twitter's API may actually be able to tell
+                        // us who they interact with the most without us having to do any analysis
+                // TODO:
+                        // We need to take the list of the relevant users and store it in a database
+                        // A simple database like the one we used in Sunshine will work
+                // TODO:
+                        // After this is all accomplished we keep them on the login page.
+                        // We need to let them add all of their accounts and when they are finished
+                        // They can press a continue button that will send them to the main page.
+                        // There we will load the relevant posts using the information
+                        // from the database as a filter for the posts.
+                Context context = getApplicationContext();
+                CharSequence text = "Login success. Welcome to Glance.";
+                int duration = Toast.LENGTH_LONG;
+                Toast toast = Toast.makeText(context, text, duration);
+                toast.show();
             }
 
             @Override
             public void failure(TwitterException exception) {
                 // Do something on failure
+                // TODO:
+                        // On failure we will simply notify the user that the authentication did
+                        // not go through and they need to try again. Using a Toast will work.
+                Context context = getApplicationContext();
+                CharSequence text = "Login failed. Please try again later.";
+                int duration = Toast.LENGTH_LONG;
+                Toast toast = Toast.makeText(context, text, duration);
+                toast.show();
             }
         });
     }
@@ -66,6 +93,10 @@ public class MainActivity extends ActionBarActivity {
 
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_settings) {
+            // TODO:
+                    // Send them to the settings page. The settings page should allow them to manage
+                    // accounts and should allow them to adjust their preferences like how much
+                    // relevant information to show.
             return true;
         }
 
