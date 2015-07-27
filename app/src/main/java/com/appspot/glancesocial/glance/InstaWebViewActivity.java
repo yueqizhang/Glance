@@ -32,7 +32,7 @@ public class InstaWebViewActivity extends Activity {
                 .append(RESPONSE_TYPE + "=token&")
                 .append(SCOPE + "=" + SCOPE_PARAMS);
 
-        //this doesnt work b/c it uri builder encodes non-safe URL characters their %xx hex values
+        //this doesnt work b/c the uri builder encodes non-safe URL characters into their %xx hex values
 //        Uri instaUri = Uri.parse(INSTA_BASE_URL).buildUpon()
 //                .appendQueryParameter(ID_PARAM, LoginPage.INSTA_ID)
 //                .appendQueryParameter(REDIRECT_PARAM, LoginPage.INSTA_REDIRECT)
