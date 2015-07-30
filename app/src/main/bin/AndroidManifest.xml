@@ -10,17 +10,12 @@
         <activity
             android:name=".LoginPage"
             android:label="@string/app_name" >
-
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity
-            android:name=".InstaWebViewActivity"
-            android:theme="@android:style/Theme.NoTitleBar"/>
-        <activity android:name=".MainPage"/>
         <meta-data
             android:name="io.fabric.ApiKey"
             android:value="405c243a6b84b90e237341477a4fdd8425b5c233" />
