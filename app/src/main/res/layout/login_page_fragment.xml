@@ -9,8 +9,11 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerHorizontal="true"
-        android:text="Welcome To Glance"
-        android:textSize="36dp"/>
+        android:layout_marginTop="35dp"
+        android:layout_marginBottom="20dp"
+        android:text="Glance"
+        android:textSize="72dp"
+        android:fontFamily="sans-serif-light" />
 
     <!--Twitter Login Button-->
     <com.twitter.sdk.android.core.identity.TwitterLoginButton
@@ -20,14 +23,20 @@
         android:layout_centerInParent="true"/>
 
     <!--Need Instagram Button image-->
+    <ImageButton
+        android:layout_height="match_parent"
+        android:layout_width="match_parent"
+        android:src="@drawable/instagrampic" />
     <Button
         android:id="@+id/instagram_login_button"
         android:layout_width="wrap_content"
+        android:padding="20dp"
         android:layout_height="wrap_content"
         android:text="Instagram"
         android:layout_above="@+id/twitter_login_button"
         android:layout_centerHorizontal="true"
-        android:layout_marginBottom="36dp" />
+        android:layout_marginBottom="36dp"
+    />
 
 
 </RelativeLayout>
