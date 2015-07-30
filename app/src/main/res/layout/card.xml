@@ -13,5 +13,6 @@
         android:layout_margin="15dp"
         android:padding="15dp"
         android:background="@drawable/layer_card_background"
-        android:text="Hello Card!\nThis is an example of a card..."/>
+        android:text="Hello Card!\nThis is an example of a card..."
+        />
 </LinearLayout>
