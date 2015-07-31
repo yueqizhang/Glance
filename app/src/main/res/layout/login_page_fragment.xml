@@ -2,15 +2,34 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".SampleActivity">
+    tools:context=".SampleActivity"
+    >
 
     <!--Will be replaced with the logo-->
     <TextView
+        android:id="@+id/GlanceLogoLoginPage"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerHorizontal="true"
-        android:text="Welcome To Glance"
-        android:textSize="36dp"/>
+        android:layout_marginTop="35dp"
+        android:layout_marginBottom="20dp"
+        android:text="Glance"
+        android:textSize="72dp"
+        android:fontFamily="sans-serif-light" />
+
+
+    <!--Need Instagram Button image-->
+    <ImageButton
+        android:id="@+id/instagram_login_button"
+        android:layout_height="wrap_content"
+        android:layout_width="wrap_content"
+        android:padding="20dp"
+        android:text="Log in with Instagram"
+        android:layout_below="@+id/GlanceLogoLoginPage"
+        android:layout_above="@+id/twitter_login_button"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="5dp"
+        android:src="@drawable/instagrampic" />
 
     <!--Twitter Login Button-->
     <com.twitter.sdk.android.core.identity.TwitterLoginButton
@@ -18,15 +37,5 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerInParent="true"/>
-
-    <!--Instagram Login Button-->
-    <Button
-        android:id="@+id/instagram_login_button"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Instagram"
-        android:layout_above="@+id/twitter_login_button"
-        android:layout_centerHorizontal="true"
-        android:layout_marginBottom="36dp" />
 
 </RelativeLayout>
