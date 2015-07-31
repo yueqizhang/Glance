@@ -7,13 +7,13 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
+import android.widget.ImageButton;
 
 /**
  * A placeholder fragment containing a simple view.
  */
 public class LoginPageFragment extends Fragment implements View.OnClickListener{
-    Button instagramLogin;
+    ImageButton instagramLogin;
     public LoginPageFragment() {
     }
 
@@ -23,7 +23,7 @@ public class LoginPageFragment extends Fragment implements View.OnClickListener{
         Log.v(" ", "view created");
 
         View view = inflater.inflate(R.layout.login_page_fragment, container, false);
-        instagramLogin = (Button) view.findViewById(R.id.instagram_login_button);
+        instagramLogin = (ImageButton) view.findViewById(R.id.instagram_login_button);
         Log.d(" ", "button found");
         if(instagramLogin == null){
             Log.d("tag", "button is null");
