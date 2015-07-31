@@ -4,15 +4,39 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:gravity="center"
+    android:orientation="horizontal"
     android:background="#E0EEEE">
-    <TextView
+    <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
         android:gravity="center"
         android:layout_margin="15dp"
         android:padding="15dp"
-        android:background="@drawable/layer_card_background"
-        android:text="Hello Card!\nThis is an example of a card..."
-        />
+        android:background="@drawable/layer_card_background">
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="72dp"
+            android:layout_margin="16dp"
+            >
+            <ImageView
+                android:id="@+id/user_image"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:layout_margin="6dp"/>
+            <TextView
+                android:layout_width="fill_parent"
+                android:layout_height="50dp"
+                android:layout_margin="6dp"
+                android:layout_toRightOf="@+id/user_image"/>
+        </RelativeLayout>
+    </RelativeLayout>
+    <ImageView
+        android:id="@+id/post_image"
+        android:layout_width="match_parent"
+        android:layout_height="112dp" />
+    <TextView
+        android:id="@+id/post_caption"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content" />
 </LinearLayout>

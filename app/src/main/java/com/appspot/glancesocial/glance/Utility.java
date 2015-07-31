@@ -6,7 +6,7 @@ package com.appspot.glancesocial.glance;
 public class Utility {
 
 
-    public static getLikes(){
+    //public static getLikes(){
 
-    }
+    //}
 }
