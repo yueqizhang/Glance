@@ -19,8 +19,7 @@
         android:layout_height="wrap_content"
         android:layout_centerInParent="true"/>
 
-    <!--Need Instagram Login Button-->
-    <!--Need Instagram Button image-->
+    <!--Instagram Login Button-->
     <Button
         android:id="@+id/instagram_login_button"
         android:layout_width="wrap_content"
