@@ -16,6 +16,10 @@
         android:text="Glance"
         android:textSize="72dp"
         android:fontFamily="sans-serif-light" />
+<<<<<<< HEAD
+=======
+
+>>>>>>> upstream/master
 
     <!--Need Instagram Button image-->
     <ImageButton
