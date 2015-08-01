@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.ActionBarActivity;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -20,7 +21,7 @@ import java.util.List;
  */
 public class SettingsActivity extends ActionBarActivity {
 
-    private final String LOG_TAG = SettingsActivity.class.getSimpleName();
+    private static final String LOG_TAG = SettingsActivity.class.getSimpleName();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -62,7 +63,7 @@ public class SettingsActivity extends ActionBarActivity {
                                  Bundle savedInstanceState) {
 
             // Create some dummy data for the ListView.
-            String[] acc = {
+            final String[] acc = {
                     "Twitter",
                     "Instagram",
                     "Facebook",
@@ -84,6 +85,7 @@ public class SettingsActivity extends ActionBarActivity {
             listView.setAdapter(mAccountAdapter);
             listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
 
+
                 @Override
                 public void onItemClick(AdapterView<?> adapterView, View view, int position, long l) {
                     String clickedAccount = mAccountAdapter.getItem(position);
@@ -93,6 +95,21 @@ public class SettingsActivity extends ActionBarActivity {
                 }
             });
 
+/*                @Override
+                public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                    switch (position) {
+                        case (1): //twitter
+                            //TODO:
+                            //add twitter button, similiar to the one on the login page
+                        case (2): //instagram
+                            Intent intent = new Intent(getActivity(), InstaWebViewActivity.class);
+                            intent.putExtra("SettingsActivity", true);
+                            Log.d(LOG_TAG,"called from settings *******");
+                            startActivity(intent);
+                            break;
+                    }
+                }
+            });*/
             return rootView;
         }
     }
