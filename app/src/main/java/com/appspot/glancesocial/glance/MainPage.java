@@ -26,7 +26,7 @@ public class MainPage extends ActionBarActivity {
         setContentView(R.layout.main_page);
         if (savedInstanceState == null) {
             getSupportFragmentManager().beginTransaction()
-                    .add(R.id.container, new MainFragment())
+                    .add(R.id.container, new MainPageFragment())
                     .commit();
         }
         Intent testIntent = new Intent(this, InstagramService.class);
@@ -60,53 +60,5 @@ public class MainPage extends ActionBarActivity {
         return super.onOptionsItemSelected(item);
     }
 
-    /**
-     * A placeholder fragment containing a simple view.
-     */
-    public static class MainFragment extends Fragment {
-
-        // TODO:
-            // This only will fill in the usernames with dummy data.
-            // We have to create a custom adapter to fill in all of our data.
-
-        ArrayAdapter<String> mPostAdapter;
-
-        public MainFragment() {
-        }
-
-        @Override
-        public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                                 Bundle savedInstanceState) {
-
-            // Create some dummy data for the ListView.
-            String[] userNames = {
-                    "Jonah",
-                    "Christina",
-                    "Daisy",
-                    "Fran",
-                    "Jake",
-                    "Ethan",
-                    "Courtney",
-                    "Shawn",
-                    "Nicole",
-                    "Ross"
-            };
-            List<String>  users = new ArrayList<String>(Arrays.asList(userNames));
-
-            mPostAdapter =
-                    new ArrayAdapter<String>(
-                            getActivity(), // The current context (this activity)
-                            R.layout.card, // The name of the layout ID.
-                            R.id.user_name, // The ID of the textview to populate.
-                            users);
-
-            View rootView = inflater.inflate(R.layout.main_fragment, container, false);
-
-            // Get a reference to the ListView, and attach this adapter to it.
-            ListView listView = (ListView) rootView.findViewById(R.id.listview_posts);
-            listView.setAdapter(mPostAdapter);
-
-            return rootView;
-        }
-    }
 }
+
