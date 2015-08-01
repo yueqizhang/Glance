@@ -22,7 +22,7 @@ public class LoginPageFragment extends Fragment implements View.OnClickListener{
                              Bundle savedInstanceState) {
         Log.v(" ", "view created");
 
-        View view = inflater.inflate(R.layout.login_page_fragment, container, false);
+        View view = inflater.inflate(R.layout.login_fragment, container, false);
         instagramLogin = (ImageButton) view.findViewById(R.id.instagram_login_button);
         Log.d(" ", "button found");
         if(instagramLogin == null){
