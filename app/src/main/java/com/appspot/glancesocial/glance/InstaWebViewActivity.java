@@ -13,10 +13,12 @@ public class InstaWebViewActivity extends Activity {
     final String INSTA_BASE_URL = "https://instagram.com/oauth/authorize/?";
     final String ID_PARAM = "client_id";
     final String REDIRECT_PARAM = "redirect_uri";
+    final String LOG_TAG = InstaWebViewActivity.class.getSimpleName();
     final String RESPONSE_TYPE = "response_type";
     final String SCOPE = "scope";
     final String SCOPE_PARAMS = "likes+comments"; //extra permissions
-    public String accessToken;
+    public static String accessToken= null;
+
     private WebView instaWebView;
     final Context context = this;
 
@@ -39,9 +41,9 @@ public class InstaWebViewActivity extends Activity {
 //                .appendQueryParameter(RESPONSE_TYPE, "token")
 //                .build();
 
-        Log.d("", "built url: " + instaUrl.toString());
+        Log.d(LOG_TAG, "built url: " + instaUrl.toString());
 
-        Log.d(" ", "webview");
+        Log.d(LOG_TAG, "webview");
         instaWebView = (WebView) findViewById(R.id.webView1);
         instaWebView.getSettings().setJavaScriptEnabled(true);
         instaWebView.loadUrl(instaUrl.toString());
@@ -51,12 +53,12 @@ public class InstaWebViewActivity extends Activity {
             public void onPageFinished(WebView view, String url) {
                 if (url.contains("#access_token=")) {
                     accessToken = url.substring(url.indexOf("token=") + 6, url.length());
-                    Log.d("", "url: " + url);
-                    Log.d("", "access token: " + accessToken);
+                    Log.d(LOG_TAG, "url: " + url);
+                    Log.d(LOG_TAG, "access token: " + accessToken);
                     Intent intent = new Intent(context, MainPage.class);
                     context.startActivity(intent);
                 } else {
-                    Log.d("", "onpagefinished failed");
+                    Log.d(LOG_TAG, "onpagefinished failed");
                 }
                 super.onPageFinished(view, url);
 

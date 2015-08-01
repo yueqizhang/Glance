@@ -14,7 +14,8 @@ public class MainPage extends ActionBarActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.main_page);
-
+        Intent testIntent = new Intent(this, InstagramService.class);
+        startService(testIntent);
     }
 
     @Override
