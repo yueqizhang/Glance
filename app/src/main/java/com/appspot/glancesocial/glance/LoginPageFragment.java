@@ -15,7 +15,7 @@ import android.widget.ImageButton;
 public class LoginPageFragment extends Fragment implements View.OnClickListener {
     // Use LOG_TAG when logging anything
     private final String LOG_TAG = LoginPageFragment.class.getSimpleName();
-
+    
     public LoginPageFragment() {
     }
 

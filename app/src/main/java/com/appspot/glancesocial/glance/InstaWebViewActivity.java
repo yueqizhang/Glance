@@ -40,7 +40,6 @@ public class InstaWebViewActivity extends Activity {
 
         Log.d(LOG_TAG, "built url: " + instaUrl.toString());
 
-        Log.d(LOG_TAG, "webview");
         instaWebView = (WebView) findViewById(R.id.webView1);
         instaWebView.getSettings().setJavaScriptEnabled(true);
         instaWebView.loadUrl(instaUrl.toString());
