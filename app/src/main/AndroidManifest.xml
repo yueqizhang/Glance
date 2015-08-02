@@ -24,6 +24,10 @@
             android:name=".InstaWebViewActivity"
             android:theme="@android:style/Theme.Holo.NoActionBar"/>
 
+        <!-- TwitterActivity -->
+        <activity
+            android:name=".TwitterActivity"/>
+
         <!-- MainPage -->
         <activity
             android:name=".MainPage"
@@ -31,7 +35,12 @@
 
         <!-- SettingsActivity -->
         <activity
-            android:name=".SettingsActivity"/>
+            android:name=".SettingsActivity"
+            android:parentActivityName=".MainPage">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.appspot.glancesocial.glance.SettingsActivity"/>
+        </activity>
 
         <!-- AccountActivity -->
         <activity

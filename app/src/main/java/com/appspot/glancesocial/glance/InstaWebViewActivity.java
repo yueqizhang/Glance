@@ -56,7 +56,7 @@ public class InstaWebViewActivity extends Activity {
                         intent = new Intent(context, SettingsActivity.class);
                         context.startActivity(intent);
                         CharSequence text = "Instagram login was successful";
-                        Toast toast = Toast.makeText(context, text, Toast.LENGTH_SHORT);
+                        Toast toast = Toast.makeText(context, text, Toast.LENGTH_LONG);
                         toast.show();
                     }else { //else, the user is returned to the main page
                         intent = new Intent(context, MainPage.class);

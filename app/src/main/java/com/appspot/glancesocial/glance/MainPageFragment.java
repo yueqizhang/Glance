@@ -1,15 +1,12 @@
 package com.appspot.glancesocial.glance;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
-import android.widget.ImageButton;
-import android.widget.ListView;
+import android.widget.GridView;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -33,16 +30,13 @@ public class MainPageFragment extends Fragment{
 
         // Create some dummy data for the ListView.
         String[] userNames = {
-                "Jonah",
-                "Christina",
-                "Daisy",
-                "Fran",
-                "Jake",
-                "Ethan",
-                "Courtney",
-                "Shawn",
-                "Nicole",
-                "Ross"
+                "Jonah", "Christina",
+                "Daisy", "Fran",
+                "Jake", "Ethan",
+                "Courtney", "Shawn",
+                "Nicole", "Ross",
+                "Phillip", "Carla",
+                "Molli", "Erik"
         };
         List<String> users = new ArrayList<String>(Arrays.asList(userNames));
 
@@ -56,8 +50,8 @@ public class MainPageFragment extends Fragment{
         View rootView = inflater.inflate(R.layout.main_fragment, container, false);
 
         // Get a reference to the ListView, and attach this adapter to it.
-        ListView listView = (ListView) rootView.findViewById(R.id.listview_posts);
-        listView.setAdapter(mPostAdapter);
+        GridView gridView = (GridView) rootView.findViewById(R.id.gridview_posts);
+        gridView.setAdapter(mPostAdapter);
 
         return rootView;
     }

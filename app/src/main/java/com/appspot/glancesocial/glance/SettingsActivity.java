@@ -88,28 +88,52 @@ public class SettingsActivity extends ActionBarActivity {
 
                 @Override
                 public void onItemClick(AdapterView<?> adapterView, View view, int position, long l) {
-                    String clickedAccount = mAccountAdapter.getItem(position);
-                    Intent intent = new Intent(getActivity(), AccountActivity.class)
-                            .putExtra(Intent.EXTRA_TEXT, clickedAccount);
-                    startActivity(intent);
-                }
-            });
-
-/*                @Override
-                public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                    // TODO:
+                        // Figure out how to store whether you have added the account or not.
+                        // Currently it will always pretend like you have never added it.
+                    boolean twitterAdded = false;
+                    boolean instagramAdded = false;
                     switch (position) {
-                        case (1): //twitter
-                            //TODO:
-                            //add twitter button, similiar to the one on the login page
-                        case (2): //instagram
-                            Intent intent = new Intent(getActivity(), InstaWebViewActivity.class);
-                            intent.putExtra("SettingsActivity", true);
-                            Log.d(LOG_TAG,"called from settings *******");
+                        case (0): // Twitter
+                            if (twitterAdded) {
+                                String clickedAccount = mAccountAdapter.getItem(position);
+                                Intent intent = new Intent(getActivity(), AccountActivity.class)
+                                        .putExtra(Intent.EXTRA_TEXT, clickedAccount);
+                                startActivity(intent);
+                            } else {
+                                // TODO:
+                                    // Currently the twitter login sends you to the instagram login
+                                    // Need to create a Twitter Activity
+                                twitterAdded = true;
+                                Intent intentTwitter = new Intent(getActivity(), TwitterActivity.class);
+                                intentTwitter.putExtra("SettingsActivity", true);
+                                Log.d(LOG_TAG, "TWITTER called from settings *******");
+                                startActivity(intentTwitter);
+                            }
+                            break;
+                        case (1): // Instagram
+                            if (instagramAdded) {
+                                String clickedAccount = mAccountAdapter.getItem(position);
+                                Intent intent = new Intent(getActivity(), AccountActivity.class)
+                                        .putExtra(Intent.EXTRA_TEXT, clickedAccount);
+                                startActivity(intent);
+                            } else {
+                                instagramAdded = true;
+                                Intent intentInstagram = new Intent(getActivity(), InstaWebViewActivity.class);
+                                intentInstagram.putExtra("SettingsActivity", true);
+                                Log.d(LOG_TAG, "INSTAGRAM called from settings *******");
+                                startActivity(intentInstagram);
+                            }
+                            break;
+                        default: // Others
+                            String clickedAccount = mAccountAdapter.getItem(position);
+                            Intent intent = new Intent(getActivity(), AccountActivity.class)
+                                    .putExtra(Intent.EXTRA_TEXT, clickedAccount);
                             startActivity(intent);
                             break;
                     }
                 }
-            });*/
+            });
             return rootView;
         }
     }
