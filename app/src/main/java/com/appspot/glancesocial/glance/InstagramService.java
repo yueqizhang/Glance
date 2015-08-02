@@ -21,8 +21,9 @@ import java.util.ArrayList;
  * Created by yueqizhang on 7/30/15.
  */
 public class InstagramService extends IntentService{
-
+    // Use LOG_TAG when logging anything
     final String LOG_TAG = InstagramService.class.getSimpleName();
+
     final String INSTA_BASE_URL = "https://api.instagram.com/v1/";
     final String ACCESS = "access_token";
     URL url;

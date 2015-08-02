@@ -13,6 +13,8 @@ import android.widget.TextView;
  * Created by Jonah on 8/1/15.
  */
 public class AccountActivity extends ActionBarActivity {
+    // Use LOG_TAG when logging anything
+    private final String LOG_TAG = AccountActivity.class.getSimpleName();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

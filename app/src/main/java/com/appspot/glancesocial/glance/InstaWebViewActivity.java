@@ -10,11 +10,12 @@ import android.webkit.WebViewClient;
 import android.widget.Toast;
 
 public class InstaWebViewActivity extends Activity {
+    // Use LOG_TAG when logging anything
+    private final String LOG_TAG = InstaWebViewActivity.class.getSimpleName();
 
     final String INSTA_BASE_URL = "https://instagram.com/oauth/authorize/?";
     final String ID_PARAM = "client_id";
     final String REDIRECT_PARAM = "redirect_uri";
-    final String LOG_TAG = InstaWebViewActivity.class.getSimpleName();
     final String RESPONSE_TYPE = "response_type";
     final String SCOPE = "scope";
     final String SCOPE_PARAMS = "likes+comments"; //extra permissions
@@ -53,14 +54,16 @@ public class InstaWebViewActivity extends Activity {
                     Log.d(LOG_TAG, "url: " + url);
                     Log.d(LOG_TAG, "access token: " + accessToken);
                     if(fromSettingsActivity) { //if this is launched from Settings, returns user back to settings
-                        intent = new Intent(context, SettingsActivity.class);
-                        context.startActivity(intent);
                         CharSequence text = "Instagram login was successful";
                         Toast toast = Toast.makeText(context, text, Toast.LENGTH_LONG);
                         toast.show();
+                        // Calling finish instead of an intent so you don't see the login screen
+                        // again when you press the back button
+                        finish();
                     }else { //else, the user is returned to the main page
-                        intent = new Intent(context, MainPage.class);
-                        context.startActivity(intent);
+                        // Calling finish instead of an intent so you don't see the login screen
+                        // again when you press the back button
+                        finish();
                     }
                 } else {
                     Log.d(LOG_TAG, "onpagefinished failed");

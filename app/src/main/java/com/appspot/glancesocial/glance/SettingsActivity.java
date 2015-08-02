@@ -20,7 +20,7 @@ import java.util.List;
  * Created by Jonah on 7/30/15.
  */
 public class SettingsActivity extends ActionBarActivity {
-
+    // Use LOG_TAG when logging anything
     private static final String LOG_TAG = SettingsActivity.class.getSimpleName();
 
     @Override

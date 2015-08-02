@@ -19,6 +19,8 @@ import com.twitter.sdk.android.core.identity.TwitterLoginButton;
 import io.fabric.sdk.android.Fabric;
 
 public class LoginPage extends ActionBarActivity {
+    // Use LOG_TAG when logging anything
+    private final String LOG_TAG = LoginPage.class.getSimpleName();
 
     public static final String INSTA_ID = "83f264e6915b4dceb166f6a0962dd57b";
     public static final String INSTA_REDIRECT = "http://glancesocial.appspot.com";

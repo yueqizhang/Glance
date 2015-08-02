@@ -3,7 +3,6 @@ package com.appspot.glancesocial.glance;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,39 +12,42 @@ import android.widget.ImageButton;
 /**
  * A placeholder fragment containing a simple view.
  */
-public class LoginPageFragment extends Fragment implements View.OnClickListener{
-    ImageButton instagramLogin;
+public class LoginPageFragment extends Fragment implements View.OnClickListener {
+    // Use LOG_TAG when logging anything
+    private final String LOG_TAG = LoginPageFragment.class.getSimpleName();
+
     public LoginPageFragment() {
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        Log.v(" ", "view created");
-
         View view = inflater.inflate(R.layout.login_fragment, container, false);
-        instagramLogin = (ImageButton) view.findViewById(R.id.instagram_login_button);
-        Log.d(" ", "button found");
-        if(instagramLogin == null){
-            Log.d("tag", "button is null");
-        }
+
+        // Instagram Login Button
+        ImageButton instagramLogin = (ImageButton) view.findViewById(R.id.instagram_login_button);
         instagramLogin.setOnClickListener(this);
-        view = inflater.inflate(R.layout.login_fragment, container, false);
+
+        // Skip Login Button
         Button skipLogin = (Button) view.findViewById(R.id.skip_login);
-        skipLogin.setOnClickListener(new View.OnClickListener(){
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(getActivity(), MainPage.class);
-                startActivity(intent);
-            }
-        });
+        skipLogin.setOnClickListener(this);
+
         return view;
     }
 
     @Override
     public void onClick(View v) {
-        Log.d(" ", "Insta clicked");
-        Intent intent = new Intent(getActivity(), InstaWebViewActivity.class);
-        startActivity(intent);
+        switch (v.getId()) {
+            case R.id.instagram_login_button:
+                Intent intentInsta = new Intent(getActivity(), InstaWebViewActivity.class);
+                startActivity(intentInsta);
+                break;
+            case R.id.skip_login:
+                Intent intentSkip = new Intent(getActivity(), MainPage.class);
+                startActivity(intentSkip);
+                break;
+            default:
+                break;
+        }
     }
 }

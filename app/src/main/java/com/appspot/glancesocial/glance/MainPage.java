@@ -2,22 +2,13 @@ package com.appspot.glancesocial.glance;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
 import android.support.v7.app.ActionBarActivity;
-import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
-import android.view.ViewGroup;
-import android.widget.ArrayAdapter;
-import android.widget.ListView;
-
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
 
 
 public class MainPage extends ActionBarActivity {
+    // Use LOG_TAG when logging anything
     private final String LOG_TAG = MainPage.class.getSimpleName();
 
     @Override
@@ -60,5 +51,13 @@ public class MainPage extends ActionBarActivity {
         return super.onOptionsItemSelected(item);
     }
 
+    @Override
+    public void onBackPressed() {
+        // We override this function for one reason:
+        // When the user is on the main screen and hits the back button
+        // they shouldn't be sent to the login page. The app should close.
+        // This function call will finish all activities (Login and Main).
+        this.finishAffinity();
+    }
 }
 

@@ -13,9 +13,10 @@ import java.util.Arrays;
 import java.util.List;
 
 public class MainPageFragment extends Fragment{
+    // Use LOG_TAG when logging anything
+    private final String LOG_TAG = MainPageFragment.class.getSimpleName();
 
     public MainPageFragment() {
-
     }
 
     // TODO:
@@ -28,7 +29,7 @@ public class MainPageFragment extends Fragment{
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
 
-        // Create some dummy data for the ListView.
+        // Create some dummy data for the GridView.
         String[] userNames = {
                 "Jonah", "Christina",
                 "Daisy", "Fran",
@@ -49,7 +50,7 @@ public class MainPageFragment extends Fragment{
 
         View rootView = inflater.inflate(R.layout.main_fragment, container, false);
 
-        // Get a reference to the ListView, and attach this adapter to it.
+        // Get a reference to the GridView, and attach this adapter to it.
         GridView gridView = (GridView) rootView.findViewById(R.id.gridview_posts);
         gridView.setAdapter(mPostAdapter);
 
