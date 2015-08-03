@@ -37,14 +37,15 @@ public class LoginPageFragment extends Fragment implements View.OnClickListener 
 
     @Override
     public void onClick(View v) {
+        Intent intent;
         switch (v.getId()) {
             case R.id.instagram_login_button:
-                Intent intentInsta = new Intent(getActivity(), InstaWebViewActivity.class);
-                startActivity(intentInsta);
+                intent = new Intent(getActivity(), InstaWebViewActivity.class);
+                startActivity(intent);
                 break;
             case R.id.skip_login:
-                Intent intentSkip = new Intent(getActivity(), MainPage.class);
-                startActivity(intentSkip);
+                intent = new Intent(getActivity(), MainPage.class);
+                startActivity(intent);
                 break;
             default:
                 break;

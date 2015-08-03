@@ -23,7 +23,7 @@ public class LoginPage extends ActionBarActivity {
     private final String LOG_TAG = LoginPage.class.getSimpleName();
 
     public static final String INSTA_ID = "83f264e6915b4dceb166f6a0962dd57b";
-    public static final String INSTA_REDIRECT = "http://glancesocial.appspot.com";
+    public static final String INSTA_REDIRECT = "http://glancesocial.appspot.com/loading.html";
     // Note: Your consumer key and secret should be obfuscated in your source code before shipping.
     private static final String TWITTER_KEY = "otG6EvQxlUAQmxqmdRmnsOKBi";
     private static final String TWITTER_SECRET = "Eh7kzCtbQHCY0Oxg5E60t0BgSzRLIMZRvthdgZEesAa2m96dY7";
