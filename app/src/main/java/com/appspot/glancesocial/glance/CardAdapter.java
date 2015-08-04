@@ -2,7 +2,6 @@ package com.appspot.glancesocial.glance;
 
 import android.app.Activity;
 import android.content.Context;
-import android.graphics.drawable.Drawable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -10,7 +9,6 @@ import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import java.io.FileNotFoundException;
 import java.util.ArrayList;
 
 /**
@@ -61,17 +59,7 @@ public class CardAdapter extends ArrayAdapter<Post> {
         //Check to see if the user has a profile picture
         if (post.getUserPic() != null) {
             //If there is a picture then try to load it
-            try {
-                //This code will not load the image for some reason
-                //Needs to be fixed
-                holder.userPicView.setImageDrawable(Drawable.createFromStream(
-                        context.getContentResolver().openInputStream(post.getUserPic()),
-                        null));
-            } catch (FileNotFoundException e) {
-                //If the user's image doesn't load then we use the default
-                holder.userPicView.setImageResource(R.mipmap.ic_launcher);
-                e.printStackTrace();
-            }
+            holder.userPicView.setImageBitmap(post.getUserPic());
         } else {
             //If there isn't an image for the user then we use the default
             holder.userPicView.setImageResource(R.mipmap.ic_launcher);
@@ -83,18 +71,7 @@ public class CardAdapter extends ArrayAdapter<Post> {
         //Check to see if the post has a picture
         if (post.getPostPic() != null) {
             //If there is a picture then try to load it
-            try {
-                //This code will not load the image for some reason
-                //Needs to be fixed
-                holder.userPicView.setImageDrawable(Drawable.createFromStream(
-                        context.getContentResolver().openInputStream(post.getPostPic()),
-                        null));
-            } catch (FileNotFoundException e) {
-                //If the user's image doesn't load then we use the default
-                // TODO:
-                    // Get a default image
-                e.printStackTrace();
-            }
+            holder.userPicView.setImageBitmap(post.getUserPic());
         }
 
         return row;
