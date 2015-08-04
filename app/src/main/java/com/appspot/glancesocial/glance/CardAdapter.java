@@ -24,6 +24,7 @@ public class CardAdapter extends ArrayAdapter<Post> {
     private final ArrayList<Post> posts;
     private final int layoutResourceId;
 
+    //Constructor
     public CardAdapter(Context context, int layoutResourceId, ArrayList<Post> posts) {
         super(context, layoutResourceId, posts);
         this.context = context;
@@ -36,28 +37,30 @@ public class CardAdapter extends ArrayAdapter<Post> {
         View row = convertView;
         ViewHolder holder = null;
 
-        if(row == null)
-        {
+        if(row == null) {
             LayoutInflater inflater = ((Activity)context).getLayoutInflater();
             row = inflater.inflate(layoutResourceId, parent, false);
 
             holder = new ViewHolder();
+            //Get the views that we will be editing
             holder.userNameView = (TextView)row.findViewById(R.id.user_name);
             holder.userPicView = (ImageView)row.findViewById(R.id.user_image);
             holder.postTextView = (TextView)row.findViewById(R.id.post_caption);
             holder.postPicView = (ImageView)row.findViewById(R.id.post_image);
 
             row.setTag(holder);
-        }
-        else
-        {
+        } else {
             holder = (ViewHolder)row.getTag();
         }
 
         Post post = posts.get(position);
 
+        //Set the text for username
         holder.userNameView.setText(post.getUserName());
+
+        //Check to see if the user has a profile picture
         if (post.getUserPic() != null) {
+            //If there is a picture then try to load it
             try {
                 //This code will not load the image for some reason
                 //Needs to be fixed
@@ -73,8 +76,13 @@ public class CardAdapter extends ArrayAdapter<Post> {
             //If there isn't an image for the user then we use the default
             holder.userPicView.setImageResource(R.mipmap.ic_launcher);
         }
+
+        //Set the text for the post content
         holder.postTextView.setText(post.getPostText());
+
+        //Check to see if the post has a picture
         if (post.getPostPic() != null) {
+            //If there is a picture then try to load it
             try {
                 //This code will not load the image for some reason
                 //Needs to be fixed
@@ -82,6 +90,9 @@ public class CardAdapter extends ArrayAdapter<Post> {
                         context.getContentResolver().openInputStream(post.getPostPic()),
                         null));
             } catch (FileNotFoundException e) {
+                //If the user's image doesn't load then we use the default
+                // TODO:
+                    // Get a default image
                 e.printStackTrace();
             }
         }
@@ -89,8 +100,7 @@ public class CardAdapter extends ArrayAdapter<Post> {
         return row;
     }
 
-    static class ViewHolder
-    {
+    static class ViewHolder {
         TextView userNameView;
         ImageView userPicView;
         TextView postTextView;

@@ -91,6 +91,8 @@ public class SettingsActivity extends ActionBarActivity {
                     // TODO:
                         // Figure out how to store whether you have added the account or not.
                         // Currently it will always pretend like you have never added it.
+                    // TODO:
+                        // Use SharedPreferences to store data for which accounts have been added
                     boolean twitterAdded = false;
                     boolean instagramAdded = false;
                     switch (position) {
