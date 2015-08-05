@@ -1,11 +1,13 @@
 package com.appspot.glancesocial.glance;
 
+import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.webkit.WebView;
 import android.widget.GridView;
 
 import java.util.ArrayList;
@@ -46,6 +48,7 @@ public class MainPageFragment extends Fragment{
                 "He was a good actor", "Someone needs to clean",
                 "Why", "Why not"
         };
+
         Uri[] userPic = {
                 Uri.parse("https://pbs.twimg.com/profile_images/547588061216137216/5CL6N3VO.jpeg"),
                 Uri.parse("https://lh5.googleusercontent.com/-egDEIsHX1mM/VPe0HjdymFI/AAAAAAAAAWQ/vqK_Q05F9As/w1840-h1836-no/IMG_3449.jpeg"),
@@ -57,10 +60,12 @@ public class MainPageFragment extends Fragment{
                 null, null,
                 null, null
         };
+
         for (int i = 0; i < 14; i++) {
             Post newPost = new Post(userNames[i], userPic[i], postText[i]);
             posts.add(newPost);
         }
+
 
         mPostAdapter =
                 new CardAdapter(
