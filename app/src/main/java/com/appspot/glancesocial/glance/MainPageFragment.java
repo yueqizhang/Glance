@@ -46,6 +46,7 @@ public class MainPageFragment extends Fragment{
                 "He was a good actor", "Someone needs to clean",
                 "Why", "Why not"
         };
+
         Uri[] userPic = {
                 Uri.parse("https://pbs.twimg.com/profile_images/547588061216137216/5CL6N3VO.jpeg"),
                 Uri.parse("https://lh5.googleusercontent.com/-egDEIsHX1mM/VPe0HjdymFI/AAAAAAAAAWQ/vqK_Q05F9As/w1840-h1836-no/IMG_3449.jpeg"),
@@ -57,10 +58,12 @@ public class MainPageFragment extends Fragment{
                 null, null,
                 null, null
         };
+
         for (int i = 0; i < 14; i++) {
             Post newPost = new Post(userNames[i], userPic[i], postText[i]);
             posts.add(newPost);
         }
+
 
         mPostAdapter =
                 new CardAdapter(
