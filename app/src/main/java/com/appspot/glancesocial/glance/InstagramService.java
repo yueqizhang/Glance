@@ -51,6 +51,8 @@ public class InstagramService extends IntentService{
         getLikedUsers();
 
         bestFriends = getBestFriends(likedUsers);
+        //add best friends to db
+
         Log.d(LOG_TAG, bestFriends.toString());
     }
 
@@ -106,13 +108,13 @@ public class InstagramService extends IntentService{
             JSONObject latestLike = data.getJSONObject(0);
             newLastLikedID = latestLike.getString("id");
             JSONObject latestUser = latestLike.getJSONObject("user");
-            likedUsers.add(latestUser.getString("username"));
+            likedUsers.add(latestUser.getString("id"));
             for (int i = 1; i < data.length(); i++) {
                 JSONObject imageEntry = data.getJSONObject(i);
                 if(imageEntry.getString("id").equals(newLastLikedID))
                     break;
                 JSONObject user = imageEntry.getJSONObject("user");
-                likedUsers.add(user.getString("username"));
+                likedUsers.add(user.getString("id"));
             }
             Log.d(LOG_TAG, likedUsers.toString());
         } catch (JSONException e) {
