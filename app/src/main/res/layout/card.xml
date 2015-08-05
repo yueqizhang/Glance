@@ -4,20 +4,20 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:gravity="center"
-    android:orientation="horizontal"
-    android:background="#E0EEEE">
+    android:orientation="horizontal">
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
         android:gravity="left"
-        android:layout_margin="15dp"
+        android:layout_margin="5dp"
         android:background="@drawable/layer_card_background">
         <ImageView
             android:id="@+id/user_image"
             android:layout_width="34dp"
             android:layout_height="34dp"
-            android:layout_margin="13dp"/>
+            android:layout_margin="13dp"
+            android:contentDescription="@string/profile_picture" />
         <TextView
             android:id="@+id/user_name"
             android:layout_width="fill_parent"
@@ -37,7 +37,17 @@
         <ImageView
             android:id="@+id/post_image"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_below="@+id/post_caption"/>
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/post_caption"
+            android:layout_marginTop="0dp"
+            android:layout_marginBottom="13dp"
+            android:layout_marginLeft="13dp"
+            android:layout_marginRight="13dp"
+            android:contentDescription="@string/post_picture"
+            android:scaleType="centerCrop"
+            android:focusableInTouchMode="false"
+            android:focusable="false"
+            android:cropToPadding="false"
+            android:adjustViewBounds="true"/>
     </RelativeLayout>
 </LinearLayout>

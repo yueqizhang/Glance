@@ -2,6 +2,7 @@ package com.appspot.glancesocial.glance;
 
 import android.app.Activity;
 import android.content.Context;
+import android.graphics.Bitmap;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -70,8 +71,11 @@ public class CardAdapter extends ArrayAdapter<Post> {
 
         //Check to see if the post has a picture
         if (post.getPostPic() != null) {
-            //If there is a picture then try to load it
-            holder.userPicView.setImageBitmap(post.getUserPic());
+            //If there is a picture then try to load it and round the edges
+            Bitmap roundedPostPic = Utility.getRoundedCornerBitmap(post.getPostPic(),15);
+            holder.postPicView.setImageBitmap(roundedPostPic);
+        } else {
+            Utility.setMargins(holder.postPicView,0,0,0,0);
         }
 
         return row;

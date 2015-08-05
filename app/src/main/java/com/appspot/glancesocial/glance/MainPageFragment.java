@@ -6,7 +6,8 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.GridView;
+
+import com.etsy.android.grid.StaggeredGridView;
 
 import java.util.ArrayList;
 
@@ -37,16 +38,6 @@ public class MainPageFragment extends Fragment{
                 "Phillip", "Carla",
                 "Molli", "Erik"
         };
-        String[] postText = {
-                "Hello world", "Woah this is crazy",
-                "So typical", "#Blessed",
-                "Get me out of here", "This is coming along nice",
-                "Can I go home", "Look at that",
-                "Wooooohooooo", "Yeah I mean that is cool too",
-                "He was a good actor", "Someone needs to clean",
-                "Why", "Why not"
-        };
-
         Uri[] userPic = {
                 Uri.parse("https://pbs.twimg.com/profile_images/547588061216137216/5CL6N3VO.jpeg"),
                 Uri.parse("https://lh5.googleusercontent.com/-egDEIsHX1mM/VPe0HjdymFI/AAAAAAAAAWQ/vqK_Q05F9As/w1840-h1836-no/IMG_3449.jpeg"),
@@ -58,12 +49,35 @@ public class MainPageFragment extends Fragment{
                 null, null,
                 null, null
         };
+        String[] postText = {
+                "Hello world. This is an example of a really long text post that would " +
+                        "originally screw up our entire app, but since Jonah is a bona fide " +
+                        "genius we no longer have the problem.",
+                "Woah this is crazy",
+                "So typical", "#Blessed",
+                "Get me out of here", "This is coming along nice",
+                "Can I go home", "Look at that",
+                "Wooooohooooo", "Yeah I mean that is cool too",
+                "He was a good actor", "Someone needs to clean",
+                "Why", "Why not"
+        };
+        Uri[] postPic = {
+                null,
+                Uri.parse("https://lh5.googleusercontent.com/-egDEIsHX1mM/VPe0HjdymFI/AAAAAAAAAWQ/vqK_Q05F9As/w1840-h1836-no/IMG_3449.jpeg"),
+                null,
+                Uri.parse("https://lh3.googleusercontent.com/-8XsJbk1fGE8/U9xZxGkKg8I/AAAAAAAAAL0/u-Nyv0DhihI/s1836-no/21a953ea-0d28-409b-8cc6-c7e71786f8c2"),
+                null, null,
+                null, null,
+                null, null,
+                null, null,
+                null, null
+        };
+
 
         for (int i = 0; i < 14; i++) {
-            Post newPost = new Post(userNames[i], userPic[i], postText[i]);
+            Post newPost = new Post(userNames[i], userPic[i], postText[i], postPic[i]);
             posts.add(newPost);
         }
-
 
         mPostAdapter =
                 new CardAdapter(
@@ -73,8 +87,8 @@ public class MainPageFragment extends Fragment{
 
         View rootView = inflater.inflate(R.layout.main_fragment, container, false);
 
-        // Get a reference to the GridView, and attach this adapter to it.
-        GridView gridView = (GridView) rootView.findViewById(R.id.gridview_posts);
+        // Get a reference to the StaggeredGridView, and attach this adapter to it.
+        StaggeredGridView gridView = (StaggeredGridView) rootView.findViewById(R.id.gridview_posts);
         gridView.setAdapter(mPostAdapter);
 
         return rootView;
