@@ -5,6 +5,20 @@
     <string name="default_account">Account</string>
     <string name="profile_picture">Profile Picture</string>
     <string name="post_picture">Post Picture</string>
+
+    <string name="intro_text_1">Welcome to Glance where you can get all of your relevant social
+        media posts at a glance.</string>
+    <string name="intro_text_2">A quick glance and you can see all of the posts from your social
+        media accounts that you will like.</string>
+    <string name="intro_text_3">To get started just add a few of your social media accounts and
+        we will do the rest for you.</string>
+    <string name="intro_relevant">Relevant</string>
+    <string name="intro_tailored">Tailored</string>
+
     <color name="white">#FFFFFF</color>
     <color name="black">#000</color>
+    <color name="blue">#2196F3</color>
+    <color name="teal">#009688</color>
+    <color name="light_blue">#03A9F4</color>
+    <color name="deep_purple">#673AB7</color>
 </resources>

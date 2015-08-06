@@ -13,11 +13,10 @@
         android:layout_height="wrap_content"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="50dp"
-        android:layout_marginBottom="20dp"
-        android:text="Glance"
+        android:text="@string/app_name"
         android:textColor="@color/black"
         android:textSize="100sp"
-        android:fontFamily="sans-serif-light" />
+        android:fontFamily="roboto-light" />
 
     <!--Twitter Login Button-->
     <com.twitter.sdk.android.core.identity.TwitterLoginButton

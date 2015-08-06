@@ -22,7 +22,7 @@
             android:id="@+id/user_name"
             android:layout_width="fill_parent"
             android:layout_height="34dp"
-            android:textSize="14sp"
+            android:textSize="20sp"
             android:gravity="left|center_vertical"
             android:layout_alignTop="@+id/user_image"
             android:layout_toRightOf="@+id/user_image"

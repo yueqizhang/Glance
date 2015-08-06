@@ -59,5 +59,19 @@ public class MainPage extends ActionBarActivity {
         // This function call will finish all activities (Login and Main).
         this.finishAffinity();
     }
+
+    //App can't handle this yet. Slows down and tries to crash.
+//    @Override
+//    public void onWindowFocusChanged(boolean hasFocus) {
+//        super.onWindowFocusChanged(hasFocus);
+//        View view = getWindow().getDecorView().findViewById(R.id.gridview_posts);
+//        if (hasFocus) {
+//            view.setSystemUiVisibility(
+//                    View.SYSTEM_UI_FLAG_IMMERSIVE
+//                    | View.SYSTEM_UI_FLAG_HIDE_NAVIGATION
+//                    | View.SYSTEM_UI_FLAG_FULLSCREEN
+//            );
+//        }
+//    }
 }
 
