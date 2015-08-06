@@ -6,15 +6,19 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.AnimationUtils;
+import android.widget.AdapterView;
+import android.widget.ViewFlipper;
 
 import com.etsy.android.grid.StaggeredGridView;
 
 import java.util.ArrayList;
 
-public class MainPageFragment extends Fragment{
+public class MainPageFragment extends Fragment {
     // Use LOG_TAG when logging anything
     private final String LOG_TAG = MainPageFragment.class.getSimpleName();
 
+    public ViewFlipper viewFlipper;
     public MainPageFragment() {
     }
 
@@ -27,7 +31,9 @@ public class MainPageFragment extends Fragment{
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+        View rootView = inflater.inflate(R.layout.main_fragment, container, false);
         ArrayList<Post> posts = new ArrayList<Post>();
+        StaggeredGridView gridView = (StaggeredGridView) rootView.findViewById(R.id.gridview_posts);
         // Create some dummy data for the GridView.
         String[] userNames = {
                 "Jonah", "Christina",
@@ -73,25 +79,33 @@ public class MainPageFragment extends Fragment{
                 null, null
         };
 
-
         for (int i = 0; i < 14; i++) {
             Post newPost = new Post(userNames[i], userPic[i], postText[i], postPic[i]);
             posts.add(newPost);
         }
+        updateGridView(gridView, posts, rootView);
+        gridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            public void onItemClick(AdapterView<?> parent, View v, int position, long id) {
+                viewFlipper = (ViewFlipper) v;
+                viewFlipper.setInAnimation(AnimationUtils.loadAnimation(getActivity(),android.R.anim.slide_in_left));
+                viewFlipper.setOutAnimation(AnimationUtils.loadAnimation(getActivity(), android.R.anim.slide_out_right));
+                viewFlipper.showNext();
+            }
+        });
+        return rootView;
+    }
 
+    public void updateGridView(StaggeredGridView gridView, ArrayList<Post> posts, View rootView) {
         mPostAdapter =
                 new CardAdapter(
                         getActivity(), // The current context (this activity)
                         R.layout.card, // The name of the layout ID.
                         posts);
-
-        View rootView = inflater.inflate(R.layout.main_fragment, container, false);
-
-        // Get a reference to the StaggeredGridView, and attach this adapter to it.
-        StaggeredGridView gridView = (StaggeredGridView) rootView.findViewById(R.id.gridview_posts);
+        gridView = (StaggeredGridView) rootView.findViewById(R.id.gridview_posts);
         gridView.setAdapter(mPostAdapter);
-
-        return rootView;
     }
 
+
 }
+
+

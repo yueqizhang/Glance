@@ -7,6 +7,8 @@ import android.net.Uri;
 
 
 public class TwitterContract {
+    // Use LOG_TAG when logging anything
+    private final String LOG_TAG = TwitterContract.class.getSimpleName();
 
     public static final String CONTENT_AUTHORITY = "com.appspot.glancesocial.glance";
     public static final Uri BASE_CONTENT_URI = Uri.parse("content://" + CONTENT_AUTHORITY);

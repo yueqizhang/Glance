@@ -16,12 +16,14 @@ import java.util.concurrent.ExecutionException;
  * Created by Jonah on 8/2/15.
  */
 public class Post {
+    // Use LOG_TAG when logging anything
+    private final String LOG_TAG = TwitterActivity.class.getSimpleName();
+
     //Private Variables for the post
     private String userName;
     private Uri userPic;
     private String postText;
     private Uri postPic;
-    final String LOG_TAG = Post.class.getSimpleName();
 
     // Default Constructor
     public Post() {

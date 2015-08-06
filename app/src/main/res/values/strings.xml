@@ -21,4 +21,7 @@
     <color name="teal">#009688</color>
     <color name="light_blue">#03A9F4</color>
     <color name="deep_purple">#673AB7</color>
+
+    <integer name="card_flip_time_full">300</integer>
+    <integer name="card_flip_time_half">150</integer>
 </resources>

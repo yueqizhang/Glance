@@ -8,6 +8,8 @@ import android.database.sqlite.SQLiteOpenHelper;
  * Created by yueqizhang on 8/4/15.
  */
 public class InstagramDBHelper extends SQLiteOpenHelper {
+    // Use LOG_TAG when logging anything
+    private final String LOG_TAG = InstagramDBHelper.class.getSimpleName();
 
     public static final String TABLE_COMMENTS = "comments";
     public static final String COLUMN_ID = "_id";

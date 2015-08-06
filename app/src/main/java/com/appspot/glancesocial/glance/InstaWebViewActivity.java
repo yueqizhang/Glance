@@ -33,8 +33,8 @@ public class InstaWebViewActivity extends Activity {
         Log.d(LOG_TAG, "fromsettingsactivity: " + fromSettingsActivity);
         StringBuilder instaUrl = new StringBuilder();
         instaUrl.append(INSTA_BASE_URL)
-                .append(ID_PARAM + "=" + LoginPage.INSTA_ID + "&")
-                .append(REDIRECT_PARAM + "=" + LoginPage.INSTA_REDIRECT + "&")
+                .append(ID_PARAM + "=" + IntroScreenActivity.INSTA_ID + "&")
+                .append(REDIRECT_PARAM + "=" + IntroScreenActivity.INSTA_REDIRECT + "&")
                 .append(RESPONSE_TYPE + "=token&")
                 .append(SCOPE + "=" + SCOPE_PARAMS);
 

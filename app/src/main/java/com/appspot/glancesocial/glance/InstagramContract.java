@@ -9,12 +9,13 @@ import android.provider.BaseColumns;
  * Created by yueqizhang on 8/4/15.
  */
 public class InstagramContract {
+    // Use LOG_TAG when logging anything
+    private final String LOG_TAG = InstagramContract.class.getSimpleName();
 
     public static final String CONTENT_AUTHORITY = "com.appspot.glancesocial.glance";
     public static final Uri BASE_CONTENT_URI = Uri.parse("content://" + CONTENT_AUTHORITY);
     public static final String PATH_USER = "user";
     public static final String PATH_POST = "post";
-
 
     public static final class UserEntry implements BaseColumns {
         public static final String TABLE_NAME = "user";

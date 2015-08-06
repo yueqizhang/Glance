@@ -13,7 +13,14 @@ import android.support.v4.view.ViewPager;
  * Created by Jonah on 8/5/15.
  */
 public class IntroScreenActivity extends FragmentActivity {
+    // Use LOG_TAG when logging anything
     private final String LOG_TAG = IntroScreenActivity.class.getSimpleName();
+
+    public static final String INSTA_ID = "83f264e6915b4dceb166f6a0962dd57b";
+    public static final String INSTA_REDIRECT = "http://glancesocial.appspot.com/loading.html";
+    // Note: Your consumer key and secret should be obfuscated in your source code before shipping.
+    private static final String TWITTER_KEY = "otG6EvQxlUAQmxqmdRmnsOKBi";
+    private static final String TWITTER_SECRET = "Eh7kzCtbQHCY0Oxg5E60t0BgSzRLIMZRvthdgZEesAa2m96dY7";
 
     private static final int NUM_PAGES = 4;
     private ViewPager mPager;

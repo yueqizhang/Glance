@@ -13,21 +13,13 @@ import android.widget.TextView;
  * Created by Jonah on 8/5/15.
  */
 public class IntroScreenFragment extends Fragment {
+    // Use LOG_TAG when logging anything
     private final String LOG_TAG = IntroScreenFragment.class.getSimpleName();
 
-    /**
-     * The argument key for the page number this fragment represents.
-     */
     public static final String ARG_PAGE = "page";
-
-    /**
-     * The fragment's page number, which is set to the argument value for {@link #ARG_PAGE}.
-     */
     private int mPageNumber;
 
-    /**
-     * Factory method for this fragment class. Constructs a new fragment for the given page number.
-     */
+    // Fragment constructor to take arguments at creation
     public static IntroScreenFragment create(int pageNumber) {
         IntroScreenFragment fragment = new IntroScreenFragment();
         Bundle args = new Bundle();
@@ -54,7 +46,7 @@ public class IntroScreenFragment extends Fragment {
         Log.v(LOG_TAG, "Number " + mPageNumber);
         switch (mPageNumber) {
             case 0:
-                // Set the title view to show the page number.
+                // The First Introduction Page
                 ((TextView) rootView.findViewById(R.id.intro_title)).setText(
                         getString(R.string.app_name, mPageNumber));
                 ((TextView) rootView.findViewById(R.id.text_instructions)).setText(
@@ -63,7 +55,7 @@ public class IntroScreenFragment extends Fragment {
                         getResources().getColor(R.color.blue));
                 break;
             case 1:
-                // Set the title view to show the page number.
+                // The Second Introduction Page
                 ((TextView) rootView.findViewById(R.id.intro_title)).setText(
                         getString(R.string.intro_relevant));
                 ((TextView) rootView.findViewById(R.id.text_instructions)).setText(
@@ -72,7 +64,7 @@ public class IntroScreenFragment extends Fragment {
                         getResources().getColor(R.color.teal));
                 break;
             case 2:
-                // Set the title view to show the page number.
+                // The Third Introduction Page
                 ((TextView) rootView.findViewById(R.id.intro_title)).setText(
                         getString(R.string.intro_tailored));
                 ((TextView) rootView.findViewById(R.id.text_instructions)).setText(

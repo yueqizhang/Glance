@@ -8,6 +8,8 @@ import android.database.sqlite.SQLiteOpenHelper;
  * Created by christina on 8/5/15.
  */
 public class TwitterDBHelper extends SQLiteOpenHelper {
+    // Use LOG_TAG when logging anything
+    private final String LOG_TAG = TwitterDBHelper.class.getSimpleName();
 
     public static final String TABLE_COMMENTS = "comments";
     public static final String COLUMN_ID = "_id";

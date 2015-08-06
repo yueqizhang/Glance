@@ -1,11 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
+<ViewFlipper
     xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/card_flipper"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:gravity="center"
     android:orientation="horizontal">
     <RelativeLayout
+        android:id="@+id/card_post"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
@@ -50,4 +52,45 @@
             android:cropToPadding="false"
             android:adjustViewBounds="true"/>
     </RelativeLayout>
-</LinearLayout>
+    <RelativeLayout
+        android:id="@+id/card_info"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_gravity="center"
+        android:gravity="left"
+        android:layout_margin="5dp"
+        android:background="@drawable/layer_card_background">
+        <!--<ListView-->
+            <!--android:id="@+id/comment_list"-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="match_parent">-->
+            <!--<RelativeLayout-->
+                <!--android:layout_width="match_parent"-->
+                <!--android:layout_height="match_parent">-->
+                <!--<ImageView-->
+                    <!--android:id="@+id/comment_user_image"-->
+                    <!--android:layout_width="34dp"-->
+                    <!--android:layout_height="34dp"-->
+                    <!--android:layout_margin="13dp"-->
+                    <!--android:contentDescription="@string/profile_picture" />-->
+                <TextView
+                    android:id="@+id/comment_user_name"
+                    android:layout_width="fill_parent"
+                    android:layout_height="34dp"
+                    android:textSize="20sp"
+                    android:gravity="left|center_vertical"
+                    android:text="COMMENTS"/>
+                    <!--android:layout_alignTop="@+id/comment_user_image"-->
+                    <!--android:layout_toRightOf="@+id/comment_user_image"-->
+                    <!--android:layout_alignRight="@+id/user_comment"-->
+                    <!--android:layout_alignEnd="@+id/user_comment" />-->
+                <!--<TextView-->
+                    <!--android:id="@+id/user_comment"-->
+                    <!--android:layout_width="match_parent"-->
+                    <!--android:layout_height="wrap_content"-->
+                    <!--android:layout_below="@+id/comment_user_name"-->
+                    <!--android:layout_margin="13dp"/>-->
+            <!--</RelativeLayout>-->
+        <!--</ListView>-->
+    </RelativeLayout>
+</ViewFlipper>
