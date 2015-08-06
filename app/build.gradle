@@ -12,6 +12,7 @@ apply plugin: 'io.fabric'
 
 repositories {
     maven { url 'https://maven.fabric.io/public' }
+    mavenCentral()
 }
 
 
@@ -40,4 +41,5 @@ dependencies {
     compile('com.twitter.sdk.android:twitter:1.6.1@aar') {
         transitive = true;
     }
+    compile 'com.etsy.android.grid:library:1.0.5'
 }

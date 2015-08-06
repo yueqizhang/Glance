@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 package com.appspot.glancesocial.glance;
 
 import android.content.ContentUris;
@@ -109,6 +110,67 @@ public class FetchInstaPostTask extends AsyncTask<Void, Void, Void> {
 
         userCursor.close();
         return userId;
+=======
+//package com.appspot.glancesocial.glance;
+//
+//import android.content.ContentUris;
+//import android.content.ContentValues;
+//import android.content.Context;
+//import android.database.Cursor;
+//import android.net.Uri;
+//import android.os.AsyncTask;
+//import android.text.format.Time;
+//import android.util.Log;
+//
+//import org.json.JSONArray;
+//import org.json.JSONException;
+//import org.json.JSONObject;
+//
+//import java.util.Vector;
+//
+///**
+// * Created by yueqizhang on 8/5/15.
+// */
+//public class FetchInstaPostTask extends AsyncTask<Void, Void, Void> {
+//
+//    final String LOG_TAG = FetchInstaPostTask.class.getSimpleName();
+//    final Context mContext;
+//
+//    public FetchInstaPostTask(Context context){
+//        mContext = context;
+//    }
+//
+//    long addUser(String userName, long userID, String proPic, int rank) {
+//        long userId;
+//
+//        Cursor userCursor = mContext.getContentResolver().query(
+//                InstagramContract.UserEntry.CONTENT_URI,
+//                new String[]{InstagramContract.UserEntry._ID},
+//                InstagramContract.UserEntry.COLUMN_USER_NAME + " = ?",
+//                new String[]{userName},
+//                null);
+//
+//        if (userCursor.moveToFirst()) {
+//            int userIdIndex = userCursor.getColumnIndex(InstagramContract.UserEntry._ID);
+//            userId = userCursor.getLong(userIdIndex);
+//        } else {
+//           ContentValues userValues = new ContentValues();
+//
+//            userValues.put(InstagramContract.UserEntry.COLUMN_USER_NAME, userName);
+//            userValues.put(InstagramContract.UserEntry.COLUMN_USER_ID, userID);
+//            userValues.put(InstagramContract.UserEntry.COLUMN_PROFILE_PIC, proPic);
+//            userValues.put(InstagramContract.UserEntry.COLUMN_FRIEND_RANK, rank);
+//
+//            Uri insertedUri = mContext.getContentResolver().insert(
+//                    InstagramContract.UserEntry.CONTENT_URI,
+//                    userValues
+//            );
+//            userId = ContentUris.parseId(insertedUri);
+//        }
+//
+//        userCursor.close();
+//        return userId;
+>>>>>>> upstream/master
 //    }
 //
 //    private void getPostDataFromJson(String postJsonStr, String userName) throws JSONException {
@@ -123,6 +185,13 @@ public class FetchInstaPostTask extends AsyncTask<Void, Void, Void> {
 //        final String OWM_CITY_NAME = "name";
 //        final String OWM_COORD = "coord";
 //
+<<<<<<< HEAD
+=======
+//        // Location coordinate
+//        final String OWM_LATITUDE = "lat";
+//        final String OWM_LONGITUDE = "lon";
+//
+>>>>>>> upstream/master
 //        // Weather information.  Each day's forecast info is an element of the "list" array.
 //        final String OWM_LIST = "list";
 //
@@ -141,8 +210,13 @@ public class FetchInstaPostTask extends AsyncTask<Void, Void, Void> {
 //        final String OWM_WEATHER_ID = "id";
 //
 //        try {
+<<<<<<< HEAD
 //            JSONObject postJson = new JSONObject(postJsonStr);
 //            JSONArray postArray = postJson.getJSONArray(OWM_LIST);
+=======
+//            JSONObject forecastJson = new JSONObject(forecastJsonStr);
+//            JSONArray weatherArray = forecastJson.getJSONArray(OWM_LIST);
+>>>>>>> upstream/master
 //
 //            JSONObject cityJson = forecastJson.getJSONObject(OWM_CITY);
 //            String cityName = cityJson.getString(OWM_CITY_NAME);
@@ -244,6 +318,7 @@ public class FetchInstaPostTask extends AsyncTask<Void, Void, Void> {
 //            Log.e(LOG_TAG, e.getMessage(), e);
 //            e.printStackTrace();
 //        }
+<<<<<<< HEAD
     }
 
 
@@ -252,3 +327,9 @@ public class FetchInstaPostTask extends AsyncTask<Void, Void, Void> {
         return null;
     }
 }
+=======
+//    }
+//
+//
+//}
+>>>>>>> upstream/master
