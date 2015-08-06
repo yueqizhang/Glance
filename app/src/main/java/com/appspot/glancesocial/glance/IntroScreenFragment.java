@@ -3,7 +3,6 @@ package com.appspot.glancesocial.glance;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -43,7 +42,6 @@ public class IntroScreenFragment extends Fragment {
         // Inflate the layout containing a title and body text.
         ViewGroup rootView = (ViewGroup) inflater
                 .inflate(R.layout.intro_screen_fragment, container, false);
-        Log.v(LOG_TAG, "Number " + mPageNumber);
         switch (mPageNumber) {
             case 0:
                 // The First Introduction Page
@@ -73,7 +71,7 @@ public class IntroScreenFragment extends Fragment {
                         getResources().getColor(R.color.deep_purple));
                 break;
             default:
-                Intent intent = new Intent(getActivity(), MainPage.class);
+                Intent intent = new Intent(getActivity(), SettingsActivity.class);
                 startActivity(intent);
                 break;
         }

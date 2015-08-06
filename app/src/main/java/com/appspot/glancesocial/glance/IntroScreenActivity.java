@@ -45,7 +45,7 @@ public class IntroScreenActivity extends FragmentActivity {
         @Override
         public Fragment getItem(int position) {
             if (position == 3) {
-                Intent intent = new Intent(getApplicationContext(), MainPage.class);
+                Intent intent = new Intent(getApplicationContext(), SettingsActivity.class);
                 startActivity(intent);
             }
             return IntroScreenFragment.create(position);

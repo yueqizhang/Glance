@@ -60,7 +60,7 @@ public class MainPage extends ActionBarActivity {
     public void onBackPressed() {
         // We override this function for one reason:
         // When the user is on the main screen and hits the back button
-        // they shouldn't be sent to the login page. The app should close.
+        // they shouldn't be sent to the intro page. The app should close.
         // This function call will finish all activities (Login and Main).
         this.finishAffinity();
     }
