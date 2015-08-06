@@ -30,7 +30,7 @@ public class InstagramService extends IntentService{
     // Use LOG_TAG when logging anything
     final String LOG_TAG = InstagramService.class.getSimpleName();
 
-    final String INSTA_BASE_URL = "https://api.instagram.com/v1/";
+    final static String INSTA_BASE_URL = "https://api.instagram.com/v1/";
     final String ACCESS = "access_token";
     final int MAX_FRIENDS = 10;
     String lastLikeID = null;
@@ -40,7 +40,6 @@ public class InstagramService extends IntentService{
     String mediaLiked = null;
     //TODO: make this arraylist into a database
     ArrayList likedUsers = new ArrayList<String>();
-    List bestFriends = new ArrayList<String>();
 
     public InstagramService() {
         super("InstagramService");
@@ -49,14 +48,10 @@ public class InstagramService extends IntentService{
     @Override
     protected void onHandleIntent(Intent intent) {
         getLikedUsers();
-
-        bestFriends = getBestFriends(likedUsers);
-        //add best friends to db
-
-        Log.d(LOG_TAG, bestFriends.toString());
+        getBestFriends(likedUsers); //adds best friends to database
     }
 
-    public List getBestFriends(ArrayList<String> likedUsers) {
+    public void getBestFriends(ArrayList<String> likedUsers) {
         Map<String, Integer> usersMap = new HashMap<String, Integer>();
         for (String user : likedUsers) {
             if (usersMap.containsKey(user)) {
@@ -75,7 +70,9 @@ public class InstagramService extends IntentService{
         });
         int pos = (MAX_FRIENDS < list.size()) ? MAX_FRIENDS : list.size();
         List<String> topTen = new ArrayList<String>(list.subList(0, pos));
-        return topTen;
+        for(String friend : topTen){
+            FetchInstaPostTask.addUser(friend, pos - topTen.indexOf(friend));
+        }
     }
 
     public void getLikedUsers() {

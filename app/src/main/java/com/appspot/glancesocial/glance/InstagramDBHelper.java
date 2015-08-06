@@ -28,7 +28,7 @@ public class InstagramDBHelper extends SQLiteOpenHelper {
                 InstagramContract.UserEntry.COLUMN_USER_NAME + " TEXT UNIQUE NOT NULL, " +
                 InstagramContract.UserEntry.COLUMN_PROFILE_PIC + " TEXT NOT NULL, " +
                 InstagramContract.UserEntry.COLUMN_FRIEND_RANK + " INTEGER NOT NULL, " +
-                InstagramContract.UserEntry.COLUMN_USER_ID + " INTEGER NOT NULL " +
+                InstagramContract.UserEntry.COLUMN_USER_ID + " STRING NOT NULL " +
                 " );";
 
         final String SQL_CREATE_POST_TABLE = "CREATE TABLE " + InstagramContract.PostEntry.TABLE_NAME + " (" +
