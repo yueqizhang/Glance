@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.appspot.glancesocial.glance" >
-
+    <uses-permission android:name="android.permission.INTERNET" />
     <application
         android:allowBackup="true"
         android:icon="@drawable/ic_launcher"
@@ -43,8 +43,7 @@
 
         <!-- AccountActivity -->
         <activity
-            android:name=".AccountActivity"
-            android:parentActivityName=".SettingsActivity">
+            android:name=".AccountActivity">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.appspot.glancesocial.glance.SettingsActivity"/>
@@ -55,6 +54,4 @@
             android:name="io.fabric.ApiKey"
             android:value="405c243a6b84b90e237341477a4fdd8425b5c233" />
     </application>
-
-    <uses-permission android:name="android.permission.INTERNET" />
 </manifest>

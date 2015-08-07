@@ -19,23 +19,23 @@
             android:layout_marginTop="50dp"
             android:layout_gravity="center_horizontal"
             android:gravity="center_horizontal"
-            android:textSize="64sp"
+            android:textSize="112sp"
             android:textColor="@color/white"/>
 
         <TextView
             android:id="@+id/text_instructions"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="250dp"
+            android:layout_marginTop="450dp"
             android:gravity="center_horizontal"
-            android:textSize="20sp"
+            android:textSize="34sp"
             android:textColor="@color/white"/>
 
         <Button
             android:id="@+id/continue_button"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/add_accounts"
+            android:text="Add Accounts"
             android:padding="13dp"
             android:layout_centerHorizontal="true"
             android:layout_margin="50dp"
