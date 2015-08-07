@@ -1,22 +1,17 @@
 package com.appspot.glancesocial.glance;
 
-import android.content.ContentUris;
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
-import android.net.Uri;
+import android.database.sqlite.SQLiteDatabase;
 import android.os.AsyncTask;
+import android.util.Log;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.net.HttpURLConnection;
-import java.net.MalformedURLException;
-import java.net.URL;
+import java.util.Vector;
 
 /**
  * Created by yueqizhang on 8/5/15.
@@ -31,85 +26,85 @@ public class FetchInstaPostTask extends AsyncTask<Void, Void, Void> {
         mContext = context;
     }
 
-    static long addUser(String userID, int rank) {
-        long userId;
-        URL url;
-        HttpURLConnection urlConnection = null;
-        StringBuilder builtUri = new StringBuilder();
-        BufferedReader reader = null;
-        String userName = null;
-        String proPic = null;
-        JSONObject user;
+    private void getWeatherDataFromJson(String feedJsonStr, SQLiteDatabase db) throws JSONException {
 
-        Cursor userCursor = mContext.getContentResolver().query(
-                InstagramContract.UserEntry.CONTENT_URI,
-                new String[]{InstagramContract.UserEntry._ID},
-                InstagramContract.UserEntry.COLUMN_USER_ID + " = ?",
-                new String[]{userID},
-                null);
+        try {
+            JSONObject feedJson = new JSONObject(feedJsonStr);
+            JSONArray feedArray = feedJson.getJSONArray("data");
+            InstagramService instaService = new InstagramService();
+            String postID = null;
+            String thumbnail = null;
+            String lowImage = null;
+            String caption = null;
+            long createdTime = -1;
+            String location= "";
+            int comments = -1;
+            int likes = -1;
+            long userIdInDB = -1;
 
-        builtUri.append(InstagramService.INSTA_BASE_URL)
-                .append("users/")
-                .append(userID);
+            Vector<ContentValues> feedVector = new Vector<ContentValues>(feedArray.length());
 
-        if (userCursor.moveToFirst()) {
-            int userIdIndex = userCursor.getColumnIndex(InstagramContract.UserEntry._ID);
-            userId = userCursor.getLong(userIdIndex);
-        } else {
-           ContentValues userValues = new ContentValues();
+            for(int i = 0 ;i < feedArray.length(); i++){
+                JSONObject post = feedArray.getJSONObject(i);
+                JSONObject user = post.getJSONObject("user");
+                Cursor userCursor = mContext.getContentResolver().query(
+                        InstagramContract.UserEntry.CONTENT_URI,
+                        new String[]{InstagramContract.UserEntry._ID},
+                        InstagramContract.UserEntry.COLUMN_USER_ID + " = ?",
+                        new String[]{user.getString("id")},
+                        null);
 
-            try {
-                url = new URL(builtUri.toString());
-                urlConnection = (HttpURLConnection) url.openConnection();
-                urlConnection.setRequestMethod("GET");
-                urlConnection.connect();
-                InputStream inputStream = urlConnection.getInputStream();
-                StringBuffer buffer = new StringBuffer();
-                if (inputStream == null) {
-                    return -1;
-                }
-                reader = new BufferedReader(new InputStreamReader(inputStream));
-
-                String line;
-                while ((line = reader.readLine()) != null) {
-                    buffer.append(line + "\n");
-                }
-                user = new JSONObject(buffer.toString());
-                userName = user.getString("username");
-                proPic = user.getString("profile_picture");
-            } catch (JSONException e) {
-                e.printStackTrace();
-            } catch (MalformedURLException e) {
-                e.printStackTrace();
-            } catch (IOException e) {
-                e.printStackTrace();
-            } finally {
-                if (urlConnection != null) {
-                    urlConnection.disconnect();
-                }
-                if (reader != null) {
-                    try {
-                        reader.close();
-                    } catch (IOException e) {
-                        e.printStackTrace();
+                if(userCursor.moveToFirst()){ //user is in database, aka is a best friends
+                    userIdInDB = instaService.addUser(user.getString("id"), 0); //get user id in database
+                    postID = post.getString("id");
+                    JSONObject image = post.getJSONObject("images");
+                    JSONObject thumbnailObj = image.getJSONObject("thumbnail");
+                    thumbnail = thumbnailObj.getString("url");
+                    JSONObject lowImageObj = image.getJSONObject("low_resolution");
+                    JSONObject captionObj = post.getJSONObject("caption");
+                    caption = captionObj.getString("text");
+                    createdTime = Integer.parseInt(captionObj.getString("created_time"));
+                    JSONObject locationObj = post.getJSONObject("location");
+                    if(locationObj.has("name") && !locationObj.isNull("name")){
+                        location = locationObj.getString("name");
                     }
+                    JSONObject commentsObj = post.getJSONObject("comments");
+                    comments = Integer.parseInt(commentsObj.getString("count"));
+                    JSONObject likesObj = post.getJSONObject("likes");
+                    likes = Integer.parseInt(likesObj.getString("count"));
                 }
+                ContentValues postValues = new ContentValues();
+
+                postValues.put(InstagramContract.PostEntry.COLUMN_USER_KEY, userIdInDB);
+                postValues.put(InstagramContract.PostEntry.COLUMN_THUMBNAIL, thumbnail);
+                postValues.put(InstagramContract.PostEntry.COLUMN_CAPTION, caption);
+                postValues.put(InstagramContract.PostEntry.COLUMN_COMMENTS, comments);
+                postValues.put(InstagramContract.PostEntry.COLUMN_CREATED_TIME, createdTime);
+                postValues.put(InstagramContract.PostEntry.COLUMN_LIKES, likes);
+                postValues.put(InstagramContract.PostEntry.COLUMN_LOCATION, location);
+                postValues.put(InstagramContract.PostEntry.COLUMN_LOW_IMAGE, lowImage);
+                postValues.put(InstagramContract.PostEntry.COLUMN_POST_ID, postID);
+
+                feedVector.add(postValues);
             }
 
-            userValues.put(InstagramContract.UserEntry.COLUMN_USER_NAME, userName);
-            userValues.put(InstagramContract.UserEntry.COLUMN_USER_ID, userID);
-            userValues.put(InstagramContract.UserEntry.COLUMN_PROFILE_PIC, proPic);
-            userValues.put(InstagramContract.UserEntry.COLUMN_FRIEND_RANK, rank);
+            // add to database
+            int inserted = 0;
+            if ( feedVector.size() > 0 ) {
+                // Student: call bulkInsert to add the weatherEntries to the database here
+                ContentValues[] cVArray = new ContentValues[feedVector.size()];
+                feedVector.toArray(cVArray);
+                inserted = mContext.getContentResolver().bulkInsert(InstagramContract.PostEntry.CONTENT_URI, cVArray);
 
-            Uri insertedUri = mContext.getContentResolver().insert(
-                    InstagramContract.UserEntry.CONTENT_URI,
-                    userValues
-            );
-            userId = ContentUris.parseId(insertedUri);
+            }
+
+            Log.d(LOG_TAG, "fetchInstaPost Complete. " + inserted + " Inserted");
+
+
+        } catch (JSONException e) {
+            Log.e(LOG_TAG, e.getMessage(), e);
+            e.printStackTrace();
         }
-
-        userCursor.close();
-        return userId;
     }
 
 

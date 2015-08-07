@@ -38,8 +38,8 @@ public class TwitterDBHelper extends SQLiteOpenHelper {
                 InstagramContract.PostEntry.COLUMN_USER_KEY + " INTEGER NOT NULL, " +
                 InstagramContract.PostEntry.COLUMN_POST_ID + " INTEGER NOT NULL, " +
 
-                InstagramContract.PostEntry.COLUMN_LOW_IMAGE + " TEXT NOT NULL, " +
-                InstagramContract.PostEntry.COLUMN_HIGH_IMAGE + " TEXT NOT NULL," +
+                InstagramContract.PostEntry.COLUMN_THUMBNAIL + " TEXT NOT NULL, " +
+                InstagramContract.PostEntry.COLUMN_LOW_IMAGE + " TEXT NOT NULL," +
                 InstagramContract.PostEntry.COLUMN_CAPTION + " TEXT NOT NULL, " +
                 InstagramContract.PostEntry.COLUMN_CREATED_TIME + " INTEGER NOT NULL, " +
                 InstagramContract.PostEntry.COLUMN_LOCATION + " TEXT NOT NULL, " +
