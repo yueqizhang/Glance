@@ -19,6 +19,9 @@ public class MainPageFragment extends Fragment {
     private final String LOG_TAG = MainPageFragment.class.getSimpleName();
 
     public ViewFlipper viewFlipper;
+    public ViewFlipper currentlyFlipped;
+    public ArrayList<Post> posts = new ArrayList<Post>();;
+
     public MainPageFragment() {
     }
 
@@ -32,7 +35,6 @@ public class MainPageFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.main_fragment, container, false);
-        ArrayList<Post> posts = new ArrayList<Post>();
         StaggeredGridView gridView = (StaggeredGridView) rootView.findViewById(R.id.gridview_posts);
         // Create some dummy data for the GridView.
         String[] userNames = {
@@ -44,17 +46,17 @@ public class MainPageFragment extends Fragment {
                 "Phillip", "Carla",
                 "Molli", "Erik"
         };
-        Uri[] userPic = {
-                Uri.parse("https://pbs.twimg.com/profile_images/547588061216137216/5CL6N3VO.jpeg"),
-                Uri.parse("https://lh5.googleusercontent.com/-egDEIsHX1mM/VPe0HjdymFI/AAAAAAAAAWQ/vqK_Q05F9As/w1840-h1836-no/IMG_3449.jpeg"),
-                Uri.parse("https://lh5.googleusercontent.com/-RQCYGlQ2OW8/UvnFlO-lWZI/AAAAAAAAHcg/tZjOzAZ2pn0/s512-no/38e048fa-f98e-4ebb-a34b-f808ac138248"),
-                Uri.parse("https://lh3.googleusercontent.com/-8XsJbk1fGE8/U9xZxGkKg8I/AAAAAAAAAL0/u-Nyv0DhihI/s1836-no/21a953ea-0d28-409b-8cc6-c7e71786f8c2"),
-                null, null,
-                null, null,
-                null, null,
-                null, null,
-                null, null
-        };
+//        Uri[] userPic = {
+//                Uri.parse("https://pbs.twimg.com/profile_images/547588061216137216/5CL6N3VO.jpeg"),
+//                Uri.parse("https://lh5.googleusercontent.com/-egDEIsHX1mM/VPe0HjdymFI/AAAAAAAAAWQ/vqK_Q05F9As/w1840-h1836-no/IMG_3449.jpeg"),
+//                Uri.parse("https://lh5.googleusercontent.com/-RQCYGlQ2OW8/UvnFlO-lWZI/AAAAAAAAHcg/tZjOzAZ2pn0/s512-no/38e048fa-f98e-4ebb-a34b-f808ac138248"),
+//                Uri.parse("https://lh3.googleusercontent.com/-8XsJbk1fGE8/U9xZxGkKg8I/AAAAAAAAAL0/u-Nyv0DhihI/s1836-no/21a953ea-0d28-409b-8cc6-c7e71786f8c2"),
+//                null, null,
+//                null, null,
+//                null, null,
+//                null, null,
+//                null, null
+//        };
         String[] postText = {
                 "Hello world. This is an example of a really long text post that would " +
                         "originally screw up our entire app, but since Jonah is a bona fide " +
@@ -67,29 +69,44 @@ public class MainPageFragment extends Fragment {
                 "He was a good actor", "Someone needs to clean",
                 "Why", "Why not"
         };
-        Uri[] postPic = {
-                null,
-                Uri.parse("https://lh5.googleusercontent.com/-egDEIsHX1mM/VPe0HjdymFI/AAAAAAAAAWQ/vqK_Q05F9As/w1840-h1836-no/IMG_3449.jpeg"),
-                null,
-                Uri.parse("https://lh3.googleusercontent.com/-8XsJbk1fGE8/U9xZxGkKg8I/AAAAAAAAAL0/u-Nyv0DhihI/s1836-no/21a953ea-0d28-409b-8cc6-c7e71786f8c2"),
-                null, null,
-                null, null,
-                null, null,
-                null, null,
-                null, null
-        };
-
-        for (int i = 0; i < 14; i++) {
-            Post newPost = new Post(userNames[i], userPic[i], postText[i], postPic[i]);
+//        Uri[] postPic = {
+//                null,
+//                Uri.parse("https://lh5.googleusercontent.com/-egDEIsHX1mM/VPe0HjdymFI/AAAAAAAAAWQ/vqK_Q05F9As/w1840-h1836-no/IMG_3449.jpeg"),
+//                null,
+//                Uri.parse("https://lh3.googleusercontent.com/-8XsJbk1fGE8/U9xZxGkKg8I/AAAAAAAAAL0/u-Nyv0DhihI/s1836-no/21a953ea-0d28-409b-8cc6-c7e71786f8c2"),
+//                null, null,
+//                null, null,
+//                null, null,
+//                null, null,
+//                null, null
+//        };
+        Post newPost;
+        for (int i = 0; i < 30; i++) {
+            try {
+                newPost = new Post(userNames[i], postText[i]);
+            } catch (ArrayIndexOutOfBoundsException e) {
+                //Create empty post
+                newPost = new Post();
+            }
             posts.add(newPost);
         }
         updateGridView(gridView, posts, rootView);
         gridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             public void onItemClick(AdapterView<?> parent, View v, int position, long id) {
                 viewFlipper = (ViewFlipper) v;
+                if (currentlyFlipped != null && currentlyFlipped != viewFlipper) {
+                    currentlyFlipped.setInAnimation(AnimationUtils.loadAnimation(getActivity(), android.R.anim.slide_in_left));
+                    currentlyFlipped.setOutAnimation(AnimationUtils.loadAnimation(getActivity(), android.R.anim.slide_out_right));
+                    currentlyFlipped.showNext();
+                }
                 viewFlipper.setInAnimation(AnimationUtils.loadAnimation(getActivity(),android.R.anim.slide_in_left));
                 viewFlipper.setOutAnimation(AnimationUtils.loadAnimation(getActivity(), android.R.anim.slide_out_right));
                 viewFlipper.showNext();
+                if (currentlyFlipped == viewFlipper) {
+                    currentlyFlipped = null;
+                } else {
+                    currentlyFlipped = viewFlipper;
+                }
             }
         });
         return rootView;
@@ -103,6 +120,48 @@ public class MainPageFragment extends Fragment {
                         posts);
         gridView = (StaggeredGridView) rootView.findViewById(R.id.gridview_posts);
         gridView.setAdapter(mPostAdapter);
+    }
+
+    @Override
+    public void onActivityCreated(Bundle savedInstanceState) {
+        Uri[] userPic = {
+                Uri.parse("https://pbs.twimg.com/profile_images/547588061216137216/5CL6N3VO.jpeg"),
+                Uri.parse("https://lh5.googleusercontent.com/-egDEIsHX1mM/VPe0HjdymFI/AAAAAAAAAWQ/vqK_Q05F9As/w1840-h1836-no/IMG_3449.jpeg"),
+                Uri.parse("https://lh5.googleusercontent.com/-RQCYGlQ2OW8/UvnFlO-lWZI/AAAAAAAAHcg/tZjOzAZ2pn0/s512-no/38e048fa-f98e-4ebb-a34b-f808ac138248"),
+                Uri.parse("https://lh3.googleusercontent.com/-8XsJbk1fGE8/U9xZxGkKg8I/AAAAAAAAAL0/u-Nyv0DhihI/s1836-no/21a953ea-0d28-409b-8cc6-c7e71786f8c2"),
+                null, null,
+                null, null,
+                null, null,
+                null, null,
+                null, null
+        };
+        Uri[] postPic = {
+                null,
+                Uri.parse("https://lh5.googleusercontent.com/-egDEIsHX1mM/VPe0HjdymFI/AAAAAAAAAWQ/vqK_Q05F9As/w1840-h1836-no/IMG_3449.jpeg"),
+                null,
+                Uri.parse("https://lh3.googleusercontent.com/-8XsJbk1fGE8/U9xZxGkKg8I/AAAAAAAAAL0/u-Nyv0DhihI/s1836-no/21a953ea-0d28-409b-8cc6-c7e71786f8c2"),
+                null, null,
+                null, null,
+                null, null,
+                null, null,
+                null, null
+        };
+        StaggeredGridView gridView = (StaggeredGridView) getActivity().findViewById(R.id.gridview_posts);
+        LayoutInflater.from(getActivity())
+                .inflate(R.layout.main_fragment, gridView, false);
+        for (int i = 0; i < 4; i++) {
+            if (userPic[i] != null)
+                posts.get(i).setUserPic(userPic[i]);
+            //if (postPic[i] != null)
+                //posts.get(i).setPostPic(postPic[i]);
+        }
+//        CardAdapter mPostAdapter = new CardAdapter(
+//                getActivity(), // The current context (this activity)
+//                R.layout.card, // The name of the layout ID.
+//                posts);
+        //mPostAdapter.addAll(posts);
+        mPostAdapter.notifyDataSetChanged();
+        super.onActivityCreated(savedInstanceState);
     }
 
 

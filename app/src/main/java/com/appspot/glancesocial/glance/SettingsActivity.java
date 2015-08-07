@@ -1,8 +1,11 @@
 package com.appspot.glancesocial.glance;
 
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarActivity;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -27,6 +30,8 @@ public class SettingsActivity extends ActionBarActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.settings_page);
+        ActionBar actionBar = getSupportActionBar();
+        actionBar.setTitle("Glance");
         if (savedInstanceState == null) {
             getSupportFragmentManager().beginTransaction()
                     .add(R.id.container, new PlaceholderFragment())
@@ -53,15 +58,6 @@ public class SettingsActivity extends ActionBarActivity {
      */
     public static class PlaceholderFragment extends Fragment {
 
-        // Currently the user will see a list of different accounts they can add
-        //TODO:
-                // We need to do one of two things:
-                    // 1) Each list item be a button that sends them
-                    //    to the authorization page for that account
-                    // OR
-                    // 2) Each list item when selected will send them
-                    //    to a unique individual page for that account
-
         ArrayAdapter<String> mAccountAdapter;
 
         public PlaceholderFragment() {
@@ -75,8 +71,8 @@ public class SettingsActivity extends ActionBarActivity {
             final String[] acc = {
                     "Twitter",
                     "Instagram",
-                    "Facebook",
-                    "Google+"
+                    "Facebook - Coming Soon",
+                    "Google+ - Coming Soon"
             };
             List<String> accounts = new ArrayList<String>(Arrays.asList(acc));
 
@@ -97,39 +93,33 @@ public class SettingsActivity extends ActionBarActivity {
 
                 @Override
                 public void onItemClick(AdapterView<?> adapterView, View view, int position, long l) {
-                    // TODO:
-                        // Figure out how to store whether you have added the account or not.
-                        // Currently it will always pretend like you have never added it.
-                    // TODO:
-                        // Use SharedPreferences to store data for which accounts have been added
-                    boolean twitterAdded = false;
-                    boolean instagramAdded = false;
+                    SharedPreferences sharedPref = getActivity().getPreferences(Context.MODE_PRIVATE);
                     switch (position) {
                         case (0): // Twitter
-                            if (twitterAdded) {
+                            if (sharedPref.getString(getString(R.string.twitter_added), "false").equals("true")) {
                                 String clickedAccount = mAccountAdapter.getItem(position);
                                 Intent intent = new Intent(getActivity(), AccountActivity.class)
                                         .putExtra(Intent.EXTRA_TEXT, clickedAccount);
                                 startActivity(intent);
                             } else {
-                                // TODO:
-                                    // Currently the twitter login sends you to the instagram login
-                                    // Need to create a Twitter Activity
-                                twitterAdded = true;
+                                SharedPreferences.Editor editor = sharedPref.edit();
+                                editor.putString(getString(R.string.twitter_added), "true");
+                                editor.apply();
                                 Intent intentTwitter = new Intent(getActivity(), TwitterActivity.class);
                                 intentTwitter.putExtra("SettingsActivity", true);
-                                Log.d(LOG_TAG, "TWITTER called from settings *******");
                                 startActivity(intentTwitter);
                             }
                             break;
                         case (1): // Instagram
-                            if (instagramAdded) {
+                            if (sharedPref.getString(getString(R.string.instagram_added), "false").equals("true")) {
                                 String clickedAccount = mAccountAdapter.getItem(position);
                                 Intent intent = new Intent(getActivity(), AccountActivity.class)
                                         .putExtra(Intent.EXTRA_TEXT, clickedAccount);
                                 startActivity(intent);
                             } else {
-                                instagramAdded = true;
+                                SharedPreferences.Editor editor = sharedPref.edit();
+                                editor.putString(getString(R.string.instagram_added), "true");
+                                editor.apply();
                                 Intent intentInstagram = new Intent(getActivity(), InstaWebViewActivity.class);
                                 intentInstagram.putExtra("SettingsActivity", true);
                                 Log.d(LOG_TAG, "INSTAGRAM called from settings *******");

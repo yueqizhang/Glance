@@ -24,4 +24,8 @@
 
     <integer name="card_flip_time_full">300</integer>
     <integer name="card_flip_time_half">150</integer>
+
+    <string name="twitter_added">false</string>
+    <string name="instagram_added">false</string>
+    <string name="seen_intro">false</string>
 </resources>

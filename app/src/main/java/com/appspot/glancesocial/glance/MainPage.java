@@ -1,8 +1,8 @@
 package com.appspot.glancesocial.glance;
 
-import android.animation.Animator;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarActivity;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -12,13 +12,12 @@ public class MainPage extends ActionBarActivity {
     // Use LOG_TAG when logging anything
     private final String LOG_TAG = MainPage.class.getSimpleName();
 
-    private Animator mCurrentAnimator;
-    private int mShortAnimationDuration;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.main_page);
+        ActionBar actionBar = getSupportActionBar();
+        actionBar.setTitle("Glance");
         if (savedInstanceState == null) {
             getSupportFragmentManager().beginTransaction()
                     .add(R.id.container, new MainPageFragment())
@@ -26,7 +25,6 @@ public class MainPage extends ActionBarActivity {
         }
         Intent testIntent = new Intent(this, InstagramService.class);
         startService(testIntent);
-        mShortAnimationDuration = getResources().getInteger(android.R.integer.config_shortAnimTime);
     }
 
     @Override

@@ -63,7 +63,7 @@ public class CardAdapter extends ArrayAdapter<Post> {
             holder.userPicView.setImageBitmap(post.getUserPic());
         } else {
             //If there isn't an image for the user then we use the default
-            holder.userPicView.setImageResource(R.mipmap.ic_launcher);
+            holder.userPicView.setImageResource(R.mipmap.temp);
         }
 
         //Set the text for the post content

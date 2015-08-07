@@ -8,6 +8,8 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
+import android.view.View;
+import android.widget.Button;
 
 /**
  * Created by Jonah on 8/5/15.
@@ -22,7 +24,7 @@ public class IntroScreenActivity extends FragmentActivity {
     private static final String TWITTER_KEY = "otG6EvQxlUAQmxqmdRmnsOKBi";
     private static final String TWITTER_SECRET = "Eh7kzCtbQHCY0Oxg5E60t0BgSzRLIMZRvthdgZEesAa2m96dY7";
 
-    private static final int NUM_PAGES = 4;
+    private static final int NUM_PAGES = 3;
     private ViewPager mPager;
     private PagerAdapter mPagerAdapter;
 
@@ -30,7 +32,7 @@ public class IntroScreenActivity extends FragmentActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.intro_screen_slide);
-
+        Button contButton = (Button)findViewById(R.id.continue_button);
         // Instantiate a ViewPager and a PagerAdapter.
         mPager = (ViewPager) findViewById(R.id.pager);
         mPagerAdapter = new ScreenSlidePagerAdapter(getSupportFragmentManager());
@@ -44,10 +46,6 @@ public class IntroScreenActivity extends FragmentActivity {
 
         @Override
         public Fragment getItem(int position) {
-            if (position == 3) {
-                Intent intent = new Intent(getApplicationContext(), SettingsActivity.class);
-                startActivity(intent);
-            }
             return IntroScreenFragment.create(position);
         }
 
@@ -55,5 +53,10 @@ public class IntroScreenActivity extends FragmentActivity {
         public int getCount() {
             return NUM_PAGES;
         }
+    }
+
+    public void clickHandler(View target) {
+        Intent intent = new Intent(target.getContext(), SettingsActivity.class);
+        startActivity(intent);
     }
 }

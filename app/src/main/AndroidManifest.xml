@@ -4,20 +4,23 @@
 
     <application
         android:allowBackup="true"
-        android:icon="@mipmap/ic_launcher"
+        android:icon="@drawable/ic_launcher"
         android:label="@string/app_name"
-        android:theme="@style/AppTheme" >
+        android:theme="@style/glance_theme" >
         <service android:name=".InstagramService" />
 
-        <!-- IntroScreenActivity -->
+        <!-- SplashScreenActivity -->
         <activity
-            android:name=".IntroScreenActivity"
-            android:label="@string/app_name">
+            android:name=".SplashScreenActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
+        <!-- IntroScreenActivity -->
+        <activity
+            android:name=".IntroScreenActivity"/>
 
         <!-- InstaWebViewActivity -->
         <activity
@@ -35,7 +38,8 @@
 
         <!-- SettingsActivity -->
         <activity
-            android:name=".SettingsActivity"/>
+            android:name=".SettingsActivity"
+            android:label="@string/app_name"/>
 
         <!-- AccountActivity -->
         <activity

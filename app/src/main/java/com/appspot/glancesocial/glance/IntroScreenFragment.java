@@ -1,6 +1,5 @@
 package com.appspot.glancesocial.glance;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
@@ -69,10 +68,9 @@ public class IntroScreenFragment extends Fragment {
                         getString(R.string.intro_text_3));
                 rootView.findViewById(R.id.slide_1).setBackgroundColor(
                         getResources().getColor(R.color.deep_purple));
+                rootView.findViewById(R.id.continue_button).setVisibility(View.VISIBLE);
                 break;
             default:
-                Intent intent = new Intent(getActivity(), SettingsActivity.class);
-                startActivity(intent);
                 break;
         }
 
