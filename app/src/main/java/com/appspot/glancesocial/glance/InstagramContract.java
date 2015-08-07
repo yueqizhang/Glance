@@ -41,8 +41,8 @@ public class InstagramContract {
         public static final String TABLE_NAME = "post";
         public static final String COLUMN_USER_KEY = "user_id";
         public static final String COLUMN_POST_ID = "post_id";
-        public static final String COLUMN_LOW_IMAGE = "low_image"; //low-res image
-        public static final String COLUMN_HIGH_IMAGE = "high_image"; //high-res image for when post is expanded
+        public static final String COLUMN_THUMBNAIL = "thumbnail"; //low-res image
+        public static final String COLUMN_LOW_IMAGE = "low_image"; //high-res image for when post is expanded
         public static final String COLUMN_CAPTION = "caption";
         public static final String COLUMN_CREATED_TIME = "created_time";
         public static final String COLUMN_LOCATION = "location"; // ditto for database, but we can just use text for now

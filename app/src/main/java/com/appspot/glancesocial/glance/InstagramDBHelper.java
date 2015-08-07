@@ -35,16 +35,16 @@ public class InstagramDBHelper extends SQLiteOpenHelper {
 
         final String SQL_CREATE_POST_TABLE = "CREATE TABLE " + InstagramContract.PostEntry.TABLE_NAME + " (" +
                 InstagramContract.PostEntry._ID + " INTEGER PRIMARY KEY AUTOINCREMENT," +
-                InstagramContract.PostEntry.COLUMN_USER_KEY + " INTEGER NOT NULL, " +
-                InstagramContract.PostEntry.COLUMN_POST_ID + " INTEGER NOT NULL, " +
+                InstagramContract.PostEntry.COLUMN_USER_KEY + " TEXT NOT NULL, " +
+                InstagramContract.PostEntry.COLUMN_POST_ID + " TEXT NOT NULL, " +
 
-                InstagramContract.PostEntry.COLUMN_LOW_IMAGE + " TEXT NOT NULL, " +
-                InstagramContract.PostEntry.COLUMN_HIGH_IMAGE + " TEXT NOT NULL," +
+                InstagramContract.PostEntry.COLUMN_THUMBNAIL + " TEXT NOT NULL, " +
+                InstagramContract.PostEntry.COLUMN_LOW_IMAGE + " TEXT NOT NULL," +
                 InstagramContract.PostEntry.COLUMN_CAPTION + " TEXT NOT NULL, " +
                 InstagramContract.PostEntry.COLUMN_CREATED_TIME + " INTEGER NOT NULL, " +
                 InstagramContract.PostEntry.COLUMN_LOCATION + " TEXT NOT NULL, " +
 
-                InstagramContract.PostEntry.COLUMN_COMMENTS + " TEXT NOT NULL, " +
+                InstagramContract.PostEntry.COLUMN_COMMENTS + " INTEGER NOT NULL, " +
                 InstagramContract.PostEntry.COLUMN_LIKES + " INTEGER NOT NULL, " +
                 // Set up the user column as a foreign key to user table.
                 " FOREIGN KEY (" + InstagramContract.PostEntry.COLUMN_USER_KEY + ") REFERENCES " +

@@ -1,7 +1,11 @@
 package com.appspot.glancesocial.glance;
 
 import android.app.IntentService;
+import android.content.ContentUris;
+import android.content.ContentValues;
 import android.content.Intent;
+import android.database.Cursor;
+import android.net.Uri;
 import android.util.Log;
 
 import org.json.JSONArray;
@@ -16,11 +20,9 @@ import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.ArrayList;
-import java.util.Collections;
+import java.util.Arrays;
 import java.util.Comparator;
 import java.util.HashMap;
-import java.util.LinkedList;
-import java.util.List;
 import java.util.Map;
 
 /**
@@ -61,18 +63,21 @@ public class InstagramService extends IntentService{
             }
         }
 
-        List list = new LinkedList(usersMap.entrySet());
-        Collections.sort(list, new Comparator() {
-            public int compare(Object obj1, Object obj2) {
-                return ((Comparable) ((Map.Entry) (obj2)).getValue())
-                        .compareTo(((Map.Entry) (obj1)).getValue());
+        Object[] a = usersMap.entrySet().toArray();
+        Arrays.sort(a, new Comparator() {
+            public int compare(Object o1, Object o2) {
+                return ((Map.Entry<String, Integer>) o2).getValue().compareTo(
+                        ((Map.Entry<String, Integer>) o1).getValue());
             }
         });
-        int pos = (MAX_FRIENDS < list.size()) ? MAX_FRIENDS : list.size();
-        List<String> topTen = new ArrayList<String>(list.subList(0, pos));
-        for(String friend : topTen){
-            FetchInstaPostTask.addUser(friend, pos - topTen.indexOf(friend));
-        }
+        int pos = (MAX_FRIENDS < usersMap.size()) ? MAX_FRIENDS : usersMap.size();
+        int i = 0;
+        add:
+            for(Object e : a){
+                i++;
+                addUser(((Map.Entry<String, Integer>) e).getKey(), ((Map.Entry<String, Integer>) e).getValue());
+                if(i == pos) break add;
+            }
     }
 
     public void getLikedUsers() {
@@ -83,6 +88,7 @@ public class InstagramService extends IntentService{
                 .append(InstaWebViewActivity.accessToken);
         String newLastLikedID = null;
         try {
+            //TODO: add functionality to go to the next page in JSON
             url = new URL(builtUri.toString());
             urlConnection = (HttpURLConnection) url.openConnection();
             urlConnection.setRequestMethod("GET");
@@ -133,5 +139,86 @@ public class InstagramService extends IntentService{
             }
         }
         lastLikeID = newLastLikedID;
+    }
+
+    long addUser(String userID, int rank) {
+        long userId;
+        URL url;
+        HttpURLConnection urlConnection = null;
+        StringBuilder builtUri = new StringBuilder();
+        BufferedReader reader = null;
+        String userName = null;
+        String proPic = null;
+        JSONObject user;
+
+        Cursor userCursor = this.getContentResolver().query(
+                InstagramContract.UserEntry.CONTENT_URI,
+                new String[]{InstagramContract.UserEntry._ID},
+                InstagramContract.UserEntry.COLUMN_USER_ID + " = ?",
+                new String[]{userID},
+                null);
+
+        builtUri.append(InstagramService.INSTA_BASE_URL)
+                .append("users/")
+                .append(userID);
+
+        if (userCursor.moveToFirst()) {
+            int userIdIndex = userCursor.getColumnIndex(InstagramContract.UserEntry._ID);
+            userId = userCursor.getLong(userIdIndex);
+        } else {
+            ContentValues userValues = new ContentValues();
+
+            try {
+                url = new URL(builtUri.toString());
+                urlConnection = (HttpURLConnection) url.openConnection();
+                urlConnection.setRequestMethod("GET");
+                urlConnection.connect();
+                InputStream inputStream = urlConnection.getInputStream();
+                StringBuffer buffer = new StringBuffer();
+                if (inputStream == null) {
+                    return -1;
+                }
+                reader = new BufferedReader(new InputStreamReader(inputStream));
+
+                String line;
+                while ((line = reader.readLine()) != null) {
+                    buffer.append(line + "\n");
+                }
+                user = new JSONObject(buffer.toString());
+                userName = user.getString("username");
+                proPic = user.getString("profile_picture");
+            } catch (JSONException e) {
+                e.printStackTrace();
+            } catch (MalformedURLException e) {
+                e.printStackTrace();
+            } catch (IOException e) {
+                e.printStackTrace();
+            } finally {
+                if (urlConnection != null) {
+                    urlConnection.disconnect();
+                }
+                if (reader != null) {
+                    try {
+                        reader.close();
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                }
+            }
+
+            userValues.put(InstagramContract.UserEntry.COLUMN_USER_NAME, userName);
+            userValues.put(InstagramContract.UserEntry.COLUMN_USER_ID, userID);
+            userValues.put(InstagramContract.UserEntry.COLUMN_PROFILE_PIC, proPic);
+            userValues.put(InstagramContract.UserEntry.COLUMN_FRIEND_RANK, rank);
+
+            Uri insertedUri = this.getContentResolver().insert(
+                    InstagramContract.UserEntry.CONTENT_URI,
+                    userValues
+            );
+            userId = ContentUris.parseId(insertedUri);
+        }
+
+        userCursor.close();
+        return userId;
     }
 }
