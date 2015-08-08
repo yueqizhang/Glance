@@ -2,13 +2,14 @@ package com.appspot.glancesocial.glance;
 
 import android.app.Activity;
 import android.content.Context;
-import android.graphics.Bitmap;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
+
+import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 
@@ -43,6 +44,7 @@ public class CardAdapter extends ArrayAdapter<Post> {
             holder = new ViewHolder();
             //Get the views that we will be editing
             holder.userNameView = (TextView)row.findViewById(R.id.user_name);
+            holder.userHandleView = (TextView)row.findViewById(R.id.user_handle);
             holder.userPicView = (ImageView)row.findViewById(R.id.user_image);
             holder.postTextView = (TextView)row.findViewById(R.id.post_caption);
             holder.postPicView = (ImageView)row.findViewById(R.id.post_image);
@@ -57,10 +59,13 @@ public class CardAdapter extends ArrayAdapter<Post> {
         //Set the text for username
         holder.userNameView.setText(post.getUserName());
 
+        //Set the text for username
+        holder.userHandleView.setText(post.getUserHandle());
+
         //Check to see if the user has a profile picture
         if (post.getUserPic() != null) {
             //If there is a picture then try to load it
-            holder.userPicView.setImageBitmap(post.getUserPic());
+            Picasso.with(getContext()).load(post.getUserPic()).into(holder.userPicView);
         } else {
             //If there isn't an image for the user then we use the default
             holder.userPicView.setImageResource(R.mipmap.temp);
@@ -72,10 +77,10 @@ public class CardAdapter extends ArrayAdapter<Post> {
         //Check to see if the post has a picture
         if (post.getPostPic() != null) {
             //If there is a picture then try to load it and round the edges
-            Bitmap roundedPostPic = Utility.getRoundedCornerBitmap(post.getPostPic(),15);
-            holder.postPicView.setImageBitmap(roundedPostPic);
+            holder.postPicView.setVisibility(View.VISIBLE);
+            Picasso.with(getContext()).load(post.getPostPic()).into(holder.postPicView);
         } else {
-            Utility.setMargins(holder.postPicView,0,0,0,0);
+            holder.postPicView.setVisibility(View.GONE);
         }
 
         return row;
@@ -83,6 +88,7 @@ public class CardAdapter extends ArrayAdapter<Post> {
 
     static class ViewHolder {
         TextView userNameView;
+        TextView userHandleView;
         ImageView userPicView;
         TextView postTextView;
         ImageView postPicView;

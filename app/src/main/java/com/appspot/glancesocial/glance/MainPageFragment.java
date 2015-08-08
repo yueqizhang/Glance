@@ -20,7 +20,9 @@ public class MainPageFragment extends Fragment {
 
     public ViewFlipper viewFlipper;
     public ViewFlipper currentlyFlipped;
-    public ArrayList<Post> posts = new ArrayList<Post>();;
+    public ArrayList<Post> posts = new ArrayList<Post>();
+    ;
+    int i;
 
     public MainPageFragment() {
     }
@@ -38,7 +40,7 @@ public class MainPageFragment extends Fragment {
         StaggeredGridView gridView = (StaggeredGridView) rootView.findViewById(R.id.gridview_posts);
         // Create some dummy data for the GridView.
         String[] userNames = {
-                "Jonah", "Christina",
+                "Jonah Starling", "Christina",
                 "Daisy", "Fran",
                 "Jake", "Ethan",
                 "Courtney", "Shawn",
@@ -46,17 +48,26 @@ public class MainPageFragment extends Fragment {
                 "Phillip", "Carla",
                 "Molli", "Erik"
         };
-//        Uri[] userPic = {
-//                Uri.parse("https://pbs.twimg.com/profile_images/547588061216137216/5CL6N3VO.jpeg"),
-//                Uri.parse("https://lh5.googleusercontent.com/-egDEIsHX1mM/VPe0HjdymFI/AAAAAAAAAWQ/vqK_Q05F9As/w1840-h1836-no/IMG_3449.jpeg"),
-//                Uri.parse("https://lh5.googleusercontent.com/-RQCYGlQ2OW8/UvnFlO-lWZI/AAAAAAAAHcg/tZjOzAZ2pn0/s512-no/38e048fa-f98e-4ebb-a34b-f808ac138248"),
-//                Uri.parse("https://lh3.googleusercontent.com/-8XsJbk1fGE8/U9xZxGkKg8I/AAAAAAAAAL0/u-Nyv0DhihI/s1836-no/21a953ea-0d28-409b-8cc6-c7e71786f8c2"),
-//                null, null,
-//                null, null,
-//                null, null,
-//                null, null,
-//                null, null
-//        };
+        String[] userHandle = {
+                "@ForeverJonah", "@Christina",
+                "@Daisy", "@Fran",
+                "@Jake", "@Ethan",
+                "@Courtney", "@Shawn",
+                "@Nicole", "@Ross",
+                "@Phillip", "@Carla",
+                "@Molli", "@Erik"
+        };
+        Uri[] userPic = {
+                Uri.parse("https://pbs.twimg.com/profile_images/547588061216137216/5CL6N3VO.jpeg"),
+                Uri.parse("https://lh5.googleusercontent.com/-egDEIsHX1mM/VPe0HjdymFI/AAAAAAAAAWQ/vqK_Q05F9As/w1840-h1836-no/IMG_3449.jpeg"),
+                Uri.parse("https://lh5.googleusercontent.com/-RQCYGlQ2OW8/UvnFlO-lWZI/AAAAAAAAHcg/tZjOzAZ2pn0/s512-no/38e048fa-f98e-4ebb-a34b-f808ac138248"),
+                Uri.parse("https://lh3.googleusercontent.com/-8XsJbk1fGE8/U9xZxGkKg8I/AAAAAAAAAL0/u-Nyv0DhihI/s1836-no/21a953ea-0d28-409b-8cc6-c7e71786f8c2"),
+                null, null,
+                null, null,
+                null, null,
+                null, null,
+                null, null
+        };
         String[] postText = {
                 "Hello world. This is an example of a really long text post that would " +
                         "originally screw up our entire app, but since Jonah is a bona fide " +
@@ -69,21 +80,21 @@ public class MainPageFragment extends Fragment {
                 "He was a good actor", "Someone needs to clean",
                 "Why", "Why not"
         };
-//        Uri[] postPic = {
-//                null,
-//                Uri.parse("https://lh5.googleusercontent.com/-egDEIsHX1mM/VPe0HjdymFI/AAAAAAAAAWQ/vqK_Q05F9As/w1840-h1836-no/IMG_3449.jpeg"),
-//                null,
-//                Uri.parse("https://lh3.googleusercontent.com/-8XsJbk1fGE8/U9xZxGkKg8I/AAAAAAAAAL0/u-Nyv0DhihI/s1836-no/21a953ea-0d28-409b-8cc6-c7e71786f8c2"),
-//                null, null,
-//                null, null,
-//                null, null,
-//                null, null,
-//                null, null
-//        };
+        Uri[] postPic = {
+                null,
+                Uri.parse("https://lh5.googleusercontent.com/-egDEIsHX1mM/VPe0HjdymFI/AAAAAAAAAWQ/vqK_Q05F9As/w1840-h1836-no/IMG_3449.jpeg"),
+                null,
+                Uri.parse("https://lh3.googleusercontent.com/-8XsJbk1fGE8/U9xZxGkKg8I/AAAAAAAAAL0/u-Nyv0DhihI/s1836-no/21a953ea-0d28-409b-8cc6-c7e71786f8c2"),
+                null, null,
+                null, null,
+                null, null,
+                null, null,
+                null, null
+        };
         Post newPost;
         for (int i = 0; i < 30; i++) {
             try {
-                newPost = new Post(userNames[i], postText[i]);
+                newPost = new Post(userNames[i], userHandle[i], userPic[i], postText[i], postPic[i]);
             } catch (ArrayIndexOutOfBoundsException e) {
                 //Create empty post
                 newPost = new Post();
@@ -99,7 +110,7 @@ public class MainPageFragment extends Fragment {
                     currentlyFlipped.setOutAnimation(AnimationUtils.loadAnimation(getActivity(), android.R.anim.slide_out_right));
                     currentlyFlipped.showNext();
                 }
-                viewFlipper.setInAnimation(AnimationUtils.loadAnimation(getActivity(),android.R.anim.slide_in_left));
+                viewFlipper.setInAnimation(AnimationUtils.loadAnimation(getActivity(), android.R.anim.slide_in_left));
                 viewFlipper.setOutAnimation(AnimationUtils.loadAnimation(getActivity(), android.R.anim.slide_out_right));
                 viewFlipper.showNext();
                 if (currentlyFlipped == viewFlipper) {
@@ -121,50 +132,6 @@ public class MainPageFragment extends Fragment {
         gridView = (StaggeredGridView) rootView.findViewById(R.id.gridview_posts);
         gridView.setAdapter(mPostAdapter);
     }
-
-    @Override
-    public void onActivityCreated(Bundle savedInstanceState) {
-        Uri[] userPic = {
-                Uri.parse("https://pbs.twimg.com/profile_images/547588061216137216/5CL6N3VO.jpeg"),
-                Uri.parse("https://lh5.googleusercontent.com/-egDEIsHX1mM/VPe0HjdymFI/AAAAAAAAAWQ/vqK_Q05F9As/w1840-h1836-no/IMG_3449.jpeg"),
-                Uri.parse("https://lh5.googleusercontent.com/-RQCYGlQ2OW8/UvnFlO-lWZI/AAAAAAAAHcg/tZjOzAZ2pn0/s512-no/38e048fa-f98e-4ebb-a34b-f808ac138248"),
-                Uri.parse("https://lh3.googleusercontent.com/-8XsJbk1fGE8/U9xZxGkKg8I/AAAAAAAAAL0/u-Nyv0DhihI/s1836-no/21a953ea-0d28-409b-8cc6-c7e71786f8c2"),
-                null, null,
-                null, null,
-                null, null,
-                null, null,
-                null, null
-        };
-        Uri[] postPic = {
-                null,
-                Uri.parse("https://lh5.googleusercontent.com/-egDEIsHX1mM/VPe0HjdymFI/AAAAAAAAAWQ/vqK_Q05F9As/w1840-h1836-no/IMG_3449.jpeg"),
-                null,
-                Uri.parse("https://lh3.googleusercontent.com/-8XsJbk1fGE8/U9xZxGkKg8I/AAAAAAAAAL0/u-Nyv0DhihI/s1836-no/21a953ea-0d28-409b-8cc6-c7e71786f8c2"),
-                null, null,
-                null, null,
-                null, null,
-                null, null,
-                null, null
-        };
-        StaggeredGridView gridView = (StaggeredGridView) getActivity().findViewById(R.id.gridview_posts);
-        LayoutInflater.from(getActivity())
-                .inflate(R.layout.main_fragment, gridView, false);
-        for (int i = 0; i < 4; i++) {
-            if (userPic[i] != null)
-                posts.get(i).setUserPic(userPic[i]);
-            //if (postPic[i] != null)
-                //posts.get(i).setPostPic(postPic[i]);
-        }
-//        CardAdapter mPostAdapter = new CardAdapter(
-//                getActivity(), // The current context (this activity)
-//                R.layout.card, // The name of the layout ID.
-//                posts);
-        //mPostAdapter.addAll(posts);
-        mPostAdapter.notifyDataSetChanged();
-        super.onActivityCreated(savedInstanceState);
-    }
-
-
 }
 
 
