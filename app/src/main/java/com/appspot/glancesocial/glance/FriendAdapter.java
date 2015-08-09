@@ -9,8 +9,6 @@ import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.squareup.picasso.Picasso;
-
 import java.util.ArrayList;
 
 /**
@@ -60,14 +58,8 @@ public class FriendAdapter extends ArrayAdapter<Post> {
         //Set the text for user handle
         holder.friendHandleView.setText(post.getUserHandle());
 
-        //Check to see if the user has a profile picture
-        if (post.getUserPic() != null) {
-            //If there is a picture then try to load it
-            Picasso.with(getContext()).load(post.getUserPic()).into(holder.friendPicView);
-        } else {
-            //If there isn't an image for the user then we use the default
-            holder.friendPicView.setImageResource(R.mipmap.temp);
-        }
+        //Load in the user image
+        Utility.loadImage(getContext(), holder.friendPicView, post.getUserPic());
 
         return row;
     }

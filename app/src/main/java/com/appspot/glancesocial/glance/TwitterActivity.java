@@ -2,6 +2,7 @@ package com.appspot.glancesocial.glance;
 
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
 import android.widget.Toast;
@@ -36,6 +37,7 @@ public class TwitterActivity extends ActionBarActivity {
         setContentView(R.layout.twitter_auth);
         loginButton = (TwitterLoginButton) findViewById(R.id.twitter_login_button);
         loginButton.setCallback(new Callback<TwitterSession>() {
+            SharedPreferences sharedPref = getPreferences(Context.MODE_PRIVATE);
             @Override
             public void success(Result<TwitterSession> result) {
                 Context context = getApplicationContext();
@@ -43,6 +45,10 @@ public class TwitterActivity extends ActionBarActivity {
                 int duration = Toast.LENGTH_LONG;
                 Toast toast = Toast.makeText(context, text, duration);
                 toast.show();
+                //Update that the user has added twitter
+                SharedPreferences.Editor editor = sharedPref.edit();
+                editor.putString(getString(R.string.twitter_added), "true");
+                editor.apply();
                 // Calling finish instead of an intent so you don't see the login screen
                 // again when you press the back button
                 finish();
@@ -55,6 +61,10 @@ public class TwitterActivity extends ActionBarActivity {
                 int duration = Toast.LENGTH_LONG;
                 Toast toast = Toast.makeText(context, text, duration);
                 toast.show();
+                //Update that the user has not added twitter
+                SharedPreferences.Editor editor = sharedPref.edit();
+                editor.putString(getString(R.string.twitter_added), "false");
+                editor.apply();
                 // Calling finish instead of an intent so you don't see the login screen
                 // again when you press the back button
                 finish();

@@ -3,6 +3,7 @@ package com.appspot.glancesocial.glance;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
 import android.webkit.WebView;
@@ -48,10 +49,14 @@ public class InstaWebViewActivity extends Activity {
             @Override
             public void onPageFinished(WebView view, String url) {
                 Intent intent;
+                SharedPreferences sharedPref = getPreferences(Context.MODE_PRIVATE);
                 if (url.contains("#access_token=")) {
                     accessToken = url.substring(url.indexOf("token=") + 6, url.length());
                     Log.d(LOG_TAG, "url: " + url);
                     Log.d(LOG_TAG, "access token: " + accessToken);
+                    SharedPreferences.Editor editor = sharedPref.edit();
+                    editor.putString(getString(R.string.instagram_added), "true");
+                    editor.apply();
                     if(fromSettingsActivity) { //if this is launched from Settings, returns user back to settings
                         CharSequence text = "Instagram login was successful";
                         Toast toast = Toast.makeText(context, text, Toast.LENGTH_LONG);
@@ -65,6 +70,9 @@ public class InstaWebViewActivity extends Activity {
                         finish();
                     }
                 } else {
+                    SharedPreferences.Editor editor = sharedPref.edit();
+                    editor.putString(getString(R.string.instagram_added), "false");
+                    editor.apply();
                     Log.d(LOG_TAG, "onpagefinished failed");
                 }
                 super.onPageFinished(view, url);

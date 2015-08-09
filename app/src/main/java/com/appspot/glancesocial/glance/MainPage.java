@@ -1,5 +1,6 @@
 package com.appspot.glancesocial.glance;
 
+import android.annotation.TargetApi;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.ActionBar;
@@ -67,30 +68,35 @@ public class MainPage extends ActionBarActivity {
     }
 
     public void openTwitterClickHandler(View target) {
+        //TODO: Send user to Twitter app
         CharSequence text = "Open Twitter";
         Toast toast = Toast.makeText(this, text, Toast.LENGTH_SHORT);
         toast.show();
     }
 
     public void favoriteTweetClickHandler(View target) {
+        //TODO: Favorite the tweet associated to this view
         CharSequence text = "Favorited";
         Toast toast = Toast.makeText(this, text, Toast.LENGTH_SHORT);
         toast.show();
     }
 
     public void retweetTweetClickHandler(View target) {
+        //TODO: Retweet the tweet associated to this view
         CharSequence text = "Retweeted";
         Toast toast = Toast.makeText(this, text, Toast.LENGTH_SHORT);
         toast.show();
     }
 
     public void openInstagramClickHandler(View target) {
+        //TODO: Send user to Instagram app
         CharSequence text = "Open Instagram";
         Toast toast = Toast.makeText(this, text, Toast.LENGTH_SHORT);
         toast.show();
     }
 
     @Override
+    @TargetApi(19)
     public void onWindowFocusChanged(boolean hasFocus) {
         super.onWindowFocusChanged(hasFocus);
         View view = getWindow().getDecorView().findViewById(R.id.gridview_posts);

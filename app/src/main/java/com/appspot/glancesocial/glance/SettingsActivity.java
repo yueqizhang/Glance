@@ -102,9 +102,6 @@ public class SettingsActivity extends ActionBarActivity {
                                         .putExtra(Intent.EXTRA_TEXT, clickedAccount);
                                 startActivity(intent);
                             } else {
-                                SharedPreferences.Editor editor = sharedPref.edit();
-                                editor.putString(getString(R.string.twitter_added), "true");
-                                editor.apply();
                                 Intent intentTwitter = new Intent(getActivity(), TwitterActivity.class);
                                 intentTwitter.putExtra("SettingsActivity", true);
                                 startActivity(intentTwitter);
@@ -117,20 +114,14 @@ public class SettingsActivity extends ActionBarActivity {
                                         .putExtra(Intent.EXTRA_TEXT, clickedAccount);
                                 startActivity(intent);
                             } else {
-                                SharedPreferences.Editor editor = sharedPref.edit();
-                                editor.putString(getString(R.string.instagram_added), "true");
-                                editor.apply();
                                 Intent intentInstagram = new Intent(getActivity(), InstaWebViewActivity.class);
                                 intentInstagram.putExtra("SettingsActivity", true);
                                 Log.d(LOG_TAG, "INSTAGRAM called from settings *******");
                                 startActivity(intentInstagram);
                             }
                             break;
-                        default: // Others
-//                            String clickedAccount = mAccountAdapter.getItem(position);
-//                            Intent intent = new Intent(getActivity(), AccountActivity.class)
-//                                    .putExtra(Intent.EXTRA_TEXT, clickedAccount);
-//                            startActivity(intent);
+                        default:
+                            //Do nothing for our list of coming soon social media accounts
                             break;
                     }
                 }

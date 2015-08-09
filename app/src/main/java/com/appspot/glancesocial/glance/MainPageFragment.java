@@ -108,22 +108,26 @@ public class MainPageFragment extends Fragment {
         gridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             public void onItemClick(AdapterView<?> parent, View v, int position, long id) {
                 viewFlipper = (ViewFlipper) v;
+                // There may not be a card currently flipped so check for that
                 if (currentlyFlipped != null) {
                     currentlyFlipped.setInAnimation(AnimationUtils.loadAnimation(getActivity(), android.R.anim.slide_in_left));
                     currentlyFlipped.setOutAnimation(AnimationUtils.loadAnimation(getActivity(), android.R.anim.slide_out_right));
                 }
                 viewFlipper.setInAnimation(AnimationUtils.loadAnimation(getActivity(), android.R.anim.slide_in_left));
                 viewFlipper.setOutAnimation(AnimationUtils.loadAnimation(getActivity(), android.R.anim.slide_out_right));
+                // Flip the card that is currently flipped over
                 if (currentlyFlipped != null && currentlyFlipped != viewFlipper) {
                     currentlyFlipped.setDisplayedChild(0);
                 } else {
                     viewFlipper.setDisplayedChild(0);
                 }
+                // Flip the card to the correct child view (Ex. Twitter or Instagram)
                 if (currentlyFlipped != viewFlipper && posts.get(position).getPostType().equals("twitter")) {
                     viewFlipper.setDisplayedChild(1);
                 } else if (currentlyFlipped != viewFlipper &&  posts.get(position).getPostType().equals("instagram")) {
                     viewFlipper.setDisplayedChild(2);
                 }
+                // Update which card is currently flipped over
                 if (currentlyFlipped == viewFlipper) {
                     currentlyFlipped = null;
                 } else {

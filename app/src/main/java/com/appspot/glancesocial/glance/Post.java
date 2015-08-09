@@ -17,7 +17,7 @@ public class Post {
     private String postText;
     private Uri postPic;
 
-    // Default Constructor
+    // Default Constructor - Should NOT be used
     public Post() {
         this.postType = null;
         this.userName = "User";
@@ -27,7 +27,7 @@ public class Post {
         this.postPic = null;
     }
 
-    // No Profile Picture Text Post Constructor
+    // Constructor used for the friends list in the account management page
     public Post(String userName, String userHandle, Uri userPic) {
         this.postType = null;
         this.userName = userName;
@@ -37,62 +37,12 @@ public class Post {
         this.postPic = null;
     }
 
-    // No Profile Picture Text Post Constructor
-    public Post(String postType, String userName, String userHandle, String postText) {
-        this.postType = postType;
-        this.userName = userName;
-        this.userHandle = userHandle;
-        this.userPic = null;
-        this.postText = postText;
-        this.postPic = null;
-    }
-
-    // Text Post Constructor
-    public Post(String postType, String userName, String userHandle, Uri userPic, String postText) {
-        this.postType = postType;
-        this.userName = userName;
-        this.userHandle = userHandle;
-        this.userPic = userPic;
-        this.postText = postText;
-        this.postPic = null;
-    }
-
-    // Image Post Constructor
-    public Post(String postType, String userName, String userHandle, Uri userPic, Uri postPic) {
-        this.postType = postType;
-        this.userName = userName;
-        this.userHandle = userHandle;
-        this.userPic = userPic;
-        this.postText = null;
-        this.postPic = postPic;
-    }
-
-    // No Profile Picture Image Post Constructor
-    public Post(String postType, String userName, String userHandle, Uri postPic) {
-        this.postType = postType;
-        this.userName = userName;
-        this.userHandle = userHandle;
-        this.userPic = null;
-        this.postText = null;
-        this.postPic = postPic;
-    }
-
-    // Image and Text Post Constructor
+    // Full Constructor
     public Post(String postType, String userName, String userHandle, Uri userPic, String postText, Uri postPic) {
         this.postType = postType;
         this.userName = userName;
         this.userHandle = userHandle;
         this.userPic = userPic;
-        this.postText = postText;
-        this.postPic = postPic;
-    }
-
-    // No Profile Picture Image and Text Post Constructor
-    public Post(String postType, String userName, String userHandle, String postText, Uri postPic) {
-        this.postType = postType;
-        this.userName = userName;
-        this.userHandle = userHandle;
-        this.userPic = null;
         this.postText = postText;
         this.postPic = postPic;
     }

@@ -1,15 +1,20 @@
 package com.appspot.glancesocial.glance;
 
+import android.content.Context;
 import android.graphics.Bitmap;
+import android.graphics.Bitmap.Config;
 import android.graphics.Canvas;
 import android.graphics.Paint;
+import android.graphics.PorterDuff.Mode;
 import android.graphics.PorterDuffXfermode;
 import android.graphics.Rect;
 import android.graphics.RectF;
+import android.net.Uri;
 import android.view.View;
 import android.view.ViewGroup;
-import android.graphics.Bitmap.Config;
-import android.graphics.PorterDuff.Mode;
+import android.widget.ImageView;
+
+import com.squareup.picasso.Picasso;
 
 /**
  * Created by yueqizhang on 7/30/15.
@@ -17,10 +22,6 @@ import android.graphics.PorterDuff.Mode;
 public class Utility {
     // Use LOG_TAG when logging anything
     private final String LOG_TAG = Utility.class.getSimpleName();
-
-    //public static getLikes(){
-
-    //}
 
     public static void setMargins (View v, int l, int t, int r, int b) {
         if (v.getLayoutParams() instanceof ViewGroup.MarginLayoutParams) {
@@ -50,5 +51,16 @@ public class Utility {
         canvas.drawBitmap(bitmap, rect, rect, paint);
 
         return output;
+    }
+
+    public static void loadImage(Context context, ImageView imageView, Uri uri) {
+        //Check to see if there is an image to load
+        if (uri != null) {
+            //If there is a image then try to load it
+            Picasso.with(context).load(uri).into(imageView);
+        } else {
+            //If there isn't an image for the user then we use the default
+            imageView.setImageResource(R.mipmap.temp);
+        }
     }
 }

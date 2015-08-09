@@ -29,18 +29,21 @@ public class AccountActivity extends ActionBarActivity {
     }
 
     public void disconnectAccountClickHandler(View target) {
+        //TODO: Disconnect the corresponding account
         CharSequence text = "Account Disconnected";
         Toast toast = Toast.makeText(this, text, Toast.LENGTH_SHORT);
         toast.show();
     }
 
     public void addFriendClickHandler(View target) {
+        //TODO: Add a friend via text input
         CharSequence text = "Open Twitter";
         Toast toast = Toast.makeText(this, text, Toast.LENGTH_SHORT);
         toast.show();
     }
 
     public void deleteFriendClickHandler(View target) {
+        //TODO: Delete a friend via text input
         CharSequence text = "Open Twitter";
         Toast toast = Toast.makeText(this, text, Toast.LENGTH_SHORT);
         toast.show();
