@@ -1,13 +1,9 @@
 package com.appspot.glancesocial.glance;
 
-import android.content.Intent;
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
 import android.support.v7.app.ActionBarActivity;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
-import android.widget.TextView;
+import android.widget.Toast;
 
 /**
  * Created by Jonah on 8/1/15.
@@ -32,21 +28,21 @@ public class AccountActivity extends ActionBarActivity {
         super.onResume();
     }
 
-    public static class AccountFragment extends Fragment {
+    public void disconnectAccountClickHandler(View target) {
+        CharSequence text = "Account Disconnected";
+        Toast toast = Toast.makeText(this, text, Toast.LENGTH_SHORT);
+        toast.show();
+    }
 
-        public AccountFragment() {
-        }
+    public void addFriendClickHandler(View target) {
+        CharSequence text = "Open Twitter";
+        Toast toast = Toast.makeText(this, text, Toast.LENGTH_SHORT);
+        toast.show();
+    }
 
-        @Override
-        public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                                 Bundle savedInstanceState) {
-            View rootView = inflater.inflate(R.layout.account_fragment, container, false);
-            Intent intent = getActivity().getIntent();
-            if (intent != null && intent.hasExtra(intent.EXTRA_TEXT)) {
-                String accountName = intent.getStringExtra(intent.EXTRA_TEXT);
-                ((TextView) rootView.findViewById(R.id.account_name)).setText(accountName);
-            }
-            return rootView;
-        }
+    public void deleteFriendClickHandler(View target) {
+        CharSequence text = "Open Twitter";
+        Toast toast = Toast.makeText(this, text, Toast.LENGTH_SHORT);
+        toast.show();
     }
 }

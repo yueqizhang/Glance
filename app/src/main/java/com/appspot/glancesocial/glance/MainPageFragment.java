@@ -21,15 +21,9 @@ public class MainPageFragment extends Fragment {
     public ViewFlipper viewFlipper;
     public ViewFlipper currentlyFlipped;
     public ArrayList<Post> posts = new ArrayList<Post>();
-    ;
-    int i;
 
     public MainPageFragment() {
     }
-
-    // TODO:
-    // This only will fill in the usernames with dummy data.
-    // We have to create a custom adapter to fill in all of our data.
 
     CardAdapter mPostAdapter;
 
@@ -101,7 +95,7 @@ public class MainPageFragment extends Fragment {
                 null, null
         };
         Post newPost;
-        for (int i = 0; i < 30; i++) {
+        for (int i = 0; i < 14; i++) {
             try {
                 newPost = new Post(postType[i], userNames[i], userHandle[i], userPic[i], postText[i], postPic[i]);
             } catch (ArrayIndexOutOfBoundsException e) {
@@ -114,14 +108,22 @@ public class MainPageFragment extends Fragment {
         gridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             public void onItemClick(AdapterView<?> parent, View v, int position, long id) {
                 viewFlipper = (ViewFlipper) v;
-                if (currentlyFlipped != null && currentlyFlipped != viewFlipper) {
+                if (currentlyFlipped != null) {
                     currentlyFlipped.setInAnimation(AnimationUtils.loadAnimation(getActivity(), android.R.anim.slide_in_left));
                     currentlyFlipped.setOutAnimation(AnimationUtils.loadAnimation(getActivity(), android.R.anim.slide_out_right));
-                    currentlyFlipped.showNext();
                 }
                 viewFlipper.setInAnimation(AnimationUtils.loadAnimation(getActivity(), android.R.anim.slide_in_left));
                 viewFlipper.setOutAnimation(AnimationUtils.loadAnimation(getActivity(), android.R.anim.slide_out_right));
-                viewFlipper.showNext();
+                if (currentlyFlipped != null && currentlyFlipped != viewFlipper) {
+                    currentlyFlipped.setDisplayedChild(0);
+                } else {
+                    viewFlipper.setDisplayedChild(0);
+                }
+                if (currentlyFlipped != viewFlipper && posts.get(position).getPostType().equals("twitter")) {
+                    viewFlipper.setDisplayedChild(1);
+                } else if (currentlyFlipped != viewFlipper &&  posts.get(position).getPostType().equals("instagram")) {
+                    viewFlipper.setDisplayedChild(2);
+                }
                 if (currentlyFlipped == viewFlipper) {
                     currentlyFlipped = null;
                 } else {

@@ -2,6 +2,7 @@ package com.appspot.glancesocial.glance;
 
 import android.app.Activity;
 import android.content.Context;
+import android.net.Uri;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -49,7 +50,8 @@ public class CardAdapter extends ArrayAdapter<Post> {
             holder.postTextView = (TextView)row.findViewById(R.id.post_caption);
             holder.postPicView = (ImageView)row.findViewById(R.id.post_image);
 
-            holder.infoUserPicView = (ImageView)row.findViewById(R.id.info_user_image);
+            holder.infoUserPicTwitterView = (ImageView)row.findViewById(R.id.info_user_image_twitter);
+            holder.infoUserPicInstagramView = (ImageView)row.findViewById(R.id.info_user_image_instagram);
 
             row.setTag(holder);
         } else {
@@ -65,13 +67,7 @@ public class CardAdapter extends ArrayAdapter<Post> {
         holder.userHandleView.setText(post.getUserHandle());
 
         //Check to see if the user has a profile picture
-        if (post.getUserPic() != null) {
-            //If there is a picture then try to load it
-            Picasso.with(getContext()).load(post.getUserPic()).into(holder.userPicView);
-        } else {
-            //If there isn't an image for the user then we use the default
-            holder.userPicView.setImageResource(R.mipmap.temp);
-        }
+        loadImage(holder.userPicView, post.getUserPic());
 
         //Set the text for the post content
         holder.postTextView.setText(post.getPostText());
@@ -85,13 +81,15 @@ public class CardAdapter extends ArrayAdapter<Post> {
             holder.postPicView.setVisibility(View.GONE);
         }
 
-        //Check to see if the user has a profile picture
-        if (post.getUserPic() != null) {
-            //If there is a picture then try to load it
-            Picasso.with(getContext()).load(post.getUserPic()).into(holder.infoUserPicView);
+        if (post.getPostType() != null && post.getPostType().equals("twitter")) {
+            //Try to load the profile picture
+            loadImage(holder.infoUserPicTwitterView, post.getUserPic());
+        } else if (post.getPostType() != null && post.getPostType().equals("instagram")) {
+            //Try to load the profile picture
+            loadImage(holder.infoUserPicInstagramView, post.getUserPic());
         } else {
-            //If there isn't an image for the user then we use the default
-            holder.infoUserPicView.setImageResource(R.mipmap.temp);
+            holder.infoUserPicTwitterView.setVisibility(View.GONE);
+            holder.infoUserPicInstagramView.setVisibility(View.GONE);
         }
 
         return row;
@@ -104,6 +102,17 @@ public class CardAdapter extends ArrayAdapter<Post> {
         TextView postTextView;
         ImageView postPicView;
 
-        ImageView infoUserPicView;
+        ImageView infoUserPicTwitterView;
+        ImageView infoUserPicInstagramView;
+    }
+
+    public void loadImage(ImageView imageView, Uri uri) {
+        if (uri != null) {
+            //If there is a picture then try to load it
+            Picasso.with(getContext()).load(uri).into(imageView);
+        } else {
+            //If there isn't an image for the user then we use the default
+            imageView.setImageResource(R.mipmap.temp);
+        }
     }
 }

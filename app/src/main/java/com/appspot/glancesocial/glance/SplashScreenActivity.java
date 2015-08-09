@@ -23,7 +23,7 @@ public class SplashScreenActivity extends Activity {
     @Override
     protected void onStart() {
         super.onStart();
-        int DELAY = 1000;
+        int DELAY = 500;
         SharedPreferences sharedPref = getPreferences(Context.MODE_PRIVATE);
         String seen_intro = sharedPref.getString(getString(R.string.seen_intro), "false");
         if (seen_intro == null || seen_intro.equals("false")) {

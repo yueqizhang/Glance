@@ -1,11 +1,12 @@
 <resources>
+    <!-- General Strings -->
     <string name="app_name">Glance</string>
-    <string name="hello_world">Hello world!</string>
     <string name="action_settings">Settings</string>
     <string name="default_account">Account</string>
     <string name="profile_picture">Profile Picture</string>
     <string name="post_picture">Post Picture</string>
 
+    <!-- Intro Screen Strings -->
     <string name="intro_text_1">Welcome to Glance where you can get all of your relevant social
         media posts at a glance.</string>
     <string name="intro_text_2">Get relevant posts in one app instead of wasting your time checking
@@ -16,6 +17,17 @@
     <string name="intro_tailored">Tailored</string>
     <string name="add_accounts">Add Accounts</string>
 
+    <!-- Twitter Info Side of Card Strings -->
+    <string name="open_twitter">Open Twitter</string>
+    <string name="favorite">Favorite</string>
+    <string name="retweet">Retweet</string>
+
+    <!-- Account Settings Strings -->
+    <string name="disconnect_account">Disconnect Account</string>
+    <string name="add_friend">Add Friend</string>
+    <string name="delete_friend">Delete Friend</string>
+
+    <!-- Colors -->
     <color name="white">#FFFFFF</color>
     <color name="black">#000</color>
     <color name="blue">#2196F3</color>
@@ -23,10 +35,13 @@
     <color name="light_blue">#03A9F4</color>
     <color name="deep_purple">#673AB7</color>
 
+    <!-- Animation timing -->
     <integer name="card_flip_time_full">300</integer>
     <integer name="card_flip_time_half">150</integer>
 
+    <!-- Shared Preferences -->
     <string name="twitter_added">false</string>
     <string name="instagram_added">false</string>
     <string name="seen_intro">false</string>
+    <string name="open_instagram">Open Instagram</string>
 </resources>

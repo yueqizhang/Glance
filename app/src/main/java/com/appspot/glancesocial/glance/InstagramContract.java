@@ -65,6 +65,4 @@ public class InstagramContract {
             return CONTENT_URI.buildUpon().appendPath(user).build();
         }
     }
-
-
 }

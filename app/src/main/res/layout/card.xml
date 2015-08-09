@@ -69,7 +69,7 @@
         android:padding="5dp"
         android:background="@drawable/layer_card_background">
         <ImageView
-            android:id="@+id/info_user_image"
+            android:id="@+id/info_user_image_twitter"
             android:layout_width="68dp"
             android:layout_height="68dp"
             android:layout_centerVertical="true"
@@ -83,10 +83,10 @@
             android:layout_width="wrap_content"
             android:textSize="12sp"
             android:gravity="center|center_vertical"
-            android:text="Open Twitter"
+            android:text="@string/open_twitter"
             android:layout_alignParentTop="true"
             android:layout_alignParentBottom="true"
-            android:layout_toRightOf="@+id/info_user_image"
+            android:layout_toRightOf="@+id/info_user_image_twitter"
             android:onClick="openTwitterClickHandler"/>
         <Button
             android:id="@+id/favorite_twitter"
@@ -94,7 +94,7 @@
             android:layout_width="wrap_content"
             android:textSize="12sp"
             android:gravity="center|center_vertical"
-            android:text="Favorite"
+            android:text="@string/favorite"
             android:layout_toRightOf="@+id/open_twitter"
             android:layout_alignParentRight="true"
             android:layout_alignParentEnd="true"
@@ -105,7 +105,7 @@
             android:layout_width="wrap_content"
             android:textSize="12sp"
             android:gravity="center|center_vertical"
-            android:text="Retweet"
+            android:text="@string/retweet"
             android:layout_below="@+id/favorite_twitter"
             android:layout_alignParentRight="true"
             android:layout_alignParentEnd="true"
@@ -113,45 +113,35 @@
             android:layout_toEndOf="@+id/open_twitter"
             android:onClick="retweetTweetClickHandler"/>
     </RelativeLayout>
-    <!--<RelativeLayout-->
-        <!--android:id="@+id/card_info_instagram"-->
-        <!--android:layout_width="match_parent"-->
-        <!--android:layout_height="match_parent"-->
-        <!--android:layout_gravity="center"-->
-        <!--android:gravity="left"-->
-        <!--android:layout_margin="5dp"-->
-        <!--android:background="@drawable/layer_card_background">-->
-        <!--<ListView-->
-        <!--android:id="@+id/comment_list"-->
-        <!--android:layout_width="match_parent"-->
-        <!--android:layout_height="match_parent">-->
-        <!--<RelativeLayout-->
-        <!--android:layout_width="match_parent"-->
-        <!--android:layout_height="match_parent">-->
-        <!--<ImageView-->
-        <!--android:id="@+id/comment_user_image"-->
-        <!--android:layout_width="34dp"-->
-        <!--android:layout_height="34dp"-->
-        <!--android:layout_margin="13dp"-->
-        <!--android:contentDescription="@string/profile_picture" />-->
-        <!--<TextView-->
-            <!--android:id="@+id/comment_user_name"-->
-            <!--android:layout_width="fill_parent"-->
-            <!--android:layout_height="34dp"-->
-            <!--android:textSize="20sp"-->
-            <!--android:gravity="left|center_vertical"-->
-            <!--android:text="COMMENTS"/>-->
-        <!--android:layout_alignTop="@+id/comment_user_image"-->
-        <!--android:layout_toRightOf="@+id/comment_user_image"-->
-        <!--android:layout_alignRight="@+id/user_comment"-->
-        <!--android:layout_alignEnd="@+id/user_comment" />-->
-        <!--<TextView-->
-        <!--android:id="@+id/user_comment"-->
-        <!--android:layout_width="match_parent"-->
-        <!--android:layout_height="wrap_content"-->
-        <!--android:layout_below="@+id/comment_user_name"-->
-        <!--android:layout_margin="13dp"/>-->
-        <!--</RelativeLayout>-->
-        <!--</ListView>-->
-    <!--</RelativeLayout>-->
+    <RelativeLayout
+        android:id="@+id/card_info_instagram"
+        android:layout_width="match_parent"
+        android:layout_height="78dp"
+        android:layout_gravity="center"
+        android:layout_margin="5dp"
+        android:padding="5dp"
+        android:background="@drawable/layer_card_background">
+        <ImageView
+            android:id="@+id/info_user_image_instagram"
+            android:layout_width="68dp"
+            android:layout_height="68dp"
+            android:layout_centerVertical="true"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:contentDescription="@string/profile_picture" />
+        <Button
+            android:id="@+id/open_instagram"
+            android:layout_height="68dp"
+            android:layout_width="wrap_content"
+            android:textSize="12sp"
+            android:gravity="center|center_vertical"
+            android:text="@string/open_instagram"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentBottom="true"
+            android:layout_toRightOf="@+id/info_user_image_instagram"
+            android:onClick="openInstagramClickHandler"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentEnd="true" />
+    </RelativeLayout>
 </ViewFlipper>

@@ -127,10 +127,10 @@ public class SettingsActivity extends ActionBarActivity {
                             }
                             break;
                         default: // Others
-                            String clickedAccount = mAccountAdapter.getItem(position);
-                            Intent intent = new Intent(getActivity(), AccountActivity.class)
-                                    .putExtra(Intent.EXTRA_TEXT, clickedAccount);
-                            startActivity(intent);
+//                            String clickedAccount = mAccountAdapter.getItem(position);
+//                            Intent intent = new Intent(getActivity(), AccountActivity.class)
+//                                    .putExtra(Intent.EXTRA_TEXT, clickedAccount);
+//                            startActivity(intent);
                             break;
                     }
                 }

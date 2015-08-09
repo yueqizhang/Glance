@@ -28,6 +28,16 @@ public class Post {
     }
 
     // No Profile Picture Text Post Constructor
+    public Post(String userName, String userHandle, Uri userPic) {
+        this.postType = null;
+        this.userName = userName;
+        this.userHandle = userHandle;
+        this.userPic = userPic;
+        this.postText = null;
+        this.postPic = null;
+    }
+
+    // No Profile Picture Text Post Constructor
     public Post(String postType, String userName, String userHandle, String postText) {
         this.postType = postType;
         this.userName = userName;

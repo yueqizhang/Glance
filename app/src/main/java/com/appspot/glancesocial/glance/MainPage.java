@@ -19,6 +19,7 @@ public class MainPage extends ActionBarActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.main_page);
         ActionBar actionBar = getSupportActionBar();
+        assert actionBar != null;
         actionBar.setTitle("Glance");
         if (savedInstanceState == null) {
             getSupportFragmentManager().beginTransaction()
@@ -79,6 +80,12 @@ public class MainPage extends ActionBarActivity {
 
     public void retweetTweetClickHandler(View target) {
         CharSequence text = "Retweeted";
+        Toast toast = Toast.makeText(this, text, Toast.LENGTH_SHORT);
+        toast.show();
+    }
+
+    public void openInstagramClickHandler(View target) {
+        CharSequence text = "Open Instagram";
         Toast toast = Toast.makeText(this, text, Toast.LENGTH_SHORT);
         toast.show();
     }
