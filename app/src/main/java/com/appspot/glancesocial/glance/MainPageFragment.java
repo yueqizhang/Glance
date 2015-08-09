@@ -39,6 +39,15 @@ public class MainPageFragment extends Fragment {
         View rootView = inflater.inflate(R.layout.main_fragment, container, false);
         StaggeredGridView gridView = (StaggeredGridView) rootView.findViewById(R.id.gridview_posts);
         // Create some dummy data for the GridView.
+        String[] postType = {
+                "twitter", "instagram",
+                "twitter", "instagram",
+                "twitter", "twitter",
+                "twitter", "twitter",
+                "twitter", "twitter",
+                "twitter", "twitter",
+                "twitter", "twitter"
+        };
         String[] userNames = {
                 "Jonah Starling", "Christina",
                 "Daisy", "Fran",
@@ -94,7 +103,7 @@ public class MainPageFragment extends Fragment {
         Post newPost;
         for (int i = 0; i < 30; i++) {
             try {
-                newPost = new Post(userNames[i], userHandle[i], userPic[i], postText[i], postPic[i]);
+                newPost = new Post(postType[i], userNames[i], userHandle[i], userPic[i], postText[i], postPic[i]);
             } catch (ArrayIndexOutOfBoundsException e) {
                 //Create empty post
                 newPost = new Post();

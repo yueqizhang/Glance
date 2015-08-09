@@ -6,6 +6,8 @@ import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarActivity;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.Toast;
 
 
 public class MainPage extends ActionBarActivity {
@@ -63,18 +65,35 @@ public class MainPage extends ActionBarActivity {
         this.finishAffinity();
     }
 
-    //App can't handle this yet. Slows down and tries to crash.
-//    @Override
-//    public void onWindowFocusChanged(boolean hasFocus) {
-//        super.onWindowFocusChanged(hasFocus);
-//        View view = getWindow().getDecorView().findViewById(R.id.gridview_posts);
-//        if (hasFocus) {
-//            view.setSystemUiVisibility(
-//                    View.SYSTEM_UI_FLAG_IMMERSIVE
-//                    | View.SYSTEM_UI_FLAG_HIDE_NAVIGATION
-//                    | View.SYSTEM_UI_FLAG_FULLSCREEN
-//            );
-//        }
-//    }
+    public void openTwitterClickHandler(View target) {
+        CharSequence text = "Open Twitter";
+        Toast toast = Toast.makeText(this, text, Toast.LENGTH_SHORT);
+        toast.show();
+    }
+
+    public void favoriteTweetClickHandler(View target) {
+        CharSequence text = "Favorited";
+        Toast toast = Toast.makeText(this, text, Toast.LENGTH_SHORT);
+        toast.show();
+    }
+
+    public void retweetTweetClickHandler(View target) {
+        CharSequence text = "Retweeted";
+        Toast toast = Toast.makeText(this, text, Toast.LENGTH_SHORT);
+        toast.show();
+    }
+
+    @Override
+    public void onWindowFocusChanged(boolean hasFocus) {
+        super.onWindowFocusChanged(hasFocus);
+        View view = getWindow().getDecorView().findViewById(R.id.gridview_posts);
+        if (hasFocus) {
+            view.setSystemUiVisibility(
+                    View.SYSTEM_UI_FLAG_IMMERSIVE
+                    | View.SYSTEM_UI_FLAG_HIDE_NAVIGATION
+                    | View.SYSTEM_UI_FLAG_FULLSCREEN
+            );
+        }
+    }
 }
 

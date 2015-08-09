@@ -10,6 +10,7 @@ public class Post {
     private final String LOG_TAG = TwitterActivity.class.getSimpleName();
 
     //Private Variables for the post
+    private String postType;
     private String userName;
     private String userHandle;
     private Uri userPic;
@@ -18,6 +19,7 @@ public class Post {
 
     // Default Constructor
     public Post() {
+        this.postType = null;
         this.userName = "User";
         this.userHandle = "@User";
         this.userPic = null;
@@ -26,7 +28,8 @@ public class Post {
     }
 
     // No Profile Picture Text Post Constructor
-    public Post(String userName, String userHandle, String postText) {
+    public Post(String postType, String userName, String userHandle, String postText) {
+        this.postType = postType;
         this.userName = userName;
         this.userHandle = userHandle;
         this.userPic = null;
@@ -35,7 +38,8 @@ public class Post {
     }
 
     // Text Post Constructor
-    public Post(String userName, String userHandle, Uri userPic, String postText) {
+    public Post(String postType, String userName, String userHandle, Uri userPic, String postText) {
+        this.postType = postType;
         this.userName = userName;
         this.userHandle = userHandle;
         this.userPic = userPic;
@@ -44,7 +48,8 @@ public class Post {
     }
 
     // Image Post Constructor
-    public Post(String userName, String userHandle, Uri userPic, Uri postPic) {
+    public Post(String postType, String userName, String userHandle, Uri userPic, Uri postPic) {
+        this.postType = postType;
         this.userName = userName;
         this.userHandle = userHandle;
         this.userPic = userPic;
@@ -53,7 +58,8 @@ public class Post {
     }
 
     // No Profile Picture Image Post Constructor
-    public Post(String userName, String userHandle, Uri postPic) {
+    public Post(String postType, String userName, String userHandle, Uri postPic) {
+        this.postType = postType;
         this.userName = userName;
         this.userHandle = userHandle;
         this.userPic = null;
@@ -62,7 +68,8 @@ public class Post {
     }
 
     // Image and Text Post Constructor
-    public Post(String userName, String userHandle, Uri userPic, String postText, Uri postPic) {
+    public Post(String postType, String userName, String userHandle, Uri userPic, String postText, Uri postPic) {
+        this.postType = postType;
         this.userName = userName;
         this.userHandle = userHandle;
         this.userPic = userPic;
@@ -71,7 +78,8 @@ public class Post {
     }
 
     // No Profile Picture Image and Text Post Constructor
-    public Post(String userName, String userHandle, String postText, Uri postPic) {
+    public Post(String postType, String userName, String userHandle, String postText, Uri postPic) {
+        this.postType = postType;
         this.userName = userName;
         this.userHandle = userHandle;
         this.userPic = null;
@@ -79,8 +87,8 @@ public class Post {
         this.postPic = postPic;
     }
 
-
     // Get Functions
+    public String getPostType() { return this.postType; }
     public String getUserName() { return this.userName; }
     public String getUserHandle() { return this.userHandle; }
     public Uri getUserPic() { return this.userPic; }
@@ -88,6 +96,7 @@ public class Post {
     public Uri getPostPic() { return this.postPic; }
 
     // Set Functions
+    public void setPostType(String postType) { this.postType = postType; }
     public void setUserName(String userName) { this.userName = userName; }
     public void setUserHandle(String userHandle) { this.userHandle = userHandle; }
     public void setUserPic(Uri userPic) { this.userPic = userPic; }

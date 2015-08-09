@@ -49,6 +49,8 @@ public class CardAdapter extends ArrayAdapter<Post> {
             holder.postTextView = (TextView)row.findViewById(R.id.post_caption);
             holder.postPicView = (ImageView)row.findViewById(R.id.post_image);
 
+            holder.infoUserPicView = (ImageView)row.findViewById(R.id.info_user_image);
+
             row.setTag(holder);
         } else {
             holder = (ViewHolder)row.getTag();
@@ -59,7 +61,7 @@ public class CardAdapter extends ArrayAdapter<Post> {
         //Set the text for username
         holder.userNameView.setText(post.getUserName());
 
-        //Set the text for username
+        //Set the text for user handle
         holder.userHandleView.setText(post.getUserHandle());
 
         //Check to see if the user has a profile picture
@@ -83,6 +85,15 @@ public class CardAdapter extends ArrayAdapter<Post> {
             holder.postPicView.setVisibility(View.GONE);
         }
 
+        //Check to see if the user has a profile picture
+        if (post.getUserPic() != null) {
+            //If there is a picture then try to load it
+            Picasso.with(getContext()).load(post.getUserPic()).into(holder.infoUserPicView);
+        } else {
+            //If there isn't an image for the user then we use the default
+            holder.infoUserPicView.setImageResource(R.mipmap.temp);
+        }
+
         return row;
     }
 
@@ -92,5 +103,7 @@ public class CardAdapter extends ArrayAdapter<Post> {
         ImageView userPicView;
         TextView postTextView;
         ImageView postPicView;
+
+        ImageView infoUserPicView;
     }
 }
