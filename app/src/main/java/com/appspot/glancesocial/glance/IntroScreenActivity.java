@@ -1,5 +1,6 @@
 package com.appspot.glancesocial.glance;
 
+import android.annotation.TargetApi;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -55,8 +56,24 @@ public class IntroScreenActivity extends FragmentActivity {
         }
     }
 
+    // Click Handler for button on the third page
     public void clickHandler(View target) {
         Intent intent = new Intent(target.getContext(), SettingsActivity.class);
         startActivity(intent);
+    }
+
+    // Sends the view to fullscreen immersive mode
+    @Override
+    @TargetApi(19)
+    public void onWindowFocusChanged(boolean hasFocus) {
+        super.onWindowFocusChanged(hasFocus);
+        View view = getWindow().getDecorView().findViewById(R.id.gridview_posts);
+        if (hasFocus && view != null) {
+            view.setSystemUiVisibility(
+                    View.SYSTEM_UI_FLAG_IMMERSIVE
+                            | View.SYSTEM_UI_FLAG_HIDE_NAVIGATION
+                            | View.SYSTEM_UI_FLAG_FULLSCREEN
+            );
+        }
     }
 }

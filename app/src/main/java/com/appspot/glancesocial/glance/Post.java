@@ -13,6 +13,7 @@ public class Post {
     private String postType;
     private String userName;
     private String userHandle;
+    private String postTime;
     private Uri userPic;
     private String postText;
     private Uri postPic;
@@ -22,6 +23,7 @@ public class Post {
         this.postType = null;
         this.userName = "User";
         this.userHandle = "@User";
+        this.postTime = "0s";
         this.userPic = null;
         this.postText = "Example Post";
         this.postPic = null;
@@ -32,16 +34,18 @@ public class Post {
         this.postType = null;
         this.userName = userName;
         this.userHandle = userHandle;
+        this.postTime = null;
         this.userPic = userPic;
         this.postText = null;
         this.postPic = null;
     }
 
     // Full Constructor
-    public Post(String postType, String userName, String userHandle, Uri userPic, String postText, Uri postPic) {
+    public Post(String postType, String userName, String userHandle, String postTime, Uri userPic, String postText, Uri postPic) {
         this.postType = postType;
         this.userName = userName;
         this.userHandle = userHandle;
+        this.postTime = postTime;
         this.userPic = userPic;
         this.postText = postText;
         this.postPic = postPic;
@@ -51,6 +55,7 @@ public class Post {
     public String getPostType() { return this.postType; }
     public String getUserName() { return this.userName; }
     public String getUserHandle() { return this.userHandle; }
+    public String getPostTime() { return  this.postTime; }
     public Uri getUserPic() { return this.userPic; }
     public String getPostText() { return this.postText; }
     public Uri getPostPic() { return this.postPic; }
@@ -59,6 +64,7 @@ public class Post {
     public void setPostType(String postType) { this.postType = postType; }
     public void setUserName(String userName) { this.userName = userName; }
     public void setUserHandle(String userHandle) { this.userHandle = userHandle; }
+    public void setPostTime(String postTime) { this.postTime = postTime; }
     public void setUserPic(Uri userPic) { this.userPic = userPic; }
     public void setPostText(String postText) { this.postText = postText; }
     public void setPostPic(Uri postPic) { this.postPic = postPic; }

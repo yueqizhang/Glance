@@ -22,6 +22,7 @@ public class MainPageFragment extends Fragment {
     public ViewFlipper currentlyFlipped;
     public ArrayList<Post> posts = new ArrayList<Post>();
 
+    // Default Constructor
     public MainPageFragment() {
     }
 
@@ -97,7 +98,7 @@ public class MainPageFragment extends Fragment {
         Post newPost;
         for (int i = 0; i < 14; i++) {
             try {
-                newPost = new Post(postType[i], userNames[i], userHandle[i], userPic[i], postText[i], postPic[i]);
+                newPost = new Post(postType[i], userNames[i], userHandle[i], "1414678736", userPic[i], postText[i], postPic[i]);
             } catch (ArrayIndexOutOfBoundsException e) {
                 //Create empty post
                 newPost = new Post();
@@ -138,6 +139,7 @@ public class MainPageFragment extends Fragment {
         return rootView;
     }
 
+    // Takes the Array of Post Objects and updates the Staggered Grid View
     public void updateGridView(StaggeredGridView gridView, ArrayList<Post> posts, View rootView) {
         mPostAdapter =
                 new CardAdapter(
