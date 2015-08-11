@@ -9,6 +9,7 @@ import android.util.Log;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 import android.widget.Toast;
+import com.appspot.glancesocial.glance.Utility.*;
 
 public class InstaWebViewActivity extends Activity {
     // Use LOG_TAG when logging anything
@@ -61,6 +62,10 @@ public class InstaWebViewActivity extends Activity {
                         editor.apply();
                         Toast toast = Toast.makeText(context, text, Toast.LENGTH_LONG);
                         toast.show();
+                        GetOwnerId getID = new Utility().new GetOwnerId();
+                        getID.execute();
+                        Intent serviceIntent = new Intent(context, InstagramService.class);
+                        startService(serviceIntent);
                         // Calling finish instead of an intent so you don't see the login screen
                         // again when you press the back button
                         finish();
@@ -78,7 +83,6 @@ public class InstaWebViewActivity extends Activity {
                     Log.d(LOG_TAG, "onpagefinished failed");
                 }
                 super.onPageFinished(view, url);
-
             }
         });
 
