@@ -36,7 +36,7 @@ import java.net.URL;
 public class Utility {
     // Use LOG_TAG when logging anything
     private final String LOG_TAG = Utility.class.getSimpleName();
-    String ownerID;
+    static String ownerID;
 
     public static void setMargins (View v, int l, int t, int r, int b) {
         if (v.getLayoutParams() instanceof ViewGroup.MarginLayoutParams) {

@@ -26,6 +26,7 @@ import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.ExecutionException;
 
 /**
  * Created by yueqizhang on 7/30/15.
@@ -37,13 +38,11 @@ public class InstagramService extends IntentService {
     final static String INSTA_BASE_URL = "https://api.instagram.com/v1/";
     final String ACCESS = "access_token";
     final int MAX_FRIENDS = 10;
-    public String ownerID = null;
     String lastLikeID = null;
     URL url;
     HttpURLConnection urlConnection = null;
     BufferedReader reader = null;
     String mediaLiked = null;
-    //TODO: make this arraylist into a database
     ArrayList likedUsers = new ArrayList<String>();
 
     public InstagramService() {
@@ -52,7 +51,6 @@ public class InstagramService extends IntentService {
 
     @Override
     protected void onHandleIntent(Intent intent) {
-        Log.d(LOG_TAG, "InstagramService started **********");
         getLikedUsers();
         getBestFriends(likedUsers); //adds best friends to database
         getInstagramFeed();
@@ -140,6 +138,16 @@ public class InstagramService extends IntentService {
         });
         int pos = (MAX_FRIENDS < usersMap.size()) ? MAX_FRIENDS : usersMap.size();
         int i = 0;
+        if(InstaWebViewActivity.getID != null) {
+            try { //waits for thread to finish, if not done
+                InstaWebViewActivity.getID.get();
+                Log.d(LOG_TAG, "Owner ID = " + Utility.ownerID);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            } catch (ExecutionException e) {
+                e.printStackTrace();
+            }
+        }
         add:
         for (Object e : a) {
             i++;
