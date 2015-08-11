@@ -19,7 +19,6 @@ import android.widget.ImageView;
 import com.parse.ParseObject;
 import com.squareup.picasso.Picasso;
 
-<<<<<<< HEAD
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -30,12 +29,10 @@ import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
-=======
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.Locale;
->>>>>>> upstream/master
 
 /**
  * Created by yueqizhang on 7/30/15.
@@ -89,7 +86,6 @@ public class Utility {
         }
     }
 
-<<<<<<< HEAD
     public class GetOwnerId extends AsyncTask<Void, Void, Void> {
 
         @Override
@@ -282,7 +278,6 @@ public class Utility {
     }
 
 
-=======
     // Twitter Date Formatting
     public static String formatTwitterDate(String unformattedDate) {
         // TODO: Format the date and get how long ago it was posted
@@ -363,5 +358,4 @@ public class Utility {
 
         return howLongAgo;
     }
->>>>>>> upstream/master
 }
