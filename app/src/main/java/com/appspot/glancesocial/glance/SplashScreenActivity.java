@@ -7,6 +7,9 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.Handler;
 
+import com.parse.Parse;
+import com.parse.ParseObject;
+
 /**
  * Created by Jonah on 8/7/15.
  */
@@ -18,6 +21,12 @@ public class SplashScreenActivity extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.splash_screen_page);
+        // Enable Local Datastore.
+        Parse.enableLocalDatastore(this);
+        Parse.initialize(this, "t7aZ9iBlFtU4JOXtvm2F3Hb5A0zqOXh2uysEeZ3X", "mUp7lGpKhfhHOuJ0DZCjvJOzDt8wQouo1wWsRHM9");
+        ParseObject testObject = new ParseObject("TestObject");
+        testObject.put("foo", "bar");
+        testObject.saveInBackground();
     }
 
     @Override

@@ -10,16 +10,32 @@ import android.graphics.PorterDuffXfermode;
 import android.graphics.Rect;
 import android.graphics.RectF;
 import android.net.Uri;
+import android.os.AsyncTask;
+import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 
+import com.parse.ParseObject;
 import com.squareup.picasso.Picasso;
 
+<<<<<<< HEAD
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.net.HttpURLConnection;
+import java.net.MalformedURLException;
+import java.net.URL;
+=======
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.Locale;
+>>>>>>> upstream/master
 
 /**
  * Created by yueqizhang on 7/30/15.
@@ -27,6 +43,7 @@ import java.util.Locale;
 public class Utility {
     // Use LOG_TAG when logging anything
     private final String LOG_TAG = Utility.class.getSimpleName();
+    static String ownerID;
 
     //Can be used to set the margins of a given view
     public static void setMargins (View v, int l, int t, int r, int b) {
@@ -72,6 +89,200 @@ public class Utility {
         }
     }
 
+<<<<<<< HEAD
+    public class GetOwnerId extends AsyncTask<Void, Void, Void> {
+
+        @Override
+        protected Void doInBackground(Void... params) {
+            URL url;
+            HttpURLConnection urlConnection = null;
+            StringBuilder builtUri = new StringBuilder();
+            BufferedReader reader = null;
+
+            builtUri.append(InstagramService.INSTA_BASE_URL)
+                    .append("users/self")
+                    .append("/?access_token=")
+                    .append(InstaWebViewActivity.accessToken);
+            try {
+                url = new URL(builtUri.toString());
+                urlConnection = (HttpURLConnection) url.openConnection();
+                urlConnection.setRequestMethod("GET");
+                urlConnection.connect();
+                InputStream inputStream = urlConnection.getInputStream();
+                StringBuffer buffer = new StringBuffer();
+                if (inputStream == null)
+                    return null;
+                reader = new BufferedReader(new InputStreamReader(inputStream));
+
+                String line;
+                while ((line = reader.readLine()) != null) {
+                    buffer.append(line + "\n");
+                }
+                JSONObject obj = new JSONObject(buffer.toString());
+                JSONObject user = obj.getJSONObject("data");
+                ownerID = user.getString("id");
+            } catch (JSONException e) {
+                e.printStackTrace();
+            } catch (MalformedURLException e) {
+                e.printStackTrace();
+            } catch (IOException e) {
+                e.printStackTrace();
+            } finally{
+                if (urlConnection != null) {
+                    urlConnection.disconnect();
+                }
+                if (reader != null) {
+                    try {
+                        reader.close();
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                }
+            }
+            return null;
+        }
+    }
+
+    public class AddUserToParse extends AsyncTask<Void, Void, Void> {
+        String userID;
+        int rank;
+        public AddUserToParse(String userID, int rank) {
+            this.userID = userID;
+            this.rank = rank;
+        }
+
+        @Override
+        protected Void doInBackground(Void... params) {
+            URL url;
+            HttpURLConnection urlConnection = null;
+            StringBuilder builtUri = new StringBuilder();
+            BufferedReader reader = null;
+            String userName = "";
+            String proPic = "";
+
+            builtUri.append(InstagramService.INSTA_BASE_URL)
+                    .append("users/")
+                    .append(userID)
+                    .append("/?access_token=")
+                    .append(InstaWebViewActivity.accessToken);
+            try {
+                url = new URL(builtUri.toString());
+                urlConnection = (HttpURLConnection) url.openConnection();
+                urlConnection.setRequestMethod("GET");
+                urlConnection.connect();
+                InputStream inputStream = urlConnection.getInputStream();
+                StringBuffer buffer = new StringBuffer();
+                if (inputStream == null)
+                    return null;
+                reader = new BufferedReader(new InputStreamReader(inputStream));
+
+                String line;
+                while ((line = reader.readLine()) != null) {
+                    buffer.append(line + "\n");
+                }
+                JSONObject obj = new JSONObject(buffer.toString());
+                JSONObject user = obj.getJSONObject("data");
+                userName = user.getString("username");
+                proPic = user.getString("profile_picture");
+            } catch (JSONException e) {
+                e.printStackTrace();
+            } catch (MalformedURLException e) {
+                e.printStackTrace();
+            } catch (IOException e) {
+                e.printStackTrace();
+            } finally{
+                if (urlConnection != null) {
+                    urlConnection.disconnect();
+                }
+                if (reader != null) {
+                    try {
+                        reader.close();
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                }
+            }
+
+            ParseObject parseUser = new ParseObject("InstagramUser");
+
+
+            parseUser.put("userName", userName);
+            parseUser.put("userId", userID);
+            parseUser.put("profilePic", proPic);
+            parseUser.put("rank", rank);
+            parseUser.put("ownerID", ownerID);
+            parseUser.saveInBackground();
+            return null;
+        }
+    }
+
+    public class AddPostToParse extends AsyncTask<Void, Void, Void> {
+        JSONObject post;
+        String userIdInDB;
+
+        public AddPostToParse(JSONObject post, String userIdInDB) {
+            this.post = post;
+            this.userIdInDB = userIdInDB;
+        }
+
+        @Override
+        protected Void doInBackground(Void... params) {
+            String postID;
+            String thumbnail;
+            String lowImage;
+            String caption;
+            int createdTime;
+            String location = null;
+            int comments;
+            int likes;
+            ParseObject postParse = new ParseObject("InstagramPosts");
+
+            try {
+                postID = post.getString("id");
+                JSONObject image = post.getJSONObject("images");
+                JSONObject thumbnailObj = image.getJSONObject("thumbnail");
+                thumbnail = thumbnailObj.getString("url");
+                JSONObject lowImageObj = image.getJSONObject("low_resolution");
+                lowImage = lowImageObj.getString("url");
+                JSONObject captionObj = post.getJSONObject("caption");
+                caption = captionObj.getString("text");
+                createdTime = Integer.parseInt(captionObj.getString("created_time"));
+                JSONObject locationObj = post.getJSONObject("location");
+                if (locationObj.has("name") && !locationObj.isNull("name")) {
+                    location = locationObj.getString("name");
+                }
+                JSONObject commentsObj = post.getJSONObject("comments");
+                comments = Integer.parseInt(commentsObj.getString("count"));
+                JSONObject likesObj = post.getJSONObject("likes");
+                likes = Integer.parseInt(likesObj.getString("count"));
+
+                Log.d(LOG_TAG, userIdInDB);
+                Log.d(LOG_TAG, thumbnail);
+                Log.d(LOG_TAG, caption);
+                Log.d(LOG_TAG, lowImage);
+
+                postParse.put("userId", userIdInDB);
+                postParse.put("thumbnail", thumbnail);
+                postParse.put("caption", caption);
+                postParse.put("comments", comments);
+                postParse.put("createdTime", createdTime);
+                postParse.put("likes", likes);
+                postParse.put("location", location);
+                postParse.put("lowImage", lowImage);
+                postParse.put("postId", postID);
+                postParse.put("ownerID", ownerID);
+                postParse.saveInBackground();
+
+            } catch (JSONException e) {
+                Log.e(LOG_TAG, e.getMessage(), e);
+                e.printStackTrace();
+            }
+            return null;
+        }
+    }
+
+
+=======
     // Twitter Date Formatting
     public static String formatTwitterDate(String unformattedDate) {
         // TODO: Format the date and get how long ago it was posted
@@ -152,4 +363,5 @@ public class Utility {
 
         return howLongAgo;
     }
+>>>>>>> upstream/master
 }
