@@ -18,7 +18,7 @@ public class TwitterContract {
     public static final class UserEntry implements BaseColumns {
 
         public static final String TABLE_NAME = "user";
-        public static final String COLUMN_USER_NAME = "user_name";
+        public static final String COLUMN_LOC_KEY = "user_name"; //connects to post table
         public static final String COLUMN_PROFILE_PIC = "profile_pic";
         public static final String COLUMN_FRIEND_RANK = "friend_rank";
         public static final String COLUMN_USER_ID = "user_id"; //used in api to get info about the user
@@ -41,7 +41,7 @@ public class TwitterContract {
     public static final class PostEntry implements BaseColumns {
 
         public static final String TABLE_NAME = "post";
-        public static final String COLUMN_USER_KEY = "user_id";
+        public static final String COLUMN_USER_KEY = "user_id"; //connects to user's top friends
         public static final String COLUMN_POST_ID = "post_id";
         public static final String COLUMN_LOW_IMAGE = "low_image"; //low-res image
         public static final String COLUMN_HIGH_IMAGE = "high_image"; //high-res image for when post is expanded
