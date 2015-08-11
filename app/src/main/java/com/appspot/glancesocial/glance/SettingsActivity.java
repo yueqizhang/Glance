@@ -48,7 +48,7 @@ public class SettingsActivity extends ActionBarActivity {
         // We override this function for one reason:
         // We always want to send the user back to the main page
         // when they leave the settings page.
-        Intent intent = new Intent(getApplicationContext(), SplashScreenActivity.class);
+        Intent intent = new Intent(getApplicationContext(), MainPage.class);
         startActivity(intent);
     }
 
