@@ -37,7 +37,9 @@ public class TwitterActivity extends ActionBarActivity {
         setContentView(R.layout.twitter_auth);
         loginButton = (TwitterLoginButton) findViewById(R.id.twitter_login_button);
         loginButton.setCallback(new Callback<TwitterSession>() {
-            SharedPreferences sharedPref = getPreferences(Context.MODE_PRIVATE);
+            //TODO: This does NOT work
+            //TODO: Will need to use a different function to find a certain preference file
+            SharedPreferences sharedPref = getSharedPreferences("accountsAdded",Context.MODE_PRIVATE);
             @Override
             public void success(Result<TwitterSession> result) {
                 Context context = getApplicationContext();
@@ -46,6 +48,8 @@ public class TwitterActivity extends ActionBarActivity {
                 Toast toast = Toast.makeText(context, text, duration);
                 toast.show();
                 //Update that the user has added twitter
+                //TODO: This does NOT work
+                //TODO: Will need to use a different function to find a certain preference file
                 SharedPreferences.Editor editor = sharedPref.edit();
                 editor.putString(getString(R.string.twitter_added), "true");
                 editor.apply();
@@ -62,6 +66,8 @@ public class TwitterActivity extends ActionBarActivity {
                 Toast toast = Toast.makeText(context, text, duration);
                 toast.show();
                 //Update that the user has not added twitter
+                //TODO: This does NOT work
+                //TODO: Will need to use a different function to find a certain preference file
                 SharedPreferences.Editor editor = sharedPref.edit();
                 editor.putString(getString(R.string.twitter_added), "false");
                 editor.apply();

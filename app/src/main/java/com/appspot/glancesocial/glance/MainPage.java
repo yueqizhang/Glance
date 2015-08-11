@@ -1,7 +1,13 @@
 package com.appspot.glancesocial.glance;
 
 import android.annotation.TargetApi;
+import android.content.Context;
 import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.content.pm.ResolveInfo;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarActivity;
@@ -9,6 +15,8 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Toast;
+
+import java.util.List;
 
 
 public class MainPage extends ActionBarActivity {
@@ -26,6 +34,11 @@ public class MainPage extends ActionBarActivity {
             getSupportFragmentManager().beginTransaction()
                     .add(R.id.container, new MainPageFragment())
                     .commit();
+        }
+        if (! isNetworkAvailable()) {
+            CharSequence text = "No Internet Connection";
+            Toast toast = Toast.makeText(this, text, Toast.LENGTH_LONG);
+            toast.show();
         }
         Intent testIntent = new Intent(this, InstagramService.class);
         startService(testIntent);
@@ -67,15 +80,29 @@ public class MainPage extends ActionBarActivity {
         this.finishAffinity();
     }
 
+    private boolean isNetworkAvailable() {
+        ConnectivityManager connectivityManager
+                = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo activeNetworkInfo = connectivityManager.getActiveNetworkInfo();
+        return activeNetworkInfo != null && activeNetworkInfo.isConnected();
+    }
+
     public void openTwitterClickHandler(View target) {
         //TODO: Send user to Twitter app
-        CharSequence text = "Open Twitter";
-        Toast toast = Toast.makeText(this, text, Toast.LENGTH_SHORT);
-        toast.show();
+        Uri uri = Uri.parse("http://twitter.com/foreverjonah");
+        Intent twitterIntent = new Intent(Intent.ACTION_VIEW, uri);
+        twitterIntent.setPackage("com.twitter.android");
+
+        if (isIntentAvailable(getApplicationContext(), twitterIntent)){
+            startActivity(twitterIntent);
+        } else{
+            startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("http://twitter.com")));
+        }
     }
 
     public void favoriteTweetClickHandler(View target) {
         //TODO: Favorite the tweet associated to this view
+        //https://dev.twitter.com/rest/reference/post/favorites/create
         CharSequence text = "Favorited";
         Toast toast = Toast.makeText(this, text, Toast.LENGTH_SHORT);
         toast.show();
@@ -83,6 +110,7 @@ public class MainPage extends ActionBarActivity {
 
     public void retweetTweetClickHandler(View target) {
         //TODO: Retweet the tweet associated to this view
+        //https://dev.twitter.com/rest/reference/post/statuses/retweet/%3Aid
         CharSequence text = "Retweeted";
         Toast toast = Toast.makeText(this, text, Toast.LENGTH_SHORT);
         toast.show();
@@ -90,9 +118,21 @@ public class MainPage extends ActionBarActivity {
 
     public void openInstagramClickHandler(View target) {
         //TODO: Send user to Instagram app
-        CharSequence text = "Open Instagram";
-        Toast toast = Toast.makeText(this, text, Toast.LENGTH_SHORT);
-        toast.show();
+        Uri uri = Uri.parse("http://instagram.com/_u/foreverjonah");
+        Intent instagramIntent = new Intent(Intent.ACTION_VIEW, uri);
+        instagramIntent.setPackage("com.instagram.android");
+
+        if (isIntentAvailable(getApplicationContext(), instagramIntent)){
+            startActivity(instagramIntent);
+        } else{
+            startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("http://instagram.com")));
+        }
+    }
+
+    private boolean isIntentAvailable(Context ctx, Intent intent) {
+        final PackageManager packageManager = ctx.getPackageManager();
+        List<ResolveInfo> list = packageManager.queryIntentActivities(intent, PackageManager.MATCH_DEFAULT_ONLY);
+        return list.size() > 0;
     }
 
     @Override

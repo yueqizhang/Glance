@@ -93,7 +93,8 @@ public class SettingsActivity extends ActionBarActivity {
 
                 @Override
                 public void onItemClick(AdapterView<?> adapterView, View view, int position, long l) {
-                    SharedPreferences sharedPref = getActivity().getPreferences(Context.MODE_PRIVATE);
+                    //TODO: Use getSharedPreferences() instead of getPreferences()
+                    SharedPreferences sharedPref =  getActivity().getSharedPreferences("accountsAdded", Context.MODE_PRIVATE);
                     switch (position) {
                         case (0): // Twitter
                             if (sharedPref.getString(getString(R.string.twitter_added), "false").equals("true")) {
