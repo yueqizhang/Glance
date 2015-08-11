@@ -5,6 +5,8 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.content.pm.ResolveInfo;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v7.app.ActionBar;
@@ -32,6 +34,11 @@ public class MainPage extends ActionBarActivity {
             getSupportFragmentManager().beginTransaction()
                     .add(R.id.container, new MainPageFragment())
                     .commit();
+        }
+        if (! isNetworkAvailable()) {
+            CharSequence text = "No Internet Connection";
+            Toast toast = Toast.makeText(this, text, Toast.LENGTH_LONG);
+            toast.show();
         }
         Intent testIntent = new Intent(this, InstagramService.class);
         startService(testIntent);
@@ -71,6 +78,13 @@ public class MainPage extends ActionBarActivity {
         // they shouldn't be sent to the intro page. The app should close.
         // This function call will finish all activities (Login and Main).
         this.finishAffinity();
+    }
+
+    private boolean isNetworkAvailable() {
+        ConnectivityManager connectivityManager
+                = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo activeNetworkInfo = connectivityManager.getActiveNetworkInfo();
+        return activeNetworkInfo != null && activeNetworkInfo.isConnected();
     }
 
     public void openTwitterClickHandler(View target) {

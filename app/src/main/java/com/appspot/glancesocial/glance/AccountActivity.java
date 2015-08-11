@@ -1,8 +1,12 @@
 package com.appspot.glancesocial.glance;
 
+import android.content.Context;
+import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
 import android.view.View;
+import android.widget.TextView;
 import android.widget.Toast;
 
 /**
@@ -30,9 +34,27 @@ public class AccountActivity extends ActionBarActivity {
 
     public void disconnectAccountClickHandler(View target) {
         //TODO: Disconnect the corresponding account
+        Intent intent = getIntent();
+        if (intent != null && intent.hasExtra(intent.EXTRA_TEXT)) {
+            String accountName = intent.getStringExtra(intent.EXTRA_TEXT);
+            ((TextView) findViewById(R.id.account_name)).setText(accountName);
+            SharedPreferences sharedPref = getSharedPreferences("accountsAdded", Context.MODE_PRIVATE);
+            if (accountName.equals("Twitter")) {
+                SharedPreferences.Editor editor = sharedPref.edit();
+                editor.putString(getString(R.string.twitter_added), "false");
+                editor.apply();
+                //TODO: Actually revoke permissions
+            } else if (accountName.equals("Instagram")) {
+                SharedPreferences.Editor editor = sharedPref.edit();
+                editor.putString(getString(R.string.instagram_added), "false");
+                editor.apply();
+                //TODO: Actually revoke permissions
+            }
+        }
         CharSequence text = "Account Disconnected";
         Toast toast = Toast.makeText(this, text, Toast.LENGTH_SHORT);
         toast.show();
+        finish();
     }
 
     public void addFriendClickHandler(View target) {

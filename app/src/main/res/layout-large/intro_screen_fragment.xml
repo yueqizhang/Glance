@@ -1,0 +1,55 @@
+<ScrollView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/slide_1"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/blue">
+
+    <RelativeLayout
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:padding="15dp">
+
+        <!-- Change the following:
+        marginTop
+        textSize
+        -->
+        <TextView
+            android:id="@+id/intro_title"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="50dp"
+            android:layout_gravity="center_horizontal"
+            android:gravity="center_horizontal"
+            android:textSize="64sp"
+            android:textColor="@color/white"/>
+
+        <!-- Change the following:
+        marginTop
+        textSize
+        -->
+        <TextView
+            android:id="@+id/text_instructions"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="250dp"
+            android:gravity="center_horizontal"
+            android:textSize="20sp"
+            android:textColor="@color/white"/>
+
+        <Button
+            android:id="@+id/continue_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/add_accounts"
+            android:padding="13dp"
+            android:layout_centerHorizontal="true"
+            android:layout_margin="50dp"
+            android:layout_below="@+id/text_instructions"
+            android:visibility="gone"
+            android:onClick="clickHandler"/>
+
+    </RelativeLayout>
+</ScrollView>
