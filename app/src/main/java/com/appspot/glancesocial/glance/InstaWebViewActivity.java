@@ -49,16 +49,16 @@ public class InstaWebViewActivity extends Activity {
             @Override
             public void onPageFinished(WebView view, String url) {
                 Intent intent;
-                SharedPreferences sharedPref = getPreferences(Context.MODE_PRIVATE);
+                SharedPreferences sharedPref = getSharedPreferences("accountsAdded", Context.MODE_PRIVATE);
                 if (url.contains("#access_token=")) {
                     accessToken = url.substring(url.indexOf("token=") + 6, url.length());
                     Log.d(LOG_TAG, "url: " + url);
                     Log.d(LOG_TAG, "access token: " + accessToken);
-                    SharedPreferences.Editor editor = sharedPref.edit();
-                    editor.putString(getString(R.string.instagram_added), "true");
-                    editor.apply();
                     if(fromSettingsActivity) { //if this is launched from Settings, returns user back to settings
                         CharSequence text = "Instagram login was successful";
+                        SharedPreferences.Editor editor = sharedPref.edit();
+                        editor.putString(getString(R.string.instagram_added), "true");
+                        editor.apply();
                         Toast toast = Toast.makeText(context, text, Toast.LENGTH_LONG);
                         toast.show();
                         // Calling finish instead of an intent so you don't see the login screen
@@ -70,9 +70,11 @@ public class InstaWebViewActivity extends Activity {
                         finish();
                     }
                 } else {
-                    SharedPreferences.Editor editor = sharedPref.edit();
-                    editor.putString(getString(R.string.instagram_added), "false");
-                    editor.apply();
+                    if (url.contains("error")) {
+                        SharedPreferences.Editor editor = sharedPref.edit();
+                        editor.putString(getString(R.string.instagram_added), "false");
+                        editor.apply();
+                    }
                     Log.d(LOG_TAG, "onpagefinished failed");
                 }
                 super.onPageFinished(view, url);

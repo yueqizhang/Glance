@@ -22,6 +22,9 @@
     <string name="favorite">Favorite</string>
     <string name="retweet">Retweet</string>
 
+    <!-- Instagram Info Side of Card Settings -->
+    <string name="open_instagram">Open Instagram</string>
+
     <!-- Account Settings Strings -->
     <string name="disconnect_account">Disconnect Account</string>
     <string name="add_friend">Add Friend</string>
@@ -43,5 +46,4 @@
     <string name="twitter_added">false</string>
     <string name="instagram_added">false</string>
     <string name="seen_intro">false</string>
-    <string name="open_instagram">Open Instagram</string>
 </resources>
