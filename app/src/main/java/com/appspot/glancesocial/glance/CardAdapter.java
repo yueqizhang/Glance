@@ -67,7 +67,7 @@ public class CardAdapter extends ArrayAdapter<Post> {
         holder.userHandleView.setText(post.getUserHandle());
 
         //Set the text for the time since the post was made
-        holder.postTimeView.setText(Utility.formatTwitterDate(post.getPostTime()));
+        holder.postTimeView.setText(Utility.formatInstagramDate(post.getPostTime()));
 
         //Load in the user image
         Utility.loadImage(getContext(), holder.userPicView, post.getUserPic());

@@ -98,7 +98,7 @@ public class MainPageFragment extends Fragment {
         Post newPost;
         for (int i = 0; i < 14; i++) {
             try {
-                newPost = new Post(postType[i], userNames[i], userHandle[i], "test", userPic[i], postText[i], postPic[i]);
+                newPost = new Post(postType[i], userNames[i], userHandle[i], "1414678736", userPic[i], postText[i], postPic[i]);
             } catch (ArrayIndexOutOfBoundsException e) {
                 //Create empty post
                 newPost = new Post();
