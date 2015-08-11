@@ -35,6 +35,7 @@ public class MainPage extends ActionBarActivity {
                     .add(R.id.container, new MainPageFragment())
                     .commit();
         }
+        // Check if the user doesn't have network connection and notify them
         if (! isNetworkAvailable()) {
             CharSequence text = "No Internet Connection";
             Toast toast = Toast.makeText(this, text, Toast.LENGTH_LONG);
@@ -47,6 +48,12 @@ public class MainPage extends ActionBarActivity {
     @Override
     protected void onResume() {
         super.onResume();
+        // Check if the user doesn't have network connection and notify them
+        if (! isNetworkAvailable()) {
+            CharSequence text = "No Internet Connection";
+            Toast toast = Toast.makeText(this, text, Toast.LENGTH_LONG);
+            toast.show();
+        }
     }
 
     @Override
@@ -80,6 +87,7 @@ public class MainPage extends ActionBarActivity {
         this.finishAffinity();
     }
 
+    // Gets whether the user has wifi/cellular connection
     private boolean isNetworkAvailable() {
         ConnectivityManager connectivityManager
                 = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
@@ -88,7 +96,7 @@ public class MainPage extends ActionBarActivity {
     }
 
     public void openTwitterClickHandler(View target) {
-        //TODO: Send user to Twitter app
+        //TODO: Send user to the specific tweet
         Uri uri = Uri.parse("http://twitter.com/foreverjonah");
         Intent twitterIntent = new Intent(Intent.ACTION_VIEW, uri);
         twitterIntent.setPackage("com.twitter.android");
@@ -117,7 +125,7 @@ public class MainPage extends ActionBarActivity {
     }
 
     public void openInstagramClickHandler(View target) {
-        //TODO: Send user to Instagram app
+        //TODO: Send user to the specific user page
         Uri uri = Uri.parse("http://instagram.com/_u/foreverjonah");
         Intent instagramIntent = new Intent(Intent.ACTION_VIEW, uri);
         instagramIntent.setPackage("com.instagram.android");
@@ -129,12 +137,14 @@ public class MainPage extends ActionBarActivity {
         }
     }
 
+    // Makes sure that the package and intent is legit and available
     private boolean isIntentAvailable(Context ctx, Intent intent) {
         final PackageManager packageManager = ctx.getPackageManager();
         List<ResolveInfo> list = packageManager.queryIntentActivities(intent, PackageManager.MATCH_DEFAULT_ONLY);
         return list.size() > 0;
     }
 
+    // Sends the view to fullscreen immersive mode
     @Override
     @TargetApi(19)
     public void onWindowFocusChanged(boolean hasFocus) {

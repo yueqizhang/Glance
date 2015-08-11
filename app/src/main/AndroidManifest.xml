@@ -47,7 +47,7 @@
             android:name=".AccountActivity">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.appspot.glancesocial.glance.SettingsActivity"/>
+                android:value=".SettingsActivity"/>
         </activity>
 
         <!--Meta Data for Fabric API (Twitter)-->

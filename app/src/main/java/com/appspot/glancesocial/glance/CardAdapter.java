@@ -45,6 +45,7 @@ public class CardAdapter extends ArrayAdapter<Post> {
             //Get the views that we will be editing on the front side
             holder.userNameView = (TextView)row.findViewById(R.id.user_name);
             holder.userHandleView = (TextView)row.findViewById(R.id.user_handle);
+            holder.postTimeView = (TextView)row.findViewById(R.id.post_time);
             holder.userPicView = (ImageView)row.findViewById(R.id.user_image);
             holder.postTextView = (TextView)row.findViewById(R.id.post_caption);
             holder.postPicView = (ImageView)row.findViewById(R.id.post_image);
@@ -64,6 +65,9 @@ public class CardAdapter extends ArrayAdapter<Post> {
 
         //Set the text for user handle
         holder.userHandleView.setText(post.getUserHandle());
+
+        //Set the text for the time since the post was made
+        holder.postTimeView.setText(Utility.formatTwitterDate(post.getPostTime()));
 
         //Load in the user image
         Utility.loadImage(getContext(), holder.userPicView, post.getUserPic());
@@ -98,6 +102,7 @@ public class CardAdapter extends ArrayAdapter<Post> {
         //Used on the front side (content side) of the cards
         TextView userNameView;
         TextView userHandleView;
+        TextView postTimeView;
         ImageView userPicView;
         TextView postTextView;
         ImageView postPicView;
