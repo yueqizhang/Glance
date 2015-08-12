@@ -65,7 +65,6 @@ public class InstagramService extends IntentService {
                     .append("users/self/feed?")
                     .append(ACCESS + "=")
                     .append(InstaWebViewActivity.accessToken);
-            Log.d(LOG_TAG, "Get instagram feed uri: " + builtUri.toString());
             String newLastLikedID = null;
             //TODO: add functionality to go to the next page in JSON
             url = new URL(builtUri.toString());
