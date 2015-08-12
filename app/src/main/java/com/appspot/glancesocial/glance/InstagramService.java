@@ -157,7 +157,7 @@ public class InstagramService extends IntentService {
             userQuery.whereEqualTo("userId", id)
                     .findInBackground(new FindCallback<ParseObject>() {
                         public void done(List<ParseObject> objects, ParseException ex) {
-                            if (ex == null) {
+                            if (ex != null) {
                                 String userId = ((Map.Entry<String, Integer>) post).getKey();
                                 int rank = ((Map.Entry<String, Integer>) post).getValue();
                                 Utility.AddUserToParse addUserTask = new Utility()
