@@ -15,13 +15,10 @@ import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
-
 import com.parse.ParseObject;
 import com.squareup.picasso.Picasso;
-
 import org.json.JSONException;
 import org.json.JSONObject;
-
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
@@ -277,7 +274,6 @@ public class Utility {
         }
     }
 
-
     // Twitter Date Formatting
     public static String formatTwitterDate(String unformattedDate) {
         // TODO: Format the date and get how long ago it was posted
@@ -290,27 +286,7 @@ public class Utility {
                     .parse(unformattedDate);
             postTimestamp.setTime(date);
             Calendar rightNow = Calendar.getInstance();
-            int week = rightNow.get(Calendar.WEEK_OF_YEAR);
-            int postWeek = postTimestamp.get(Calendar.WEEK_OF_YEAR);
-            int day = rightNow.get(Calendar.DAY_OF_YEAR);
-            int postDay = postTimestamp.get(Calendar.DAY_OF_YEAR);
-            int hour = rightNow.get(Calendar.HOUR);
-            int postHour = postTimestamp.get(Calendar.HOUR);
-            int minute = rightNow.get(Calendar.MINUTE);
-            int postMinute = postTimestamp.get(Calendar.MINUTE);
-            int second = rightNow.get(Calendar.SECOND);
-            int postSecond = postTimestamp.get(Calendar.SECOND);
-            if (week != postWeek) {
-                howLongAgo = "" + (week - postWeek) + "w";
-            } else if (day != postDay) {
-                howLongAgo = "" + (day - postDay) + "d";
-            } else if (hour != postHour) {
-                howLongAgo = "" + (hour - postHour) + "h";
-            } else if (minute != postMinute) {
-                howLongAgo = "" + (minute - postMinute) + "m";
-            } else if (second != postSecond) {
-                howLongAgo = "" + (second - postSecond) + "s";
-            }
+            howLongAgo = getTimeDifference(rightNow, postTimestamp);
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -323,39 +299,64 @@ public class Utility {
         // TODO: Format the date and get how long ago it was posted
         // TODO: Get information from Instagram date
         long parsedTimestamp = Long.parseLong(unformattedDate)*1000;
-        String LARGE_DATE_FORMAT = "EEE MMM dd HH:mm:ss Z yyyy";
         Calendar postTimestamp = Calendar.getInstance();
         String howLongAgo = "";
         try {
             Date date = new Date(parsedTimestamp);
-            //DateFormat formatter = new SimpleDateFormat(LARGE_DATE_FORMAT);
             postTimestamp.setTime(date);
             Calendar rightNow = Calendar.getInstance();
-            int week = rightNow.get(Calendar.WEEK_OF_YEAR);
-            int postWeek = postTimestamp.get(Calendar.WEEK_OF_YEAR);
-            int day = rightNow.get(Calendar.DAY_OF_YEAR);
-            int postDay = postTimestamp.get(Calendar.DAY_OF_YEAR);
-            int hour = rightNow.get(Calendar.HOUR);
-            int postHour = postTimestamp.get(Calendar.HOUR);
-            int minute = rightNow.get(Calendar.MINUTE);
-            int postMinute = postTimestamp.get(Calendar.MINUTE);
-            int second = rightNow.get(Calendar.SECOND);
-            int postSecond = postTimestamp.get(Calendar.SECOND);
-            if (week != postWeek) {
-                howLongAgo = "" + (week - postWeek) + "w";
-            } else if (day != postDay) {
-                howLongAgo = "" + (day - postDay) + "d";
-            } else if (hour != postHour) {
-                howLongAgo = "" + (hour - postHour) + "h";
-            } else if (minute != postMinute) {
-                howLongAgo = "" + (minute - postMinute) + "m";
-            } else if (second != postSecond) {
-                howLongAgo = "" + (second - postSecond) + "s";
-            }
+            howLongAgo = getTimeDifference(rightNow, postTimestamp);
         } catch (Exception e) {
             e.printStackTrace();
         }
+        return howLongAgo;
+    }
 
+    // Takes two calendar objects and gets the time difference between the two
+    public static String getTimeDifference(Calendar currentTime, Calendar postTime) {
+        String howLongAgo = "";
+        int week = currentTime.get(Calendar.WEEK_OF_YEAR);
+        int postWeek = postTime.get(Calendar.WEEK_OF_YEAR);
+        int day = currentTime.get(Calendar.DAY_OF_YEAR);
+        int postDay = postTime.get(Calendar.DAY_OF_YEAR);
+        int hour = currentTime.get(Calendar.HOUR);
+        int postHour = postTime.get(Calendar.HOUR);
+        int minute = currentTime.get(Calendar.MINUTE);
+        int postMinute = postTime.get(Calendar.MINUTE);
+        int second = currentTime.get(Calendar.SECOND);
+        int postSecond = postTime.get(Calendar.SECOND);
+        if (week != postWeek) {
+            if ((week - postWeek) >= 0) {
+                howLongAgo = "" + (week - postWeek) + "w";
+            } else {
+                howLongAgo = "" + (week - postWeek + 52) + "w";
+            }
+        } else if (day != postDay) {
+            if ((day - postDay) >= 0) {
+                howLongAgo = "" + (day - postDay) + "d";
+            } else {
+                howLongAgo = "" + (day - postDay + 7) + "d";
+            }
+        } else if (hour != postHour) {
+            if ((hour - postHour) >= 0) {
+                howLongAgo = "" + (hour - postHour) + "h";
+            } else {
+                howLongAgo = "" + (hour - postHour + 24) + "h";
+            }
+        } else if (minute != postMinute) {
+            if ((minute - postMinute) >= 0) {
+                howLongAgo = "" + (minute - postMinute) + "m";
+            } else {
+                howLongAgo = "" + (minute - postMinute + 60) + "m";
+            }
+        } else if (second != postSecond) {
+            if ((second - postSecond) >= 0) {
+                howLongAgo = "" + (second - postSecond) + "s";
+            } else {
+                howLongAgo = "" + (second - postSecond + 60) + "s";
+            }
+        }
         return howLongAgo;
     }
 }
+
