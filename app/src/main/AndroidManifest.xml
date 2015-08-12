@@ -4,11 +4,13 @@
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <application
+        android:name=".GlanceApp"
         android:allowBackup="true"
         android:icon="@drawable/ic_launcher"
         android:label="@string/app_name"
         android:theme="@style/glance_theme" >
         <service android:name=".InstagramService" />
+        <service android:name=".TwitterService" />
 
         <!-- SplashScreenActivity -->
         <activity

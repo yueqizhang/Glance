@@ -67,7 +67,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@+id/post_image"
-            android:layout_margin="13dp"/>
+            android:layout_margin="13dp"
+            android:paddingBottom="10dp"/>
     </RelativeLayout>
     <RelativeLayout
         android:id="@+id/card_info_twitter"
