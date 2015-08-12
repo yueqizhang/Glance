@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.util.Log;
 
 import com.parse.FindCallback;
+import com.parse.GetCallback;
 import com.parse.ParseException;
 import com.parse.ParseObject;
 import com.parse.ParseQuery;
@@ -58,6 +59,7 @@ public class InstagramService extends IntentService {
 
     public void getInstagramFeed() {
         try {
+            Log.d(LOG_TAG, "Instagram feed called");
             StringBuilder builtUri = new StringBuilder();
             String feedJsonStr;
             BufferedReader reader;
@@ -94,7 +96,7 @@ public class InstagramService extends IntentService {
                 postQuery.whereEqualTo("userId", user.getString("id")).findInBackground(new FindCallback<ParseObject>() {
                     @Override
                     public void done(List<ParseObject> objects, ParseException e) {
-                        if (e != null) {
+                        if (e == null && !objects.isEmpty()) {
                             try {
                                 ParseObject user = objects.get(0);
                                 String userId = (String) user.get("userId");
@@ -152,20 +154,23 @@ public class InstagramService extends IntentService {
         for (Object e : a) {
             i++;
             final Object post = e;
-            ParseQuery<ParseObject> userQuery = new ParseQuery("InstagramUsers");
+            ParseQuery<ParseObject> userQuery = new ParseQuery("InstagramUser");
             String id = ((Map.Entry<String, Integer>) e).getKey();
-            userQuery.whereEqualTo("userId", id)
-                    .findInBackground(new FindCallback<ParseObject>() {
-                        public void done(List<ParseObject> objects, ParseException ex) {
-                            if (ex != null) {
-                                String userId = ((Map.Entry<String, Integer>) post).getKey();
-                                int rank = ((Map.Entry<String, Integer>) post).getValue();
-                                Utility.AddUserToParse addUserTask = new Utility()
-                                        .new AddUserToParse(userId, rank);
-                                addUserTask.execute();
-                            }
-                        }
-                    });
+            Log.d(LOG_TAG, "UserID " + id);
+            userQuery.whereEqualTo("userId", id);
+            userQuery.getFirstInBackground(new GetCallback<ParseObject>() {
+                public void done(ParseObject object, ParseException ex) {
+                    if (object == null) {
+                        String userId = ((Map.Entry<String, Integer>) post).getKey();
+                        int rank = ((Map.Entry<String, Integer>) post).getValue();
+                        Utility.AddUserToParse addUserTask = new Utility()
+                                .new AddUserToParse(userId, rank);
+                        addUserTask.execute();
+                    } else {
+                        Log.d(LOG_TAG, "Found Objects " + object.toString());
+                    }
+                }
+            });
             if (i == pos) break add;
         }
     }
