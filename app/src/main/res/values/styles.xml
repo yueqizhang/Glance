@@ -8,7 +8,7 @@
     <style
         name="glance_theme" parent="Theme.AppCompat.Light.DarkActionBar">
         <item name="colorPrimary">@color/blue</item>
-        <item name="colorAccent">@color/deep_purple</item>
+        <item name="colorAccent">@color/teal</item>
         <item name="actionBarStyle">@style/glance_action_bar</item>
         <item name="android:windowContentOverlay">@null</item>
     </style>
