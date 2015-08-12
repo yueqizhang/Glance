@@ -153,14 +153,15 @@ public class InstagramService extends IntentService {
             i++;
             final Object post = e;
             ParseQuery<ParseObject> userQuery = new ParseQuery("InstagramUsers");
-            userQuery.whereEqualTo("userId", ((Map.Entry<String, Integer>) e).getKey())
+            String id = ((Map.Entry<String, Integer>) e).getKey();
+            userQuery.whereEqualTo("userId", id)
                     .findInBackground(new FindCallback<ParseObject>() {
                         public void done(List<ParseObject> objects, ParseException ex) {
                             if (ex == null) {
                                 String userId = ((Map.Entry<String, Integer>) post).getKey();
                                 int rank = ((Map.Entry<String, Integer>) post).getValue();
                                 Utility.AddUserToParse addUserTask = new Utility()
-                                .new AddUserToParse(userId, rank);
+                                        .new AddUserToParse(userId, rank);
                                 addUserTask.execute();
                             }
                         }
