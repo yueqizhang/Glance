@@ -61,6 +61,15 @@ public class MainPageFragment extends Fragment {
                 "@Phillip", "@Carla",
                 "@Molli", "@Erik"
         };
+        String[] postTime = {
+                "Thu Dec 23 18:26:07 +0000 2014", "1414678736",
+                "Thu Dec 23 18:26:07 +0000 2014", "1414678736",
+                "Thu Dec 23 18:26:07 +0000 2014", "Thu Dec 23 18:26:07 +0000 2014",
+                "Thu Dec 23 18:26:07 +0000 2014", "Thu Dec 23 18:26:07 +0000 2014",
+                "Thu Dec 23 18:26:07 +0000 2014", "Thu Dec 23 18:26:07 +0000 2014",
+                "Thu Dec 23 18:26:07 +0000 2014", "Thu Dec 23 18:26:07 +0000 2014",
+                "Thu Dec 23 18:26:07 +0000 2014", "Thu Dec 23 18:26:07 +0000 2014"
+        };
         Uri[] userPic = {
                 Uri.parse("https://pbs.twimg.com/profile_images/547588061216137216/5CL6N3VO.jpeg"),
                 Uri.parse("https://lh5.googleusercontent.com/-egDEIsHX1mM/VPe0HjdymFI/AAAAAAAAAWQ/vqK_Q05F9As/w1840-h1836-no/IMG_3449.jpeg"),
@@ -98,7 +107,7 @@ public class MainPageFragment extends Fragment {
         Post newPost;
         for (int i = 0; i < 14; i++) {
             try {
-                newPost = new Post(postType[i], userNames[i], userHandle[i], "1414678736", userPic[i], postText[i], postPic[i]);
+                newPost = new Post(postType[i], userNames[i], userHandle[i], postTime[i], userPic[i], postText[i], postPic[i]);
             } catch (ArrayIndexOutOfBoundsException e) {
                 //Create empty post
                 newPost = new Post();

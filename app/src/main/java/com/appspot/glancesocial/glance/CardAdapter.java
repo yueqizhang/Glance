@@ -66,9 +66,6 @@ public class CardAdapter extends ArrayAdapter<Post> {
         //Set the text for user handle
         holder.userHandleView.setText(post.getUserHandle());
 
-        //Set the text for the time since the post was made
-        holder.postTimeView.setText(Utility.formatInstagramDate(post.getPostTime()));
-
         //Load in the user image
         Utility.loadImage(getContext(), holder.userPicView, post.getUserPic());
 
@@ -84,12 +81,17 @@ public class CardAdapter extends ArrayAdapter<Post> {
             holder.postPicView.setVisibility(View.GONE);
         }
 
+        //Check the type of the post
         if (post.getPostType() != null && post.getPostType().equals("twitter")) {
             //Load in the user image
             Utility.loadImage(getContext(), holder.infoUserPicTwitterView, post.getUserPic());
+            //Set the text for the time since the post was made
+            holder.postTimeView.setText(Utility.formatTwitterDate(post.getPostTime()));
         } else if (post.getPostType() != null && post.getPostType().equals("instagram")) {
             //Load in the user image
             Utility.loadImage(getContext(), holder.infoUserPicInstagramView, post.getUserPic());
+            //Set the text for the time since the post was made
+            holder.postTimeView.setText(Utility.formatInstagramDate(post.getPostTime()));
         } else {
             holder.infoUserPicTwitterView.setVisibility(View.GONE);
             holder.infoUserPicInstagramView.setVisibility(View.GONE);
