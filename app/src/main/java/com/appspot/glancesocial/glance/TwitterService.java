@@ -51,11 +51,17 @@ public class TwitterService extends IntentService {
 
         MyTwitterClient myClient = new MyTwitterClient(Twitter.getSessionManager().getActiveSession());
         TwitterInterface myInterface = myClient.getFavoriteListService();
-        List<FavoriteResponse> response = myInterface.getFavoritesList(10);
+        List<FavoriteResponse> response = myInterface.getFavoritesList(100);
 
+        ArrayList<String> allUsers = new ArrayList<String>();
         for(FavoriteResponse f : response) {
-            Log.d(LOG_TAG, f.getUser().getScreenName());
+            allUsers.add(f.getUser().getScreenName());
         }
+        Log.v(LOG_TAG, "Start users:");
+        for (int i=0; i<allUsers.size(); i++){
+            Log.v(LOG_TAG, allUsers.get(i));
+        }
+
 
 //        ArrayList<String> a = new ArrayList<String>();
 //

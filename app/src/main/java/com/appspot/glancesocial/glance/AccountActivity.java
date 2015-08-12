@@ -1,11 +1,15 @@
 package com.appspot.glancesocial.glance;
 
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
+import android.text.InputType;
 import android.view.View;
+import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -15,6 +19,8 @@ import android.widget.Toast;
 public class AccountActivity extends ActionBarActivity {
     // Use LOG_TAG when logging anything
     private final String LOG_TAG = AccountActivity.class.getSimpleName();
+
+    private String userToAdd;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -58,16 +64,52 @@ public class AccountActivity extends ActionBarActivity {
     }
 
     public void addFriendClickHandler(View target) {
-        //TODO: Add a friend via text input
-        CharSequence text = "Open Twitter";
-        Toast toast = Toast.makeText(this, text, Toast.LENGTH_SHORT);
-        toast.show();
+        //TODO: Hook up this to the back end
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setTitle("Enter User Handle");
+        // Set up the input
+        final EditText input = new EditText(this);
+        // Specify the type of input expected; this, for example, sets the input as a password, and will mask the text
+        input.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_PASSWORD);
+        builder.setView(input);
+        // Set up the buttons
+        builder.setPositiveButton("Add", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                userToAdd = input.getText().toString();
+            }
+        });
+        builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                dialog.cancel();
+            }
+        });
+        builder.show();
     }
 
     public void deleteFriendClickHandler(View target) {
-        //TODO: Delete a friend via text input
-        CharSequence text = "Open Twitter";
-        Toast toast = Toast.makeText(this, text, Toast.LENGTH_SHORT);
-        toast.show();
+        //TODO: Hook up this to the back end
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setTitle("Enter User Handle");
+        // Set up the input
+        final EditText input = new EditText(this);
+        // Specify the type of input expected; this, for example, sets the input as a password, and will mask the text
+        input.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_PASSWORD);
+        builder.setView(input);
+        // Set up the buttons
+        builder.setPositiveButton("Delete", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                userToAdd = input.getText().toString();
+            }
+        });
+        builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                dialog.cancel();
+            }
+        });
+        builder.show();
     }
 }
