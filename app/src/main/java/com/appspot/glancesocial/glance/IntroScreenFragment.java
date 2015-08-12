@@ -73,7 +73,9 @@ public class IntroScreenFragment extends Fragment {
             default:
                 break;
         }
-
+        //Typeface typeFace=Typeface.createFromAsset(getActivity().getAssets(),"fonts/josefinsanslight.ttf");
+        //((TextView) rootView.findViewById(R.id.intro_title)).setTypeface(typeFace);
+        //((TextView) rootView.findViewById(R.id.text_instructions)).setTypeface(typeFace);
         return rootView;
     }
 
