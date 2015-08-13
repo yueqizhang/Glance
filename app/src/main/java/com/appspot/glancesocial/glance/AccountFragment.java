@@ -34,34 +34,39 @@ public class AccountFragment extends Fragment {
             ((TextView) rootView.findViewById(R.id.account_name)).setText(accountName);
         }
         ArrayList<Post> friends = new ArrayList<>();
+        Uri[] userPic = {
+                Uri.parse("https://pbs.twimg.com/profile_images/1231038234/page.jpg"),
+                Uri.parse("https://pbs.twimg.com/profile_images/508007776061100032/fH5_qPfZ.jpeg"),
+                Uri.parse("https://pbs.twimg.com/profile_images/378800000380894329/b065d66b754cd0025fb7f185788a4a26.jpeg"),
+                Uri.parse("https://pbs.twimg.com/profile_images/625819931976822785/eZBZE-r_.jpg"),
+                Uri.parse("https://pbs.twimg.com/profile_images/1231031781/brin.jpg"),
+                Uri.parse("https://pbs.twimg.com/profile_images/547588061216137216/5CL6N3VO.jpeg"),
+                Uri.parse("https://pbs.twimg.com/profile_images/378800000804593019/dfca1b32e435a872b4745317895d41eb.jpeg"),
+                Uri.parse("https://pbs.twimg.com/profile_images/481231649128980480/9hpv14pc.jpeg"),
+                Uri.parse("https://pbs.twimg.com/profile_images/625873607047168001/LGOjZNnr.jpg"),
+                Uri.parse("https://pbs.twimg.com/profile_images/543090941759070208/rAbJF8FE.jpeg"),
+                Uri.parse("https://pbs.twimg.com/profile_images/615976088229941249/hVsbM-MD.jpg"),
+                Uri.parse("https://pbs.twimg.com/profile_images/625486284505653248/HAYHOkLR.jpg"),
+                Uri.parse("https://pbs.twimg.com/profile_images/616437125362380800/cntVa6Nj.jpg"),
+                Uri.parse("https://pbs.twimg.com/profile_images/477397164453527552/uh2w1u1o.jpeg")
+        };
         String[] userNames = {
-                "Jonah Starling", "Christina",
-                "Daisy", "Fran",
+                "Jonah", "Christina",
+                "Daisy3214", "Fran",
                 "Jake", "Ethan",
                 "Courtney", "Shawn",
                 "Nicole", "Ross",
                 "Phillip", "Carla",
-                "Molli", "Erik"
+                "Mollie", "Erik"
         };
         String[] userHandle = {
-                "@ForeverJonah", "@Christina",
-                "@Daisy", "@Fran",
-                "@Jake", "@Ethan",
-                "@Courtney", "@Shawn",
-                "@Nicole", "@Ross",
-                "@Phillip", "@Carla",
-                "@Molli", "@Erik"
-        };
-        Uri[] userPic = {
-                Uri.parse("https://pbs.twimg.com/profile_images/547588061216137216/5CL6N3VO.jpeg"),
-                Uri.parse("https://lh5.googleusercontent.com/-egDEIsHX1mM/VPe0HjdymFI/AAAAAAAAAWQ/vqK_Q05F9As/w1840-h1836-no/IMG_3449.jpeg"),
-                Uri.parse("https://lh5.googleusercontent.com/-RQCYGlQ2OW8/UvnFlO-lWZI/AAAAAAAAHcg/tZjOzAZ2pn0/s512-no/38e048fa-f98e-4ebb-a34b-f808ac138248"),
-                Uri.parse("https://lh3.googleusercontent.com/-8XsJbk1fGE8/U9xZxGkKg8I/AAAAAAAAAL0/u-Nyv0DhihI/s1836-no/21a953ea-0d28-409b-8cc6-c7e71786f8c2"),
-                null, null,
-                null, null,
-                null, null,
-                null, null,
-                null, null
+                "@ForeverJonah", "@ctobias44",
+                "@Daisy91", "@fbueti2277",
+                "@theManJake", "@et31",
+                "@dianaH", "@sHaWn0",
+                "@nic0le", "@ross_h",
+                "@phillipyu32", "@12carla",
+                "@mollie5t", "@erik212"
         };
         Post newPost;
         for (int i = 0; i < 14; i++) {
