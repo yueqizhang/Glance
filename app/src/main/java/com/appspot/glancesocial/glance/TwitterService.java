@@ -54,82 +54,82 @@ public class TwitterService extends IntentService {
     @Override
     protected void onHandleIntent(Intent intent) {
 
-//        MyTwitterClient myClient = new MyTwitterClient(Twitter.getSessionManager().getActiveSession());
-//        TwitterInterface myInterface = myClient.getFavoriteListService();
-//        List<FavoriteResponse> response = myInterface.getFavoritesList(100);
+        MyTwitterClient myClient = new MyTwitterClient(Twitter.getSessionManager().getActiveSession());
+        TwitterInterface myInterface = myClient.getFavoriteListService();
+        List<FavoriteResponse> response = myInterface.getFavoritesList(100);
 
-//        ArrayList<String> allUsers = new ArrayList<String>();
-//        for (FavoriteResponse f : response) {
-//            allUsers.add(f.getUser().getScreenName());
-//        }
-//
-//        Collections.sort(allUsers);
-//
-//        for (int i=0; i<allUsers.size(); i++){
-//            Log.v(LOG_TAG, allUsers.get(i));
-//        }
-//
-//        int i, count;
-//        Hashtable<String, Integer> favUsersCount = new Hashtable<String,Integer>();
-//
-//        for (i = 0; i < allUsers.size()-1; i++) {
-//            count = 1;
-//            while (allUsers.get(i).equals(allUsers.get(i+1))){
-//                count++;
-//                i++;
-//            }
-//            favUsersCount.put(allUsers.get(i), count);
-//        }
-//
-//        Log.v(LOG_TAG, "HASHTABLE: " + favUsersCount.toString());
+        ArrayList<String> allUsers = new ArrayList<String>();
+        for (FavoriteResponse f : response) {
+            allUsers.add(f.getUser().getScreenName());
+        }
 
-//        Object[] a = favUsersCount.entrySet().toArray();
-//        Arrays.sort(a, new Comparator() {
-//            public int compare(Object o1, Object o2) {
-//                return ((Map.Entry<String, Integer>) o2).getValue().compareTo(
-//                        ((Map.Entry<String, Integer>) o1).getValue());
-//            }
-//        });
+        Collections.sort(allUsers);
+
+        for (int i=0; i<allUsers.size(); i++){
+            Log.v(LOG_TAG, allUsers.get(i));
+        }
+
+        int i, count;
+        Hashtable<String, Integer> favUsersCount = new Hashtable<String,Integer>();
+
+        for (i = 0; i < allUsers.size()-1; i++) {
+            count = 1;
+            while (allUsers.get(i).equals(allUsers.get(i+1))){
+                count++;
+                i++;
+            }
+            favUsersCount.put(allUsers.get(i), count);
+        }
+
+        Log.v(LOG_TAG, "HASHTABLE: " + favUsersCount.toString());
+
+        Object[] a = favUsersCount.entrySet().toArray();
+        Arrays.sort(a, new Comparator() {
+            public int compare(Object o1, Object o2) {
+                return ((Map.Entry<String, Integer>) o2).getValue().compareTo(
+                        ((Map.Entry<String, Integer>) o1).getValue());
+            }
+        });
 
         }
 
 
 
-//        ArrayList<String> a = new ArrayList<String>();
-//
-//        try {
-//            InputStream inputStream = response.getBody().in();
-//            StringBuffer buffer = new StringBuffer();
-//            if (inputStream == null) {
-//                return;
-//            }
-//            reader = new BufferedReader(new InputStreamReader(inputStream));
-//            String line;
-//            while ((line = reader.readLine()) != null) {
-//                //buffer.append(line + "\n");
-//                a.add(line);
-//                Log.v(LOG_TAG, "Line length: " + line.length());
-//            }
-//
-//            favoriteTweets = buffer.toString();
-//            JSONObject jObj = new JSONObject(favoriteTweets);
-//            JSONArray data = jObj.optJSONArray("data");
-//            JSONObject latestFavorite = data.getJSONObject(0);
-//            JSONObject latestUser = latestFavorite.getJSONObject("user");
-//
-//
-//        }
-//        catch (JSONException e) {
-//            Log.e(LOG_TAG, "JSON err: ", e);
-//            e.printStackTrace();
-//        }catch (IOException e) {
-//            e.printStackTrace();
-//        }
-//        //Log.v(LOG_TAG, "FAV TWEETS: " + favoriteTweets);
-//        Log.v(LOG_TAG, "Number tweets: " + a.size());
-//        for (int i = 0; i < a.size(); i++) {
-//            Log.v(LOG_TAG, "Fav tweet " + (i+1) + ": " + a.get(i));
-//        }
+        ArrayList<String> a = new ArrayList<String>();
+
+        try {
+            InputStream inputStream = response.getBody().in();
+            StringBuffer buffer = new StringBuffer();
+            if (inputStream == null) {
+                return;
+            }
+            reader = new BufferedReader(new InputStreamReader(inputStream));
+            String line;
+            while ((line = reader.readLine()) != null) {
+                //buffer.append(line + "\n");
+                a.add(line);
+                Log.v(LOG_TAG, "Line length: " + line.length());
+            }
+
+            favoriteTweets = buffer.toString();
+            JSONObject jObj = new JSONObject(favoriteTweets);
+            JSONArray data = jObj.optJSONArray("data");
+            JSONObject latestFavorite = data.getJSONObject(0);
+            JSONObject latestUser = latestFavorite.getJSONObject("user");
+
+
+        }
+        catch (JSONException e) {
+            Log.e(LOG_TAG, "JSON err: ", e);
+            e.printStackTrace();
+        }catch (IOException e) {
+            e.printStackTrace();
+        }
+        //Log.v(LOG_TAG, "FAV TWEETS: " + favoriteTweets);
+        Log.v(LOG_TAG, "Number tweets: " + a.size());
+        for (int i = 0; i < a.size(); i++) {
+            Log.v(LOG_TAG, "Fav tweet " + (i+1) + ": " + a.get(i));
+        }
 
 //    public void getLikedUsers() {
 //        String newLastLikedID = null;

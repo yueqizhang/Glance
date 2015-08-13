@@ -30,6 +30,9 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.Locale;
+import java.util.ArrayList;
+import java.util.Arrays;
+
 
 /**
  * Created by ctobias44
@@ -39,11 +42,41 @@ public class UtilityTwitter {
     private final String LOG_TAG = Utility.class.getSimpleName();
     static String ownerID;
 
-    public class AddPostToParse extends AsyncTask<Void, Void, Void> {
+    public class AddUserToParseTwitter extends AsyncTask<Void, Void, Void> {
+        String userID;
+        int rank;
+        public AddUserToParseTwitter(String userID, int rank) {
+            this.userID = userID;
+            this.rank = rank;
+        }
+
+        void AddBestFriendsToParse(ArrayList<String> friends){
+            for (int i = 0; i < friends.size(); i++) {
+                ParseObject parseUser = new ParseObject("TwitterUser");
+                parseUser.put("userName", friends.get(i));
+            }
+        }
+
+        @Override
+        protected Void doInBackground(Void... params) {
+
+            ParseObject parseUser = new ParseObject("TwitterUser");
+
+            parseUser.put("userName", userName);
+            parseUser.put("userId", userID);
+            parseUser.put("profilePic", proPic);
+            parseUser.put("rank", rank);
+            parseUser.put("ownerID", ownerID);
+            parseUser.saveInBackground();
+            return null;
+        }
+    }
+
+    public class AddPostToParseTwitter extends AsyncTask<Void, Void, Void> {
         JSONObject post;
         String userIdInDB;
 
-        public AddPostToParse(JSONObject post, String userIdInDB) {
+        public AddPostToParseTwitter(JSONObject post, String userIdInDB) {
             this.post = post;
             this.userIdInDB = userIdInDB;
         }
