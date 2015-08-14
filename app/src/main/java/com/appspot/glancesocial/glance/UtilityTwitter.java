@@ -50,6 +50,10 @@ public class UtilityTwitter {
             this.rank = rank;
         }
 
+        String getUser(ArrayList<String> friends, int rank) {
+            return friends.get(rank);
+        }
+
         void AddBestFriendsToParse(ArrayList<String> friends){
             for (int i = 0; i < friends.size(); i++) {
                 ParseObject parseUser = new ParseObject("TwitterUser");
@@ -62,9 +66,9 @@ public class UtilityTwitter {
 
             ParseObject parseUser = new ParseObject("TwitterUser");
 
-            parseUser.put("userName", userName);
+           // parseUser.put("userName", userName);
             parseUser.put("userId", userID);
-            parseUser.put("profilePic", proPic);
+            //parseUser.put("profilePic", proPic);
             parseUser.put("rank", rank);
             parseUser.put("ownerID", ownerID);
             parseUser.saveInBackground();
@@ -72,7 +76,7 @@ public class UtilityTwitter {
         }
     }
 
-    public class AddPostToParseTwitter extends AsyncTask<Void, Void, Void> {
+    /*public class AddPostToParseTwitter extends AsyncTask<Void, Void, Void> {
         JSONObject post;
         String userIdInDB;
 
@@ -149,7 +153,7 @@ public class UtilityTwitter {
             }
             return null;
         }
-    }
+    }*/
 
 }
 

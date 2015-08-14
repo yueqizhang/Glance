@@ -8,6 +8,8 @@ import android.app.IntentService;
 import android.content.Intent;
 import android.util.Log;
 
+import com.parse.ParseObject;
+import com.parse.ParseQuery;
 import com.twitter.sdk.android.Twitter;
 
 import java.io.BufferedReader;
@@ -87,5 +89,17 @@ public class TwitterService extends IntentService {
                 break;
             }
         }
+
+        Log.v(LOG_TAG, "orderedFavUsers: " + orderedFavUsers.size());
+
+//        for (int j = 0; j < orderedFavUsers.size(); j++) {
+//            Log.v(LOG_TAG, orderedFavUsers.get(j));
+//        }
+
+//        for (int z = 0; z < orderedFavUsers.size(); z++) {
+//            UtilityTwitter.AddUserToParseTwitter addUserTask = new UtilityTwitter()
+//                    .new AddUserToParseTwitter(orderedFavUsers.get(z), z);
+//            addUserTask.execute();
+//        }
     }
 }
