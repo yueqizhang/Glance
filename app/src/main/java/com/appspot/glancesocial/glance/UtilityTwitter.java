@@ -40,25 +40,14 @@ import java.util.Arrays;
 public class UtilityTwitter {
     // Use LOG_TAG when logging anything
     private final String LOG_TAG = Utility.class.getSimpleName();
-    static String ownerID;
+    //static String ownerID;
 
     public class AddUserToParseTwitter extends AsyncTask<Void, Void, Void> {
-        String userID;
+        String userName;
         int rank;
         public AddUserToParseTwitter(String userID, int rank) {
-            this.userID = userID;
+            this.userName = userID;
             this.rank = rank;
-        }
-
-        String getUser(ArrayList<String> friends, int rank) {
-            return friends.get(rank);
-        }
-
-        void AddBestFriendsToParse(ArrayList<String> friends){
-            for (int i = 0; i < friends.size(); i++) {
-                ParseObject parseUser = new ParseObject("TwitterUser");
-                parseUser.put("userName", friends.get(i));
-            }
         }
 
         @Override
@@ -66,11 +55,11 @@ public class UtilityTwitter {
 
             ParseObject parseUser = new ParseObject("TwitterUser");
 
-           // parseUser.put("userName", userName);
-            parseUser.put("userId", userID);
+            parseUser.put("userName", userName);
+            //parseUser.put("userId", userID);
             //parseUser.put("profilePic", proPic);
             parseUser.put("rank", rank);
-            parseUser.put("ownerID", ownerID);
+            //parseUser.put("ownerID", ownerID);
             parseUser.saveInBackground();
             return null;
         }
