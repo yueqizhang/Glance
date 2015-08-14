@@ -115,6 +115,7 @@ public class TwitterService extends IntentService {
             }
         }
 
+
         Log.v(LOG_TAG, "orderedFavUsers: " + orderedFavUsers.size());
 
         for (int j = 0; j < orderedFavUsers.size(); j++) {
