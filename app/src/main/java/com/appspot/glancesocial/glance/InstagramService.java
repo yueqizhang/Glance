@@ -98,7 +98,6 @@ public class InstagramService extends IntentService {
                     .append(ACCESS + "=")
                     .append(InstaWebViewActivity.accessToken);
             String newLastLikedID = null;
-            //TODO: add functionality to go to the next page in JSON
             url = new URL(builtUri.toString());
             StringBuffer buffer = new StringBuffer();
             reader = null;
@@ -124,12 +123,13 @@ public class InstagramService extends IntentService {
                 final int cur = i;
                 JSONObject post = feedArray.getJSONObject(i);
                 JSONObject user = post.getJSONObject("user");
-                ParseQuery postQuery = new ParseQuery("InstagramPosts");
+                ParseQuery postQuery = new ParseQuery("InstagramUser");
                 postQuery.whereEqualTo("userId", user.getString("id"));
-                /*postQuery.findInBackground(new FindCallback<ParseObject>() {
+                Log.d(LOG_TAG, "USERID: " + user.getString("id"));
+                postQuery.findInBackground(new FindCallback<ParseObject>() {
                     @Override
                     public void done(List<ParseObject> objects, ParseException e) {
-                        if (e != null) {
+                        if (!objects.isEmpty()) {
                             try {
                                 ParseObject user = objects.get(0);
                                 String userId = (String) user.get("userId");
@@ -140,9 +140,11 @@ public class InstagramService extends IntentService {
                             } catch (JSONException ex) {
                                 ex.printStackTrace();
                             }
+                        }else{
+                            Log.d(LOG_TAG, "ID NOT FOUND ******");
                         }
                     }
-                });*/
+                });
             }
         } catch (IOException e) {
             e.printStackTrace();
@@ -191,22 +193,22 @@ public class InstagramService extends IntentService {
         for (Object e : a) {
             i++;
             final Object post = e;
-            ParseQuery<ParseObject> userQuery = new ParseQuery("InstagramUser");
+//            ParseQuery<ParseObject> userQuery = new ParseQuery("InstagramUser");
             final String id = ((Map.Entry<String, Integer>) e).getKey();
-            userQuery.whereEqualTo("userId", id)
-                    .findInBackground(new FindCallback<ParseObject>() {
-                        public void done(List<ParseObject> objects, ParseException ex) {
-                            Log.d(LOG_TAG, "Object List " + objects);
-                            if (ex == null && objects.isEmpty()) {
+//            userQuery.whereEqualTo("userId", id)
+//                    .findInBackground(new FindCallback<ParseObject>() {
+//                        public void done(List<ParseObject> objects, ParseException ex) {
+//                            Log.d(LOG_TAG, "Object List " + objects);
+//                            if (ex == null && objects.isEmpty()) {
                                 String userId = ((Map.Entry<String, Integer>) post).getKey();
                                 Log.d(LOG_TAG, "id " + id + " userId " + userId);
                                 int rank = ((Map.Entry<String, Integer>) post).getValue();
                                 Utility.AddUserToParse addUserTask = new Utility()
                                         .new AddUserToParse(userId, rank);
                                 addUserTask.execute();
-                            }
-                        }
-                    });
+//                            }
+//                        }
+//                    });
             if (i == pos) break add;
         }
     }
