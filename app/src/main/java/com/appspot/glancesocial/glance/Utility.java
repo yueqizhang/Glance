@@ -148,6 +148,11 @@ public class Utility {
             this.rank = rank;
         }
 
+        public AddUserToParse() {
+            this.userID = "209932474";
+            this.rank = 100;
+        }
+
         @Override
         protected Void doInBackground(Void... params) {
             URL url;

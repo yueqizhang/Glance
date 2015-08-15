@@ -56,7 +56,7 @@ public class FriendAdapter extends ArrayAdapter<Post> {
         holder.friendNameView.setText(post.getUserName());
 
         //Set the text for user handle
-        holder.friendHandleView.setText(post.getUserHandle());
+        holder.friendHandleView.setText("@"+post.getUserHandle());
 
         //Load in the user image
         Utility.loadImage(getContext(), holder.friendPicView, post.getUserPic());
