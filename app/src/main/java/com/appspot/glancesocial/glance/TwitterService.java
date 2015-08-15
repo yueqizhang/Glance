@@ -50,15 +50,7 @@ public class TwitterService extends IntentService {
     final int MAX_FRIENDS = 10;
     final Context context = this;
     ArrayList<String> orderedFavUsers = new ArrayList<String>();
-    int z;
-    Handler mainHandler;
-    Runnable myRunnable;
-    int g;
-
-    URL url;
-    HttpURLConnection urlConnection = null;
-    BufferedReader reader = null;
-    String favoriteTweets = null;
+    String userID;
 
     //TODO: make this arraylist into a database
     ArrayList favoriteUsers = new ArrayList<String>();
@@ -73,6 +65,11 @@ public class TwitterService extends IntentService {
         MyTwitterClient myClient = new MyTwitterClient(Twitter.getSessionManager().getActiveSession());
         TwitterInterface myInterface = myClient.getFavoriteListService();
         List<FavoriteResponse> response = myInterface.getFavoritesList(100);
+
+        TwitterInterface myInterface2 = myClient.getUserConService();
+        UserTwitterResponse responseUserID = myInterface2.getUserCredentials(null);
+        userID = responseUserID.getUser().getUserID();
+        Log.v(LOG_TAG, "USERID: " + userID);
 
         ArrayList<String> allUsers = new ArrayList<String>();
         for (FavoriteResponse f : response) {
@@ -127,83 +124,9 @@ public class TwitterService extends IntentService {
 
         getBestFriends(orderedFavUsers);
 
-
-
-
-
-//        for (g = 0; g < orderedFavUsers.size(); g++) {
-//             ParseQuery<ParseObject> screen_name = new ParseQuery("TwitterUsers");
-//            screen_name.whereEqualTo("screen_name", orderedFavUsers.get(g))
-//                .findInBackground(new FindCallback<ParseObject>() {
-//                    public void done(List<ParseObject> objects, ParseException ex) {
-//                        if (ex == null && g < pos) {
-//                            UtilityTwitter.AddUserToParseTwitter addUserTask = new UtilityTwitter()
-//                                    .new AddUserToParseTwitter(orderedFavUsers.get(g), g);
-//                            addUserTask.execute();
-//                            Log.v(LOG_TAG, "Runnable #: " + g);
-//                        }
-//                    }
-//                });
-//        }
-
-
-        //mainHandler = new Handler(context.getMainLooper());
-
-//    for (Object e : orderedFavUsers) {
-//        g++;
-//        final Object post = e;
-//        ParseQuery<ParseObject> userQuery = new ParseQuery("TwitterUsers");
-//        String id = orderedFavUsers.get(g);
-//        userQuery.whereEqualTo("userName", id)
-//                .findInBackground(new FindCallback<ParseObject>() {
-//                    public void done(List<ParseObject> objects, ParseException ex) {
-//                        if (ex == null) {
-//                            String userId = orderedFavUsers.get(g);
-//                            int rank = g;
-//                            UtilityTwitter.AddUserToParseTwitter addUserTask = new UtilityTwitter()
-//                                    .new AddUserToParseTwitter(userId, rank);
-//                            addUserTask.execute();
-//                        }
-//                    }
-//                });
-
-
-//        myRunnable = new Runnable() {
-//            @Override
-//            public void run() {
-//                g = 0;
-//                int pos = MAX_FRIENDS;
-//                try {
-//                    g++;
-//                    for (z = 0; z < orderedFavUsers.size(); z++) {
-//                        if (g < pos) {
-//                            Log.v(LOG_TAG, "the #: " + z);
-//                            ParseQuery<ParseObject> userQuery = new ParseQuery("TwitterUser");
-//                            userQuery.whereEqualTo("userName", orderedFavUsers.get(z))
-//                                    .findInBackground(new FindCallback<ParseObject>() {
-//                                        public void done(List<ParseObject> objects, ParseException ex) {
-//                                            Log.v(LOG_TAG, "error is: " + ex + " num is: " + z);
-//                                            if (ex == null) {
-//                                                Log.v(LOG_TAG, "a #: " + z);
-//                                                UtilityTwitter.AddUserToParseTwitter addUserTask = new UtilityTwitter()
-//                                                        .new AddUserToParseTwitter(orderedFavUsers.get(z), z);
-//                                                Log.v(LOG_TAG, "a2 #: " + z);
-//
-//                                                addUserTask.execute();
-//                                                Log.v(LOG_TAG, "Runnable #: " + z);
-//                                            }
-//                                        }
-//                                    });
-//                        }
-//                    };
-//                }
-//                catch (Exception e) {
-//                    Log.v(LOG_TAG, "Doesn't work to add to Twitter database: " + e);
-//                }
-//            }
-//        };
-//        mainHandler.post(myRunnable);
     }
+
+
 
     void getBestFriends(ArrayList<String> likedUsers) {
         Map<String, Integer> usersMap = new HashMap<String, Integer>();
@@ -224,31 +147,21 @@ public class TwitterService extends IntentService {
         });
         int pos = (MAX_FRIENDS < usersMap.size()) ? MAX_FRIENDS : usersMap.size();
         int i = 0;
-//        if(InstaWebViewActivity.getID != null) {
-//            try { //waits for thread to finish, if not done
-//                InstaWebViewActivity.getID.get();
-//                Log.d(LOG_TAG, "Owner ID = " + Utility.ownerID);
-//            } catch (InterruptedException e) {
-//                e.printStackTrace();
-//            } catch (ExecutionException e) {
-//                e.printStackTrace();
-//            }
-//        }
+
         add:
         for (Object e : a) {
             i++;
             final Object post = e;
             ParseQuery<ParseObject> userQuery = new ParseQuery("TwitterUser");
-            String id = ((Map.Entry<String, Integer>) e).getKey();
+            //String id = ((Map.Entry<String, Integer>) e).getKey();
 //            userQuery.whereEqualTo("userName", id)
 //                    .findInBackground(new FindCallback<ParseObject>() {
 //                        public void done(List<ParseObject> objects, ParseException ex) {
                             //if (ex == null) {
-                                Log.v(LOG_TAG, "IN HERE" + i);
-                                String userId = ((Map.Entry<String, Integer>) post).getKey();
-                                int rank = ((Map.Entry<String, Integer>) post).getValue();
+                                String userName = ((Map.Entry<String, Integer>) post).getKey();
+                                //int rank = ((Map.Entry<String, Integer>) post).getValue();
                                 UtilityTwitter.AddUserToParseTwitter addUserTask = new UtilityTwitter()
-                                        .new AddUserToParseTwitter(userId, rank);
+                                        .new AddUserToParseTwitter(userName, i, userID);
                                 addUserTask.execute();
                             //}
                         //}
@@ -256,4 +169,22 @@ public class TwitterService extends IntentService {
             if (i == pos) break add;
         }
     }
+
+    // deletes entries of database named entry
+//    public void deleteEntries(String entry){
+//        ParseQuery<ParseObject> userQuery = new ParseQuery(entry);
+//        UserTwitterResponse userTwitter = new UserTwitterResponse();
+//        String userID = userTwitter.getUser().getUserID();
+//        userQuery.whereEqualTo("userID", userID);
+//        userQuery.findInBackground(new FindCallback<ParseObject>() {
+//            public void done(List<ParseObject> objects, ParseException ex) {
+//                if (objects != null) {
+//                    for(ParseObject p : objects){
+//                        p.deleteInBackground();
+//                        p.saveInBackground();
+//                    }
+//                }
+//            }
+//        });
+//    }
 }

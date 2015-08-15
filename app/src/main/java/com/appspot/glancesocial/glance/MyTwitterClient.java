@@ -16,4 +16,6 @@ public class MyTwitterClient extends TwitterApiClient {
         return  getService(TwitterInterface.class);
     }
 
+    public TwitterInterface getUserConService() { return getService(TwitterInterface.class);}
+
 }

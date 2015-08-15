@@ -45,8 +45,10 @@ public class UtilityTwitter {
     public class AddUserToParseTwitter extends AsyncTask<Void, Void, Void> {
         String userName;
         int rank;
-        public AddUserToParseTwitter(String userID, int rank) {
-            this.userName = userID;
+        String userID;
+        public AddUserToParseTwitter(String userName, int rank, String userID) {
+            this.userID = userID;
+            this.userName = userName;
             this.rank = rank;
         }
 
@@ -56,7 +58,7 @@ public class UtilityTwitter {
             ParseObject parseUser = new ParseObject("TwitterUser");
 
             parseUser.put("userName", userName);
-            //parseUser.put("userId", userID);
+            parseUser.put("userId", userID);
             //parseUser.put("profilePic", proPic);
             parseUser.put("rank", rank);
             //parseUser.put("ownerID", ownerID);

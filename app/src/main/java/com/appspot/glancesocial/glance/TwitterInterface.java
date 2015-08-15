@@ -15,4 +15,9 @@ public interface TwitterInterface {
             @Query("count") int numFavorites
     );
 
+    @GET("/1.1/account/verify_credentials.json")
+    UserTwitterResponse getUserCredentials(
+            @Query("id_str") String userID
+    );
+
 }

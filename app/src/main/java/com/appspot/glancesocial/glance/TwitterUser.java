@@ -10,6 +10,10 @@ public class TwitterUser {
     @SerializedName("screen_name")
     String screenName;
 
+    @SerializedName("id_str")
+    String userID;
+
+
     public TwitterUser() {
     }
 
@@ -19,5 +23,13 @@ public class TwitterUser {
 
     public void setScreenName(String screenName) {
         this.screenName = screenName;
+    }
+
+    public String getUserID() {
+        return userID;
+    }
+
+    public void setUserID(String i) {
+        userID = i;
     }
 }
