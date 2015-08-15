@@ -1,7 +1,9 @@
 package com.appspot.glancesocial.glance;
 
 import android.app.IntentService;
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.util.Log;
 
 import com.parse.FindCallback;
@@ -91,7 +93,8 @@ public class InstagramService extends IntentService {
                 JSONObject post = feedArray.getJSONObject(i);
                 JSONObject user = post.getJSONObject("user");
                 ParseQuery postQuery = new ParseQuery("InstagramPosts");
-                postQuery.whereEqualTo("userId", user.getString("id")).findInBackground(new FindCallback<ParseObject>() {
+                postQuery.whereEqualTo("userId", user.getString("id"));
+                /*postQuery.findInBackground(new FindCallback<ParseObject>() {
                     @Override
                     public void done(List<ParseObject> objects, ParseException e) {
                         if (e != null) {
@@ -107,7 +110,7 @@ public class InstagramService extends IntentService {
                             }
                         }
                     }
-                });
+                });*/
             }
         } catch (IOException e) {
             e.printStackTrace();
@@ -141,7 +144,11 @@ public class InstagramService extends IntentService {
         if(InstaWebViewActivity.getID != null) {
             try { //waits for thread to finish, if not done
                 InstaWebViewActivity.getID.get();
-                Log.d(LOG_TAG, "Owner ID = " + Utility.ownerID);
+                Log.d(LOG_TAG, "Owner ID = " + Utility.ownerID + " **************************************************************");
+                SharedPreferences sharedPref =  getSharedPreferences("userInfo", Context.MODE_PRIVATE);
+                SharedPreferences.Editor editor = sharedPref.edit();
+                editor.putString(getString(R.string.owner_id), Utility.ownerID);
+                editor.apply();
             } catch (InterruptedException e) {
                 e.printStackTrace();
             } catch (ExecutionException e) {
@@ -152,13 +159,15 @@ public class InstagramService extends IntentService {
         for (Object e : a) {
             i++;
             final Object post = e;
-            ParseQuery<ParseObject> userQuery = new ParseQuery("InstagramUsers");
-            String id = ((Map.Entry<String, Integer>) e).getKey();
+            ParseQuery<ParseObject> userQuery = new ParseQuery("InstagramUser");
+            final String id = ((Map.Entry<String, Integer>) e).getKey();
             userQuery.whereEqualTo("userId", id)
                     .findInBackground(new FindCallback<ParseObject>() {
                         public void done(List<ParseObject> objects, ParseException ex) {
-                            if (ex == null) {
+                            Log.d(LOG_TAG, "Object List " + objects);
+                            if (ex == null && objects.isEmpty()) {
                                 String userId = ((Map.Entry<String, Integer>) post).getKey();
+                                Log.d(LOG_TAG, "id " + id + " userId " + userId);
                                 int rank = ((Map.Entry<String, Integer>) post).getValue();
                                 Utility.AddUserToParse addUserTask = new Utility()
                                         .new AddUserToParse(userId, rank);
