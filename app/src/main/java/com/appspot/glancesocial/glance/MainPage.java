@@ -43,8 +43,8 @@ public class MainPage extends ActionBarActivity {
         }
         Intent testIntent = new Intent(this, InstagramService.class);
         startService(testIntent);
-        Intent testIntent2 = new Intent(this, TwitterService.class);
-        startService(testIntent2);
+        //Intent testIntent2 = new Intent(this, TwitterService.class);
+        //startService(testIntent2);
     }
 
     @Override

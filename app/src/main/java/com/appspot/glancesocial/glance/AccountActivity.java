@@ -13,6 +13,8 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.util.ArrayList;
+
 /**
  * Created by Jonah on 8/1/15.
  */
@@ -20,6 +22,7 @@ public class AccountActivity extends ActionBarActivity {
     // Use LOG_TAG when logging anything
     private final String LOG_TAG = AccountActivity.class.getSimpleName();
 
+    public static ArrayList<Post> friends;
     private String userToAdd;
 
     @Override

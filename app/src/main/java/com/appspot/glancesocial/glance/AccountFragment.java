@@ -28,7 +28,7 @@ public class AccountFragment extends Fragment {
     // Use LOG_TAG when logging anything
     private final String LOG_TAG = AccountFragment.class.getSimpleName();
 
-    private ArrayList<Post> friends;
+
 
     public AccountFragment() {
     }
@@ -44,44 +44,58 @@ public class AccountFragment extends Fragment {
             String accountName = intent.getStringExtra(intent.EXTRA_TEXT);
             ((TextView) rootView.findViewById(R.id.account_name)).setText(accountName);
         }
-        friends = new ArrayList<>();
-        ParseQuery<ParseObject> query = new ParseQuery("InstagramUser");
-        SharedPreferences sharedPref =  getActivity().getSharedPreferences("userInfo", Context.MODE_PRIVATE);
-        String ownerID = sharedPref.getString(getString(R.string.owner_id),"");
-        Log.v(LOG_TAG, "Owner ID: " + ownerID);
-        query.whereEqualTo("ownerID", ownerID).findInBackground(new FindCallback<ParseObject>() {
-            public void done(List<ParseObject> object, ParseException e) {
-                Post newPost;
-                if (e == null) {
-                    for (int i = 0; i < object.size(); i++) {
-                        try {
-                            Log.v(LOG_TAG, "Adding a user to the list");
-                            newPost = new Post(object.get(i).getString("userName"),
-                                    object.get(i).getString("userName"),
-                                    Uri.parse(object.get(i).getString("profilePic")));
-                        } catch (ArrayIndexOutOfBoundsException exc) {
-                            //Create empty post
-                            exc.printStackTrace();
-                            newPost = new Post();
+
+        if (AccountActivity.friends == null || AccountActivity.friends.isEmpty()) {
+            AccountActivity.friends = new ArrayList<>();
+            ParseQuery<ParseObject> query = new ParseQuery("InstagramUser");
+            SharedPreferences sharedPref = getActivity().getSharedPreferences("userInfo", Context.MODE_PRIVATE);
+            String ownerID = sharedPref.getString(getString(R.string.owner_id), "");
+            Log.v(LOG_TAG, "Owner ID: " + ownerID);
+            query.whereEqualTo("ownerID", ownerID).findInBackground(new FindCallback<ParseObject>() {
+                public void done(List<ParseObject> object, ParseException e) {
+                    Post newPost;
+                    if (e == null) {
+                        for (int i = 0; i < object.size(); i++) {
+                            try {
+                                Log.v(LOG_TAG, "Adding a user to the list");
+                                newPost = new Post(object.get(i).getString("userName"),
+                                        object.get(i).getString("userName"),
+                                        Uri.parse(object.get(i).getString("profilePic")));
+                            } catch (ArrayIndexOutOfBoundsException exc) {
+                                //Create empty post
+                                exc.printStackTrace();
+                                newPost = new Post();
+                            }
+                            AccountActivity.friends.add(newPost);
                         }
-                        friends.add(newPost);
+                        updateTheFriendsList();
+                    } else {
+                        e.printStackTrace();
+                        Log.v(LOG_TAG, "object: " + object);
+                        newPost = new Post();
+                        AccountActivity.friends.add(newPost);
                     }
-                } else {
-                    e.printStackTrace();
-                    Log.v(LOG_TAG, "object: " + object);
-                    newPost = new Post();
-                    friends.add(newPost);
                 }
-            }
-        });
-        Log.v(LOG_TAG, "Friends " + friends);
+            });
+        }
+        Log.v(LOG_TAG, "Friends " + AccountActivity.friends);
         mFriendAdapter =
                 new FriendAdapter(
                         getActivity(), // The current context (this activity)
                         R.layout.friend_list, // The name of the layout ID.
-                        friends);
+                        AccountActivity.friends);
         ListView listView = (ListView) rootView.findViewById(R.id.friend_list);
         listView.setAdapter(mFriendAdapter);
         return rootView;
+    }
+
+    public void updateTheFriendsList() {
+        mFriendAdapter =
+                new FriendAdapter(
+                        getActivity(), // The current context (this activity)
+                        R.layout.friend_list, // The name of the layout ID.
+                        AccountActivity.friends);
+        ListView listView = (ListView) getActivity().findViewById(R.id.friend_list);
+        listView.setAdapter(mFriendAdapter);
     }
 }
