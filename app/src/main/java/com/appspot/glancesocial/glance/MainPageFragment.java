@@ -1,5 +1,7 @@
 package com.appspot.glancesocial.glance;
 
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -11,8 +13,13 @@ import android.widget.AdapterView;
 import android.widget.ViewFlipper;
 
 import com.etsy.android.grid.StaggeredGridView;
+import com.parse.FindCallback;
+import com.parse.ParseException;
+import com.parse.ParseObject;
+import com.parse.ParseQuery;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class MainPageFragment extends Fragment {
     // Use LOG_TAG when logging anything
@@ -33,90 +40,40 @@ public class MainPageFragment extends Fragment {
                              Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.main_fragment, container, false);
         StaggeredGridView gridView = (StaggeredGridView) rootView.findViewById(R.id.gridview_posts);
-        // Create some dummy data for the GridView.
-        String[] postType = {
-                "twitter", "instagram",
-                "twitter", "instagram",
-                "twitter", "twitter",
-                "twitter", "twitter",
-                "twitter", "twitter",
-                "twitter", "twitter",
-                "twitter", "twitter"
-        };
-        String[] userNames = {
-                "Jonah", "Christina",
-                "Daisy3214", "Fran",
-                "Jake", "Ethan",
-                "Courtney", "Shawn",
-                "Nicole", "Ross",
-                "Phillip", "Carla",
-                "Mollie", "Erik"
-        };
-        String[] userHandle = {
-                "@ForeverJonah", "@ctobias44",
-                "@Daisy91", "@fbueti2277",
-                "@theManJake", "@et31",
-                "@dianaH", "@sHaWn0",
-                "@nic0le", "@ross_h",
-                "@phillipyu32", "@12carla",
-                "@mollie5t", "@erik212"
-        };
-        String[] postTime = {
-                "Tue Aug 11 18:26:07 +0000 2015", "1439287204",
-                "Tue Aug 11 16:26:07 +0000 2015", "1439287204",
-                "Tue Aug 11 11:26:07 +0000 2015", "Tue Aug 11 11:26:07 +0000 2015",
-                "Mon Aug 10 18:26:07 +0000 2015", "Tue Aug 11 18:26:07 +0000 2015",
-                "Mon Aug 10 20:26:07 +0000 2015", "Tue Aug 11 Dec 23 18:26:07 +0000 2015",
-                "Mon Aug 10 18:26:07 +0000 2015", "Mon Aug 10 18:26:07 +0000 2015",
-                "Mon Aug 10 1:26:07 +0000 2015", "Mon Aug 10 18:26:07 +0000 2015"
-        };
-        Uri[] userPic = {
-                Uri.parse("https://pbs.twimg.com/profile_images/1231038234/page.jpg"),
-                Uri.parse("https://pbs.twimg.com/profile_images/508007776061100032/fH5_qPfZ.jpeg"),
-                Uri.parse("https://pbs.twimg.com/profile_images/378800000380894329/b065d66b754cd0025fb7f185788a4a26.jpeg"),
-                Uri.parse("https://pbs.twimg.com/profile_images/625819931976822785/eZBZE-r_.jpg"),
-                Uri.parse("https://pbs.twimg.com/profile_images/1231031781/brin.jpg"),
-                Uri.parse("https://pbs.twimg.com/profile_images/547588061216137216/5CL6N3VO.jpeg"),
-                Uri.parse("https://pbs.twimg.com/profile_images/378800000804593019/dfca1b32e435a872b4745317895d41eb.jpeg"),
-                Uri.parse("https://pbs.twimg.com/profile_images/481231649128980480/9hpv14pc.jpeg"),
-                Uri.parse("https://pbs.twimg.com/profile_images/625873607047168001/LGOjZNnr.jpg"),
-                Uri.parse("https://pbs.twimg.com/profile_images/543090941759070208/rAbJF8FE.jpeg"),
-                Uri.parse("https://pbs.twimg.com/profile_images/615976088229941249/hVsbM-MD.jpg"),
-                Uri.parse("https://pbs.twimg.com/profile_images/625486284505653248/HAYHOkLR.jpg"),
-                Uri.parse("https://pbs.twimg.com/profile_images/616437125362380800/cntVa6Nj.jpg"),
-                Uri.parse("https://pbs.twimg.com/profile_images/477397164453527552/uh2w1u1o.jpeg")
-        };
-        String[] postText = {
-                "I wish life was always this beautiful",
-                "Just California things",
-                "So typical", "#Blessed",
-                "Glad to be back", "Sometimes people are really nice",
-                "Can I go home?? #worksucks", "Look at that",
-                "Wooooohooooo", "Beauty is in the eye of the beholder",
-                "Alphabet.. I can't get over the name", "Someone needs to clean",
-                "Love these kids #timeforcollege", "Why not"
-        };
-        Uri[] postPic = {
-                null, Uri.parse("https://pbs.twimg.com/media/CKiJzfHWcAApWty.jpg:large"),
-                null,
-                Uri.parse("https://pbs.twimg.com/media/CFnOsvYWIAA8TvL.jpg:large"),
-                Uri.parse("https://pbs.twimg.com/profile_images/619883932696322048/L1N-eP3y.jpg"), null,
-                null, null,
-                null,
-                null,
-                null, null,
-                Uri.parse("https://pbs.twimg.com/media/CDeZoQ7UkAA7xC1.jpg:large"), null
-        };
-        Post newPost;
-        for (int i = 0; i < 14; i++) {
-            try {
-                newPost = new Post(postType[i], userNames[i], userHandle[i], postTime[i], userPic[i], postText[i], postPic[i]);
-            } catch (ArrayIndexOutOfBoundsException e) {
-                //Create empty post
-                newPost = new Post();
+        ParseQuery<ParseObject> query = new ParseQuery("InstagramPosts");
+        SharedPreferences sharedPref = getActivity().getSharedPreferences("userInfo", Context.MODE_PRIVATE);
+        String ownerID = sharedPref.getString(getString(R.string.owner_id), "");
+        query.whereEqualTo("ownerID", ownerID).findInBackground(new FindCallback<ParseObject>() {
+            public void done(List<ParseObject> object, ParseException e) {
+                Post newPost;
+                if (e == null) {
+                    for (int i = 0; i < object.size(); i++) {
+                        try {
+                            newPost = new Post("instagram",
+                                    // TODO: Need to get the user name/handle from ID
+                                    object.get(i).getString("userID"),
+                                    object.get(i).getString("userID"),
+                                    object.get(i).getString("createdTime"),
+                                    // TODO: Need to get the user's profile picture
+                                    Uri.parse(object.get(i).getString("thumbnail")),
+                                    object.get(i).getString("caption"),
+                                    Uri.parse(object.get(i).getString("lowImage")));
+                        } catch (ArrayIndexOutOfBoundsException exc) {
+                            //Create empty post
+                            exc.printStackTrace();
+                            newPost = new Post();
+                        }
+                        posts.add(newPost);
+                    }
+                } else {
+                    e.printStackTrace();
+                    newPost = new Post();
+                    posts.add(newPost);
+                }
+                mPostAdapter.notifyDataSetChanged();
+                updateTimeLine();
             }
-            posts.add(newPost);
-        }
+        });
         updateGridView(gridView, posts, rootView);
         gridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             public void onItemClick(AdapterView<?> parent, View v, int position, long id) {
@@ -137,7 +94,7 @@ public class MainPageFragment extends Fragment {
                 // Flip the card to the correct child view (Ex. Twitter or Instagram)
                 if (currentlyFlipped != viewFlipper && posts.get(position).getPostType().equals("twitter")) {
                     viewFlipper.setDisplayedChild(1);
-                } else if (currentlyFlipped != viewFlipper &&  posts.get(position).getPostType().equals("instagram")) {
+                } else if (currentlyFlipped != viewFlipper && posts.get(position).getPostType().equals("instagram")) {
                     viewFlipper.setDisplayedChild(2);
                 }
                 // Update which card is currently flipped over
@@ -151,7 +108,16 @@ public class MainPageFragment extends Fragment {
         return rootView;
     }
 
-    // Takes the Array of Post Objects and updates the Staggered Grid View
+    public void updateTimeLine() {
+        mPostAdapter =
+                new CardAdapter(
+                        getActivity(), // The current context (this activity)
+                        R.layout.card, // The name of the layout ID.
+                        posts);
+        StaggeredGridView gridView = (StaggeredGridView) getActivity().findViewById(R.id.gridview_posts);
+        gridView.setAdapter(mPostAdapter);
+    }
+
     public void updateGridView(StaggeredGridView gridView, ArrayList<Post> posts, View rootView) {
         mPostAdapter =
                 new CardAdapter(
