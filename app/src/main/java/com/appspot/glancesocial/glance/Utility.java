@@ -224,15 +224,14 @@ public class Utility {
 
         @Override
         protected Void doInBackground(Void... params) {
-            String postID;
-            String thumbnail;
-            String lowImage;
-            String caption;
-            int createdTime;
+            String postID = null;
+            String thumbnail = null;
+            String lowImage = null;
+            String caption = null;
+            int createdTime = -1;
             String location = null;
-            int comments;
-            int likes;
-            ParseObject postParse = new ParseObject("InstagramPosts");
+            int comments = -1;
+            int likes = -1;
 
             try {
                 postID = post.getString("id");
@@ -244,36 +243,41 @@ public class Utility {
                 JSONObject captionObj = post.getJSONObject("caption");
                 caption = captionObj.getString("text");
                 createdTime = Integer.parseInt(captionObj.getString("created_time"));
-                JSONObject locationObj = post.getJSONObject("location");
-                if (locationObj.has("name") && !locationObj.isNull("name")) {
-                    location = locationObj.getString("name");
+                if(post.has("location") && !post.isNull("location")) {
+                    JSONObject locationObj = post.getJSONObject("location");
+                    if (locationObj.has("name") && !locationObj.isNull("name")) {
+                        location = locationObj.getString("name");
+                    }
                 }
                 JSONObject commentsObj = post.getJSONObject("comments");
                 comments = Integer.parseInt(commentsObj.getString("count"));
                 JSONObject likesObj = post.getJSONObject("likes");
                 likes = Integer.parseInt(likesObj.getString("count"));
-
-                Log.d(LOG_TAG, userIdInDB);
-                Log.d(LOG_TAG, thumbnail);
-                Log.d(LOG_TAG, caption);
-                Log.d(LOG_TAG, lowImage);
-
-                postParse.put("userId", userIdInDB);
-                postParse.put("thumbnail", thumbnail);
-                postParse.put("caption", caption);
-                postParse.put("comments", comments);
-                postParse.put("createdTime", createdTime);
-                postParse.put("likes", likes);
-                postParse.put("location", location);
-                postParse.put("lowImage", lowImage);
-                postParse.put("postId", postID);
-                postParse.put("ownerID", ownerID);
-                postParse.saveInBackground();
-
             } catch (JSONException e) {
                 Log.e(LOG_TAG, e.getMessage(), e);
                 e.printStackTrace();
             }
+            ParseObject postParse = new ParseObject("InstagramPosts");
+
+            Log.d(LOG_TAG, userIdInDB);
+            Log.d(LOG_TAG, thumbnail);
+            Log.d(LOG_TAG, caption);
+            Log.d(LOG_TAG, lowImage);
+
+            postParse.put("userId", userIdInDB);
+            postParse.put("thumbnail", thumbnail);
+            postParse.put("caption", caption);
+            postParse.put("comments", comments);
+            postParse.put("createdTime", createdTime);
+            postParse.put("likes", likes);
+            if(location != null)
+                postParse.put("location", location);
+            postParse.put("lowImage", lowImage);
+            postParse.put("postId", postID);
+            postParse.put("ownerID", ownerID);
+            postParse.saveInBackground();
+            Log.d(LOG_TAG, "Saved in background ~~~~~~~~~~~~~~~~~~~~~~~");
+
             return null;
         }
     }

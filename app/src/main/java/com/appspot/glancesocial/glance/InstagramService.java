@@ -7,6 +7,7 @@ import android.content.SharedPreferences;
 import android.util.Log;
 
 import com.parse.FindCallback;
+import com.parse.GetCallback;
 import com.parse.ParseException;
 import com.parse.ParseObject;
 import com.parse.ParseQuery;
@@ -36,7 +37,8 @@ import java.util.concurrent.ExecutionException;
 public class InstagramService extends IntentService {
     // Use LOG_TAG when logging anything
     final String LOG_TAG = InstagramService.class.getSimpleName();
-
+    final static int USER_PAGES = 5;
+    final static int FEED_PAGES = 5;
     final static String INSTA_BASE_URL = "https://api.instagram.com/v1/";
     final String ACCESS = "access_token";
     final int MAX_FRIENDS = 10;
@@ -53,13 +55,42 @@ public class InstagramService extends IntentService {
 
     @Override
     protected void onHandleIntent(Intent intent) {
+        deleteEntries("InstagramUser");
+        deleteEntries("InstagramPosts");
         getLikedUsers();
         getBestFriends(likedUsers); //adds best friends to database
         getInstagramFeed();
     }
 
+    // deletes entries of database named entry
+    public void deleteEntries(String entry){
+        ParseQuery<ParseObject> userQuery = new ParseQuery(entry);
+        if(InstaWebViewActivity.getID != null) {
+            try { //waits for thread to finish, if not done
+                InstaWebViewActivity.getID.get();
+                Log.d(LOG_TAG, "Owner ID = " + Utility.ownerID);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            } catch (ExecutionException e) {
+                e.printStackTrace();
+            }
+        }
+        userQuery.whereEqualTo("ownerID", Utility.ownerID);
+        userQuery.findInBackground(new FindCallback<ParseObject>() {
+            public void done(List<ParseObject> objects, ParseException ex) {
+                if (objects != null) {
+                    for (ParseObject p : objects) {
+                        p.deleteInBackground();
+                        p.saveInBackground();
+                    }
+                }
+            }
+        });
+    }
+
     public void getInstagramFeed() {
         try {
+            Log.d(LOG_TAG, "Instagram feed called");
             StringBuilder builtUri = new StringBuilder();
             String feedJsonStr;
             BufferedReader reader;
@@ -70,16 +101,18 @@ public class InstagramService extends IntentService {
             String newLastLikedID = null;
             //TODO: add functionality to go to the next page in JSON
             url = new URL(builtUri.toString());
-            urlConnection = (HttpURLConnection) url.openConnection();
-            urlConnection.setRequestMethod("GET");
-            urlConnection.connect();
-            InputStream inputStream = urlConnection.getInputStream();
             StringBuffer buffer = new StringBuffer();
-            if (inputStream == null) {
-                return;
+            reader = null;
+            for(int j = 0; j < FEED_PAGES; j++) { // gets first FEED_PAGES pages of posts
+                urlConnection = (HttpURLConnection) url.openConnection();
+                urlConnection.setRequestMethod("GET");
+                urlConnection.connect();
+                InputStream inputStream = urlConnection.getInputStream();
+                if (inputStream == null) {
+                    return;
+                }
+                reader = new BufferedReader(new InputStreamReader(inputStream));
             }
-            reader = new BufferedReader(new InputStreamReader(inputStream));
-
             String line;
             while ((line = reader.readLine()) != null) {
                 buffer.append(line + "\n");
@@ -187,45 +220,49 @@ public class InstagramService extends IntentService {
                 .append(InstaWebViewActivity.accessToken);
         String newLastLikedID = null;
         try {
-            //TODO: add functionality to go to the next page in JSON
             url = new URL(builtUri.toString());
-            urlConnection = (HttpURLConnection) url.openConnection();
-            urlConnection.setRequestMethod("GET");
-            urlConnection.connect();
-            InputStream inputStream = urlConnection.getInputStream();
-            StringBuffer buffer = new StringBuffer();
-            if (inputStream == null) {
-                return;
-            }
-            reader = new BufferedReader(new InputStreamReader(inputStream));
+            for(int j =0; j < USER_PAGES; j++) { //gets first USER_PAGES pages of likes
+                urlConnection = (HttpURLConnection) url.openConnection();
+                urlConnection.setRequestMethod("GET");
+                urlConnection.connect();
+                InputStream inputStream = urlConnection.getInputStream();
+                StringBuffer buffer = new StringBuffer();
+                if (inputStream == null) {
+                    return;
+                }
+                reader = new BufferedReader(new InputStreamReader(inputStream));
 
-            String line;
-            while ((line = reader.readLine()) != null) {
-                buffer.append(line + "\n");
+                String line;
+                while ((line = reader.readLine()) != null) {
+                    buffer.append(line + "\n");
+                }
+                mediaLiked = buffer.toString();
+                JSONObject jObj = new JSONObject(mediaLiked);
+                //gets the most recent likes and adds them to list
+                JSONArray data = jObj.optJSONArray("data");
+                JSONObject latestLike = data.getJSONObject(0);
+                newLastLikedID = latestLike.getString("id");
+                JSONObject latestUser = latestLike.getJSONObject("user");
+                likedUsers.add(latestUser.getString("id"));
+                for (int i = 1; i < data.length(); i++) {
+                    JSONObject imageEntry = data.getJSONObject(i);
+                    if (imageEntry.getString("id").equals(newLastLikedID))
+                        break;
+                    JSONObject user = imageEntry.getJSONObject("user");
+                    likedUsers.add(user.getString("id"));
+                }
+                Log.d(LOG_TAG, likedUsers.toString());
+                JSONObject page = jObj.getJSONObject("pagination");
+                url = new URL(page.getString("next_url"));
             }
-            mediaLiked = buffer.toString();
-            JSONObject jObj = new JSONObject(mediaLiked);
-            //gets the most recent likes and adds them to list
-            JSONArray data = jObj.optJSONArray("data");
-            JSONObject latestLike = data.getJSONObject(0);
-            newLastLikedID = latestLike.getString("id");
-            JSONObject latestUser = latestLike.getJSONObject("user");
-            likedUsers.add(latestUser.getString("id"));
-            for (int i = 1; i < data.length(); i++) {
-                JSONObject imageEntry = data.getJSONObject(i);
-                if (imageEntry.getString("id").equals(newLastLikedID))
-                    break;
-                JSONObject user = imageEntry.getJSONObject("user");
-                likedUsers.add(user.getString("id"));
-            }
-            Log.d(LOG_TAG, likedUsers.toString());
         } catch (JSONException e) {
             e.printStackTrace();
         } catch (MalformedURLException e) {
             e.printStackTrace();
         } catch (IOException e) {
             e.printStackTrace();
-        } finally {
+        }
+        finally {
             if (urlConnection != null) {
                 urlConnection.disconnect();
             }
