@@ -1,7 +1,9 @@
 package com.appspot.glancesocial.glance;
 
 import android.app.IntentService;
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.util.Log;
 
 import com.parse.FindCallback;
@@ -77,7 +79,7 @@ public class InstagramService extends IntentService {
         userQuery.findInBackground(new FindCallback<ParseObject>() {
             public void done(List<ParseObject> objects, ParseException ex) {
                 if (objects != null) {
-                    for(ParseObject p : objects){
+                    for (ParseObject p : objects) {
                         p.deleteInBackground();
                         p.saveInBackground();
                     }
@@ -99,51 +101,49 @@ public class InstagramService extends IntentService {
             String newLastLikedID = null;
             //TODO: add functionality to go to the next page in JSON
             url = new URL(builtUri.toString());
+            StringBuffer buffer = new StringBuffer();
+            reader = null;
             for(int j = 0; j < FEED_PAGES; j++) { // gets first FEED_PAGES pages of posts
                 urlConnection = (HttpURLConnection) url.openConnection();
                 urlConnection.setRequestMethod("GET");
                 urlConnection.connect();
                 InputStream inputStream = urlConnection.getInputStream();
-                StringBuffer buffer = new StringBuffer();
                 if (inputStream == null) {
                     return;
                 }
                 reader = new BufferedReader(new InputStreamReader(inputStream));
+            }
+            String line;
+            while ((line = reader.readLine()) != null) {
+                buffer.append(line + "\n");
+            }
+            feedJsonStr = buffer.toString();
+            JSONObject feedJson = new JSONObject(feedJsonStr);
+            final JSONArray feedArray = feedJson.getJSONArray("data");
 
-                String line;
-                while ((line = reader.readLine()) != null) {
-                    buffer.append(line + "\n");
-                }
-                feedJsonStr = buffer.toString();
-                JSONObject feedJson = new JSONObject(feedJsonStr);
-                final JSONArray feedArray = feedJson.getJSONArray("data");
-
-                for (int i = 0; i < feedArray.length(); i++) {
-                    final int cur = i;
-                    Log.d(LOG_TAG, "Started traversing JSON array");
-                    JSONObject post = feedArray.getJSONObject(i);
-                    JSONObject user = post.getJSONObject("user");
-                    ParseQuery postQuery = new ParseQuery("InstagramUser");
-                    Log.d(LOG_TAG, "USER ID: " + user.getString(("id")));
-                    postQuery.whereEqualTo("userId", user.getString("id"));
-                    postQuery.getFirstInBackground(new GetCallback<ParseObject>() {
-                        public void done(ParseObject object, ParseException e) {
-                            if (object != null) {
-                                try {
-                                    Log.d(LOG_TAG, "Executing asynctask ***********");
-                                    String userId = (String) object.get("userId");
-                                    Utility.AddPostToParse addPost = new Utility()
-                                            .new AddPostToParse(feedArray.getJSONObject(cur), userId);
-                                    addPost.execute();
-                                } catch (JSONException ex) {
-                                    ex.printStackTrace();
-                                }
+            for (int i = 0; i < feedArray.length(); i++) {
+                final int cur = i;
+                JSONObject post = feedArray.getJSONObject(i);
+                JSONObject user = post.getJSONObject("user");
+                ParseQuery postQuery = new ParseQuery("InstagramPosts");
+                postQuery.whereEqualTo("userId", user.getString("id"));
+                /*postQuery.findInBackground(new FindCallback<ParseObject>() {
+                    @Override
+                    public void done(List<ParseObject> objects, ParseException e) {
+                        if (e != null) {
+                            try {
+                                ParseObject user = objects.get(0);
+                                String userId = (String) user.get("userId");
+                                Utility.AddPostToParse addPost = new Utility()
+                                .new AddPostToParse(feedArray.getJSONObject(cur), userId);
+                                Log.d(LOG_TAG, "Executing asynctask ***********");
+                                addPost.execute();
+                            } catch (JSONException ex) {
+                                ex.printStackTrace();
                             }
                         }
-                    });
-                }
-                JSONObject page = feedJson.getJSONObject("pagination");
-                url = new URL(page.getString("next_url"));
+                    }
+                });*/
             }
         } catch (IOException e) {
             e.printStackTrace();
@@ -174,29 +174,40 @@ public class InstagramService extends IntentService {
         });
         int pos = (MAX_FRIENDS < usersMap.size()) ? MAX_FRIENDS : usersMap.size();
         int i = 0;
-
+        if(InstaWebViewActivity.getID != null) {
+            try { //waits for thread to finish, if not done
+                InstaWebViewActivity.getID.get();
+                Log.d(LOG_TAG, "Owner ID = " + Utility.ownerID + " **************************************************************");
+                SharedPreferences sharedPref =  getSharedPreferences("userInfo", Context.MODE_PRIVATE);
+                SharedPreferences.Editor editor = sharedPref.edit();
+                editor.putString(getString(R.string.owner_id), Utility.ownerID);
+                editor.apply();
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            } catch (ExecutionException e) {
+                e.printStackTrace();
+            }
+        }
         add:
         for (Object e : a) {
             i++;
             final Object post = e;
             ParseQuery<ParseObject> userQuery = new ParseQuery("InstagramUser");
-            String id = ((Map.Entry<String, Integer>) e).getKey();
-            Log.d(LOG_TAG, "UserID " + id);
-            //UNCOMMENT THIS TO CHECK IF USER EXISTS IN DB; CURRENTLY NOT NECESSARY
-//            userQuery.whereEqualTo("userId", id);
-//            userQuery.getFirstInBackground(new GetCallback<ParseObject>() {
-//                public void done(ParseObject object, ParseException ex) {
-//                    if (object == null) {
-            String userId = ((Map.Entry<String, Integer>) post).getKey();
-            int rank = ((Map.Entry<String, Integer>) post).getValue(); // the higher the rank, the more interactions with user
-            Utility.AddUserToParse addUserTask = new Utility()
-                    .new AddUserToParse(userId, rank);
-            addUserTask.execute();
-//                    } else {
-////                        Log.d(LOG_TAG, "Found Objects " + object.toString());
-//                    }
-//                }
-//            });
+            final String id = ((Map.Entry<String, Integer>) e).getKey();
+            userQuery.whereEqualTo("userId", id)
+                    .findInBackground(new FindCallback<ParseObject>() {
+                        public void done(List<ParseObject> objects, ParseException ex) {
+                            Log.d(LOG_TAG, "Object List " + objects);
+                            if (ex == null && objects.isEmpty()) {
+                                String userId = ((Map.Entry<String, Integer>) post).getKey();
+                                Log.d(LOG_TAG, "id " + id + " userId " + userId);
+                                int rank = ((Map.Entry<String, Integer>) post).getValue();
+                                Utility.AddUserToParse addUserTask = new Utility()
+                                        .new AddUserToParse(userId, rank);
+                                addUserTask.execute();
+                            }
+                        }
+                    });
             if (i == pos) break add;
         }
     }

@@ -15,10 +15,13 @@ import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+
 import com.parse.ParseObject;
 import com.squareup.picasso.Picasso;
+
 import org.json.JSONException;
 import org.json.JSONObject;
+
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
@@ -37,7 +40,7 @@ import java.util.Locale;
 public class Utility {
     // Use LOG_TAG when logging anything
     private final String LOG_TAG = Utility.class.getSimpleName();
-    static String ownerID;
+    public static String ownerID;
 
     //Can be used to set the margins of a given view
     public static void setMargins (View v, int l, int t, int r, int b) {
@@ -114,6 +117,7 @@ public class Utility {
                 JSONObject obj = new JSONObject(buffer.toString());
                 JSONObject user = obj.getJSONObject("data");
                 ownerID = user.getString("id");
+                Log.v(LOG_TAG, "USER ID: " + ownerID);
             } catch (JSONException e) {
                 e.printStackTrace();
             } catch (MalformedURLException e) {
