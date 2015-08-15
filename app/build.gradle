@@ -22,7 +22,6 @@ android {
     buildToolsVersion "22.0.1"
 
     defaultConfig {
-        multiDexEnabled true
         applicationId "com.appspot.glancesocial.glance"
         minSdkVersion 10
         targetSdkVersion 22
