@@ -187,11 +187,11 @@ public class InstagramService extends IntentService {
 //            userQuery.getFirstInBackground(new GetCallback<ParseObject>() {
 //                public void done(ParseObject object, ParseException ex) {
 //                    if (object == null) {
-                        String userId = ((Map.Entry<String, Integer>) post).getKey();
-                        int rank = ((Map.Entry<String, Integer>) post).getValue(); // the higher the rank, the more interactions with user
-                        Utility.AddUserToParse addUserTask = new Utility()
-                                .new AddUserToParse(userId, rank);
-                        addUserTask.execute();
+            String userId = ((Map.Entry<String, Integer>) post).getKey();
+            int rank = ((Map.Entry<String, Integer>) post).getValue(); // the higher the rank, the more interactions with user
+            Utility.AddUserToParse addUserTask = new Utility()
+                    .new AddUserToParse(userId, rank);
+            addUserTask.execute();
 //                    } else {
 ////                        Log.d(LOG_TAG, "Found Objects " + object.toString());
 //                    }
@@ -251,7 +251,7 @@ public class InstagramService extends IntentService {
         } catch (IOException e) {
             e.printStackTrace();
         }
-            finally {
+        finally {
             if (urlConnection != null) {
                 urlConnection.disconnect();
             }
