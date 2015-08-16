@@ -88,6 +88,7 @@ public class InstagramService extends IntentService {
     }
 
     public void getInstagramFeed() {
+        //TODO: add functionality to go to next page when user reaches bottom of screen
         try {
             Log.d(LOG_TAG, "Instagram feed called");
             StringBuilder builtUri = new StringBuilder();
@@ -101,6 +102,8 @@ public class InstagramService extends IntentService {
             url = new URL(builtUri.toString());
             StringBuffer buffer = new StringBuffer();
             reader = null;
+//            final int numPosts = 0;
+//            while(numPosts < 10){
             for(int j = 0; j < FEED_PAGES; j++) { // gets first FEED_PAGES pages of posts
                 urlConnection = (HttpURLConnection) url.openConnection();
                 urlConnection.setRequestMethod("GET");
@@ -110,41 +113,43 @@ public class InstagramService extends IntentService {
                     return;
                 }
                 reader = new BufferedReader(new InputStreamReader(inputStream));
-            }
-            String line;
-            while ((line = reader.readLine()) != null) {
-                buffer.append(line + "\n");
-            }
-            feedJsonStr = buffer.toString();
-            JSONObject feedJson = new JSONObject(feedJsonStr);
-            final JSONArray feedArray = feedJson.getJSONArray("data");
+                String line;
+                while ((line = reader.readLine()) != null) {
+                    buffer.append(line + "\n");
+                }
+                feedJsonStr = buffer.toString();
+                JSONObject feedJson = new JSONObject(feedJsonStr);
+                final JSONArray feedArray = feedJson.getJSONArray("data");
 
-            for (int i = 0; i < feedArray.length(); i++) {
-                final int cur = i;
-                JSONObject post = feedArray.getJSONObject(i);
-                JSONObject user = post.getJSONObject("user");
-                ParseQuery postQuery = new ParseQuery("InstagramUser");
-                postQuery.whereEqualTo("userId", user.getString("id"));
-                Log.d(LOG_TAG, "USERID: " + user.getString("id"));
-                postQuery.findInBackground(new FindCallback<ParseObject>() {
-                    @Override
-                    public void done(List<ParseObject> objects, ParseException e) {
-                        if (!objects.isEmpty()) {
-                            try {
-                                ParseObject user = objects.get(0);
-                                String userId = (String) user.get("userId");
-                                Utility.AddPostToParse addPost = new Utility()
-                                .new AddPostToParse(feedArray.getJSONObject(cur), userId);
-                                Log.d(LOG_TAG, "Executing asynctask ***********");
-                                addPost.execute();
-                            } catch (JSONException ex) {
-                                ex.printStackTrace();
+                for (int i = 0; i < feedArray.length(); i++) {
+                    final int cur = i;
+                    JSONObject post = feedArray.getJSONObject(i);
+                    JSONObject user = post.getJSONObject("user");
+                    ParseQuery postQuery = new ParseQuery("InstagramUser");
+                    postQuery.whereEqualTo("userId", user.getString("id"));
+                    Log.d(LOG_TAG, "USERID: " + user.getString("id"));
+                    postQuery.findInBackground(new FindCallback<ParseObject>() {
+                        @Override
+                        public void done(List<ParseObject> objects, ParseException e) {
+                            if (!objects.isEmpty()) {
+                                try {
+                                    ParseObject user = objects.get(0);
+                                    String userId = (String) user.get("userId");
+                                    Utility.AddPostToParse addPost = new Utility()
+                                            .new AddPostToParse(feedArray.getJSONObject(cur), userId);
+                                    Log.d(LOG_TAG, "Executing asynctask ***********");
+                                    addPost.execute();
+                                } catch (JSONException ex) {
+                                    ex.printStackTrace();
+                                }
+                            } else {
+                                Log.d(LOG_TAG, "ID NOT FOUND ******");
                             }
-                        }else{
-                            Log.d(LOG_TAG, "ID NOT FOUND ******");
                         }
-                    }
-                });
+                    });
+                }
+                JSONObject page = feedJson.getJSONObject("pagination");
+                url = new URL(page.getString("next_url"));
             }
         } catch (IOException e) {
             e.printStackTrace();
@@ -193,6 +198,8 @@ public class InstagramService extends IntentService {
         for (Object e : a) {
             i++;
             final Object post = e;
+            //the parsequery here is not necessary for now since we will be deleting all entries anyways.
+            //however, we might need this in the future
 //            ParseQuery<ParseObject> userQuery = new ParseQuery("InstagramUser");
             final String id = ((Map.Entry<String, Integer>) e).getKey();
 //            userQuery.whereEqualTo("userId", id)

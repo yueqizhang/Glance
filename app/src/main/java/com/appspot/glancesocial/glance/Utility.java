@@ -233,6 +233,7 @@ public class Utility {
             String thumbnail = null;
             String lowImage = null;
             String caption = null;
+            String userName = null;
             int createdTime = -1;
             String location = null;
             int comments = -1;
@@ -240,6 +241,8 @@ public class Utility {
 
             try {
                 postID = post.getString("id");
+                JSONObject user = post.getJSONObject("user");
+                userName = user.getString("username");
                 JSONObject image = post.getJSONObject("images");
                 JSONObject thumbnailObj = image.getJSONObject("thumbnail");
                 thumbnail = thumbnailObj.getString("url");
@@ -270,6 +273,7 @@ public class Utility {
             Log.d(LOG_TAG, lowImage);
 
             postParse.put("userId", userIdInDB);
+            postParse.put("username", userName);
             postParse.put("thumbnail", thumbnail);
             postParse.put("caption", caption);
             postParse.put("comments", comments);
