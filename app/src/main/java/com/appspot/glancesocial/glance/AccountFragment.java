@@ -6,7 +6,6 @@ import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -28,12 +27,11 @@ public class AccountFragment extends Fragment {
     // Use LOG_TAG when logging anything
     private final String LOG_TAG = AccountFragment.class.getSimpleName();
 
+    public static FriendAdapter mFriendAdapter;
 
-
+    //Default Constructor
     public AccountFragment() {
     }
-
-    FriendAdapter mFriendAdapter;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -47,38 +45,37 @@ public class AccountFragment extends Fragment {
 
         if (AccountActivity.friends == null || AccountActivity.friends.isEmpty()) {
             AccountActivity.friends = new ArrayList<>();
-            ParseQuery<ParseObject> query = new ParseQuery("InstagramUser");
+            // Get the Owner ID so we can access information
             SharedPreferences sharedPref = getActivity().getSharedPreferences("userInfo", Context.MODE_PRIVATE);
             String ownerID = sharedPref.getString(getString(R.string.owner_id), "");
-            Log.v(LOG_TAG, "Owner ID: " + ownerID);
+            // Create a Parse Query to get the best friends
+            ParseQuery<ParseObject> query = new ParseQuery("InstagramUser");
             query.whereEqualTo("ownerID", ownerID).findInBackground(new FindCallback<ParseObject>() {
                 public void done(List<ParseObject> object, ParseException e) {
-                    Post newPost;
+                    Post newFriend;
                     if (e == null) {
+                        // Create a new list item for every best friend they have
                         for (int i = 0; i < object.size(); i++) {
                             try {
-                                Log.v(LOG_TAG, "Adding a user to the list");
-                                newPost = new Post(object.get(i).getString("userName"),
+                                newFriend = new Post(object.get(i).getString("userName"),
                                         object.get(i).getString("userName"),
                                         Uri.parse(object.get(i).getString("profilePic")));
                             } catch (ArrayIndexOutOfBoundsException exc) {
                                 //Create empty post
                                 exc.printStackTrace();
-                                newPost = new Post();
+                                newFriend = new Post();
                             }
-                            AccountActivity.friends.add(newPost);
+                            AccountActivity.friends.add(newFriend);
                         }
                         updateTheFriendsList();
                     } else {
                         e.printStackTrace();
-                        Log.v(LOG_TAG, "object: " + object);
-                        newPost = new Post();
-                        AccountActivity.friends.add(newPost);
+                        newFriend = new Post();
+                        AccountActivity.friends.add(newFriend);
                     }
                 }
             });
         }
-        Log.v(LOG_TAG, "Friends " + AccountActivity.friends);
         mFriendAdapter =
                 new FriendAdapter(
                         getActivity(), // The current context (this activity)

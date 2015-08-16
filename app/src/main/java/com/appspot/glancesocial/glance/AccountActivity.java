@@ -24,6 +24,7 @@ public class AccountActivity extends ActionBarActivity {
 
     public static ArrayList<Post> friends;
     private String userToAdd;
+    private String userToDelete;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -81,8 +82,9 @@ public class AccountActivity extends ActionBarActivity {
                 //Take the user input and add the new user to the database
                 userToAdd = input.getText().toString();
                 Utility.AddUserToParse addUserTask = new Utility()
-                        .new AddUserToParse();
+                        .new AddUserToParse(userToAdd);
                 addUserTask.execute();
+                AccountFragment.mFriendAdapter.notifyDataSetChanged();
             }
         });
         builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
@@ -107,7 +109,8 @@ public class AccountActivity extends ActionBarActivity {
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 //Take the user input and delete the user
-                userToAdd = input.getText().toString();
+                userToDelete = input.getText().toString();
+                AccountFragment.mFriendAdapter.notifyDataSetChanged();
             }
         });
         builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
