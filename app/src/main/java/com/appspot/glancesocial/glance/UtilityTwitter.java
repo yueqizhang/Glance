@@ -1,37 +1,8 @@
 package com.appspot.glancesocial.glance;
 
-import android.content.Context;
-import android.graphics.Bitmap;
-import android.graphics.Bitmap.Config;
-import android.graphics.Canvas;
-import android.graphics.Paint;
-import android.graphics.PorterDuff.Mode;
-import android.graphics.PorterDuffXfermode;
-import android.graphics.Rect;
-import android.graphics.RectF;
-import android.net.Uri;
 import android.os.AsyncTask;
-import android.util.Log;
-import android.view.View;
-import android.view.ViewGroup;
-import android.widget.ImageView;
+
 import com.parse.ParseObject;
-import com.squareup.picasso.Picasso;
-import org.json.JSONException;
-import org.json.JSONObject;
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.net.HttpURLConnection;
-import java.net.MalformedURLException;
-import java.net.URL;
-import java.text.SimpleDateFormat;
-import java.util.Calendar;
-import java.util.Date;
-import java.util.Locale;
-import java.util.ArrayList;
-import java.util.Arrays;
 
 
 /**
@@ -39,7 +10,7 @@ import java.util.Arrays;
  */
 public class UtilityTwitter {
     // Use LOG_TAG when logging anything
-    private final String LOG_TAG = Utility.class.getSimpleName();
+    private final String LOG_TAG = UtilityTwitter.class.getSimpleName();
     //static String ownerID;
 
     public class AddUserToParseTwitter extends AsyncTask<Void, Void, Void> {
