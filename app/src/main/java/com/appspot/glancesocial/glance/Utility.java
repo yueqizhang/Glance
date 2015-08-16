@@ -293,19 +293,21 @@ public class Utility {
 
     // Twitter Date Formatting
     public static String formatTwitterDate(String unformattedDate) {
-        // TODO: Format the date and get how long ago it was posted
-        // TODO: Get information from Twitter date
-        String LARGE_TWITTER_DATE_FORMAT = "EEE MMM dd HH:mm:ss Z yyyy";
-        Calendar postTimestamp = Calendar.getInstance();
         String howLongAgo = "";
-        try {
-            Date date = new SimpleDateFormat(LARGE_TWITTER_DATE_FORMAT, Locale.ENGLISH)
-                    .parse(unformattedDate);
-            postTimestamp.setTime(date);
-            Calendar rightNow = Calendar.getInstance();
-            howLongAgo = getTimeDifference(rightNow, postTimestamp);
-        } catch (Exception e) {
-            e.printStackTrace();
+        if (unformattedDate != null) {
+            String LARGE_TWITTER_DATE_FORMAT = "EEE MMM dd HH:mm:ss Z yyyy";
+            Calendar postTimestamp = Calendar.getInstance();
+            try {
+                Date date = new SimpleDateFormat(LARGE_TWITTER_DATE_FORMAT, Locale.ENGLISH)
+                        .parse(unformattedDate);
+                postTimestamp.setTime(date);
+                Calendar rightNow = Calendar.getInstance();
+                howLongAgo = getTimeDifference(rightNow, postTimestamp);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        } else {
+            howLongAgo = "N/A";
         }
 
         return howLongAgo;
@@ -313,18 +315,21 @@ public class Utility {
 
     // Instagram Date Formatting
     public static String formatInstagramDate(String unformattedDate) {
-        // TODO: Format the date and get how long ago it was posted
-        // TODO: Get information from Instagram date
-        long parsedTimestamp = Long.parseLong(unformattedDate)*1000;
-        Calendar postTimestamp = Calendar.getInstance();
         String howLongAgo = "";
-        try {
-            Date date = new Date(parsedTimestamp);
-            postTimestamp.setTime(date);
-            Calendar rightNow = Calendar.getInstance();
-            howLongAgo = getTimeDifference(rightNow, postTimestamp);
-        } catch (Exception e) {
-            e.printStackTrace();
+        if (unformattedDate != null) {
+            long parsedTimestamp = Long.parseLong(unformattedDate) * 1000;
+            Calendar postTimestamp = Calendar.getInstance();
+
+            try {
+                Date date = new Date(parsedTimestamp);
+                postTimestamp.setTime(date);
+                Calendar rightNow = Calendar.getInstance();
+                howLongAgo = getTimeDifference(rightNow, postTimestamp);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        } else {
+            howLongAgo = "N/A";
         }
         return howLongAgo;
     }
