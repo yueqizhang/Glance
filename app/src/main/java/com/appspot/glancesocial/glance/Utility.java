@@ -148,7 +148,9 @@ public class Utility {
             this.rank = rank;
         }
 
-        public AddUserToParse() {
+        public AddUserToParse(String userToAdd) {
+            // TODO: Get user name from the user ID
+            String userID = userToAdd;
             this.userID = "209932474";
             this.rank = 100;
         }
