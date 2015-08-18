@@ -119,6 +119,7 @@ public class InstagramService extends IntentService {
                 }
                 feedJsonStr = buffer.toString();
                 JSONObject feedJson = new JSONObject(feedJsonStr);
+                JSONObject page = feedJson.getJSONObject("pagination");
                 final JSONArray feedArray = feedJson.getJSONArray("data");
 
                 for (int i = 0; i < feedArray.length(); i++) {
@@ -127,7 +128,6 @@ public class InstagramService extends IntentService {
                     JSONObject user = post.getJSONObject("user");
                     ParseQuery postQuery = new ParseQuery("InstagramUser");
                     postQuery.whereEqualTo("userId", user.getString("id"));
-                    Log.d(LOG_TAG, "USERID: " + user.getString("id"));
                     postQuery.findInBackground(new FindCallback<ParseObject>() {
                         @Override
                         public void done(List<ParseObject> objects, ParseException e) {
@@ -148,8 +148,8 @@ public class InstagramService extends IntentService {
                         }
                     });
                 }
-                JSONObject page = feedJson.getJSONObject("pagination");
                 url = new URL(page.getString("next_url"));
+                Log.d(LOG_TAG, "NEXT URL: " + page.getString("next_url"));
             }
         } catch (IOException e) {
             e.printStackTrace();
