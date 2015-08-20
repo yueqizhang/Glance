@@ -32,8 +32,8 @@ public class SettingsFragment extends Fragment {
 
         // Create some dummy data for the ListView.
         final String[] acc = {
-                "Twitter",
                 "Instagram",
+                "Twitter",
                 "Facebook - Coming Soon",
                 "Google+ - Coming Soon"
         };
@@ -59,22 +59,7 @@ public class SettingsFragment extends Fragment {
                 //TODO: Use getSharedPreferences() instead of getPreferences()
                 SharedPreferences sharedPref =  getActivity().getSharedPreferences("accountsAdded", Context.MODE_PRIVATE);
                 switch (position) {
-                    case (0): // Twitter
-                        // Checks if you have gave twitter permission
-                        if (sharedPref.getString(getString(R.string.twitter_added), "false").equals("true")) {
-                            // Sends the user to the account Management Page
-                            String clickedAccount = mAccountAdapter.getItem(position);
-                            Intent intent = new Intent(getActivity(), AccountActivity.class)
-                                    .putExtra(Intent.EXTRA_TEXT, clickedAccount);
-                            startActivity(intent);
-                        } else {
-                            // Sends you to the twitter Authentication Page
-                            Intent intentTwitter = new Intent(getActivity(), TwitterActivity.class);
-                            intentTwitter.putExtra("SettingsActivity", true);
-                            startActivity(intentTwitter);
-                        }
-                        break;
-                    case (1): // Instagram
+                    case (0): // Instagram
                         // Checks if you have gave instagram permission
                         if (sharedPref.getString(getString(R.string.instagram_added), "false").equals("true")) {
                             // Sends the user to the account Management Page
@@ -88,6 +73,21 @@ public class SettingsFragment extends Fragment {
                             intentInstagram.putExtra("SettingsActivity", true);
                             startActivity(intentInstagram);
                         }
+                        break;
+                    case (1): // Twitter
+//                        // Checks if you have gave twitter permission
+//                        if (sharedPref.getString(getString(R.string.twitter_added), "false").equals("true")) {
+//                            // Sends the user to the account Management Page
+//                            String clickedAccount = mAccountAdapter.getItem(position);
+//                            Intent intent = new Intent(getActivity(), AccountActivity.class)
+//                                    .putExtra(Intent.EXTRA_TEXT, clickedAccount);
+//                            startActivity(intent);
+//                        } else {
+//                            // Sends you to the twitter Authentication Page
+//                            Intent intentTwitter = new Intent(getActivity(), TwitterActivity.class);
+//                            intentTwitter.putExtra("SettingsActivity", true);
+//                            startActivity(intentTwitter);
+//                        }
                         break;
                     default:
                         //Do nothing for our list of coming soon social media accounts
