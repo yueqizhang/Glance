@@ -33,7 +33,7 @@ public class SettingsFragment extends Fragment {
         // Create some dummy data for the ListView.
         final String[] acc = {
                 "Instagram",
-                "Twitter",
+                "Twitter - Coming Soon",
                 "Facebook - Coming Soon",
                 "Google+ - Coming Soon"
         };

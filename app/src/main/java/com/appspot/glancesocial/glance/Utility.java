@@ -15,6 +15,7 @@ import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.Toast;
 
 import com.parse.ParseObject;
 import com.squareup.picasso.Picasso;
@@ -218,6 +219,13 @@ public class Utility {
             parseUser.saveInBackground();
             return null;
         }
+    }
+
+    public static void deleteUserInstagram(String userId, Context context) {
+        //TODO: Actually delete the user from Parse
+        CharSequence text = userId + " has been deleted!";
+        int duration = Toast.LENGTH_SHORT;
+        Toast.makeText(context, text, duration).show();
     }
 
     public class AddPostToParse extends AsyncTask<Void, Void, Void> {

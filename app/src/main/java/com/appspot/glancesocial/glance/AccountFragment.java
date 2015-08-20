@@ -9,6 +9,7 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.TextView;
 
@@ -83,6 +84,13 @@ public class AccountFragment extends Fragment {
                         AccountActivity.friends);
         ListView listView = (ListView) rootView.findViewById(R.id.friend_list);
         listView.setAdapter(mFriendAdapter);
+        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int position, long l) {
+                // Doesn't get the correct handle value
+                Utility.deleteUserInstagram(view.findViewById(R.id.friend_handle).toString(), getActivity());
+            }
+        });
         return rootView;
     }
 
