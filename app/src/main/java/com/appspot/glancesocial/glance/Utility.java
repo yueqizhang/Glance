@@ -276,6 +276,7 @@ public class Utility {
 
             postParse.put("userId", userIdInDB);
             postParse.put("username", userName);
+            Log.d(LOG_TAG, "USERNAME: " + userName);
             postParse.put("thumbnail", thumbnail);
             postParse.put("caption", caption);
             postParse.put("comments", comments);
