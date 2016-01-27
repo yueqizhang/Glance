@@ -64,7 +64,7 @@ public class CardAdapter extends ArrayAdapter<Post> {
         holder.userNameView.setText(post.getUserName());
 
         //Set the text for user handle
-        holder.userHandleView.setText(post.getUserHandle());
+        holder.userHandleView.setText("@"+post.getUserHandle());
 
         //Load in the user image
         Utility.loadImage(getContext(), holder.userPicView, post.getUserPic());

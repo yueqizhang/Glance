@@ -15,8 +15,8 @@ public class GlanceApp extends Application {
 
     private static final String TWITTER_KEY = "otG6EvQxlUAQmxqmdRmnsOKBi";
     private static final String TWITTER_SECRET = "Eh7kzCtbQHCY0Oxg5E60t0BgSzRLIMZRvthdgZEesAa2m96dY7";
-    private static final String PARSE_APPLICATION_ID = "t7aZ9iBlFtU4JOXtvm2F3Hb5A0zqOXh2uysEeZ3X";
-    private static final String PARSE_CLIENT_KEY = "mUp7lGpKhfhHOuJ0DZCjvJOzDt8wQouo1wWsRHM9";
+    private static final String PARSE_APPLICATION_ID = "6O4jMqC1ayeD7s5ndDh2i3x2iKu0xSVjiQS1xLHn";
+    private static final String PARSE_CLIENT_KEY = "MYCqitNiiuUpHiEHi1VcIA4tOjWiR42Ilc4rSrzY";
 
     @Override
     public void onCreate() {

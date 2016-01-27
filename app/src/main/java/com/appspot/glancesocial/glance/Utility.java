@@ -239,78 +239,86 @@ public class Utility {
 
         @Override
         protected Void doInBackground(Void... params) {
-            String postID = null;
-            String thumbnail = null;
-            String lowImage = null;
-            String caption = null;
-            String userName = null;
-            int createdTime = -1;
-            String location = null;
-            int comments = -1;
-            int likes = -1;
-
+            //ParseQuery postExistsQuery = new ParseQuery("InstagramPosts");
             try {
-                postID = post.getString("id");
-                JSONObject user = post.getJSONObject("user");
-                userName = user.getString("username");
-                JSONObject image = post.getJSONObject("images");
-                JSONObject thumbnailObj = image.getJSONObject("thumbnail");
-                thumbnail = thumbnailObj.getString("url");
-                JSONObject lowImageObj = image.getJSONObject("low_resolution");
-                lowImage = lowImageObj.getString("url");
-                JSONObject captionObj = post.getJSONObject("caption");
-                caption = captionObj.getString("text");
-                createdTime = Integer.parseInt(captionObj.getString("created_time"));
-                if(post.has("location") && !post.isNull("location")) {
-                    JSONObject locationObj = post.getJSONObject("location");
-                    if (locationObj.has("name") && !locationObj.isNull("name")) {
-                        location = locationObj.getString("name");
-                    }
-                }
-                JSONObject commentsObj = post.getJSONObject("comments");
-                comments = Integer.parseInt(commentsObj.getString("count"));
-                JSONObject likesObj = post.getJSONObject("likes");
-                likes = Integer.parseInt(likesObj.getString("count"));
-            } catch (JSONException e) {
-                Log.e(LOG_TAG, e.getMessage(), e);
+                //postExistsQuery.whereEqualTo("userId", post.getJSONObject("user").getString("id"));
+                //postExistsQuery.whereEqualTo("postId", post.getString("id"));
+                //Log.d(LOG_TAG,post.getString("id"));
+                //postExistsQuery.findInBackground(new FindCallback<ParseObject>() {
+                    //@Override
+                    //public void done(List<ParseObject> objects, ParseException exc) {
+                        String postID = null;
+                        String thumbnail = null;
+                        String standardImage = null;
+                        String caption = null;
+                        String userName = null;
+                        String fullName = null;
+                        int createdTime = -1;
+                        String location = null;
+                        int comments = -1;
+                        int likes = -1;
+
+                        try {
+                            postID = post.getString("id");
+                            JSONObject user = post.getJSONObject("user");
+                            userName = user.getString("username");
+                            fullName = user.getString("full_name");
+                            JSONObject image = post.getJSONObject("images");
+                            thumbnail = user.getString("profile_picture");
+                            JSONObject standardImageObj = image.getJSONObject("standard_resolution");
+                            standardImage = standardImageObj.getString("url");
+                            JSONObject captionObj = post.getJSONObject("caption");
+                            caption = captionObj.getString("text");
+                            createdTime = Integer.parseInt(captionObj.getString("created_time"));
+                            if (post.has("location") && !post.isNull("location")) {
+                                JSONObject locationObj = post.getJSONObject("location");
+                                if (locationObj.has("name") && !locationObj.isNull("name")) {
+                                    location = locationObj.getString("name");
+                                }
+                            }
+                            JSONObject commentsObj = post.getJSONObject("comments");
+                            comments = Integer.parseInt(commentsObj.getString("count"));
+                            JSONObject likesObj = post.getJSONObject("likes");
+                            likes = Integer.parseInt(likesObj.getString("count"));
+                        } catch (JSONException ex) {
+                            ex.printStackTrace();
+                        }
+                        ParseObject postParse = new ParseObject("InstagramPosts");
+
+                        postParse.put("userId", userIdInDB);
+                        postParse.put("username", userName);
+                        postParse.put("fullName", fullName);
+                        postParse.put("thumbnail", thumbnail);
+                        postParse.put("caption", caption);
+                        postParse.put("comments", comments);
+                        postParse.put("createdTime", createdTime);
+                        postParse.put("likes", likes);
+                        if (location != null)
+                            postParse.put("location", location);
+                        postParse.put("standardImage", standardImage);
+                        postParse.put("postId", postID);
+                        postParse.put("ownerID", ownerID);
+                        postParse.saveInBackground();
+                    //}
+                //});
+            } catch (Exception e) {
                 e.printStackTrace();
             }
-            ParseObject postParse = new ParseObject("InstagramPosts");
-
-            Log.d(LOG_TAG, userIdInDB);
-            Log.d(LOG_TAG, thumbnail);
-            Log.d(LOG_TAG, caption);
-            Log.d(LOG_TAG, lowImage);
-
-            postParse.put("userId", userIdInDB);
-            postParse.put("username", userName);
-            Log.d(LOG_TAG, "USERNAME: " + userName);
-            postParse.put("thumbnail", thumbnail);
-            postParse.put("caption", caption);
-            postParse.put("comments", comments);
-            postParse.put("createdTime", createdTime);
-            postParse.put("likes", likes);
-            if(location != null)
-                postParse.put("location", location);
-            postParse.put("lowImage", lowImage);
-            postParse.put("postId", postID);
-            postParse.put("ownerID", ownerID);
-            postParse.saveInBackground();
-            Log.d(LOG_TAG, "Saved in background ~~~~~~~~~~~~~~~~~~~~~~~");
 
             return null;
         }
     }
 
     // Twitter Date Formatting
-    public static String formatTwitterDate(String unformattedDate) {
+    public static String formatTwitterDate(int unformattedDate) {
         String howLongAgo = "";
-        if (unformattedDate != null) {
+        if (unformattedDate != -1) {
+            String unformattedStringDate = String.valueOf(unformattedDate);
             String LARGE_TWITTER_DATE_FORMAT = "EEE MMM dd HH:mm:ss Z yyyy";
             Calendar postTimestamp = Calendar.getInstance();
             try {
                 Date date = new SimpleDateFormat(LARGE_TWITTER_DATE_FORMAT, Locale.ENGLISH)
-                        .parse(unformattedDate);
+                        .parse(unformattedStringDate);
                 postTimestamp.setTime(date);
                 Calendar rightNow = Calendar.getInstance();
                 howLongAgo = getTimeDifference(rightNow, postTimestamp);
@@ -325,10 +333,10 @@ public class Utility {
     }
 
     // Instagram Date Formatting
-    public static String formatInstagramDate(String unformattedDate) {
+    public static String formatInstagramDate(int unformattedDate) {
         String howLongAgo = "";
-        if (unformattedDate != null) {
-            long parsedTimestamp = Long.parseLong(unformattedDate) * 1000;
+        if (unformattedDate != -1) {
+            long parsedTimestamp = (long) unformattedDate * 1000;
             Calendar postTimestamp = Calendar.getInstance();
 
             try {

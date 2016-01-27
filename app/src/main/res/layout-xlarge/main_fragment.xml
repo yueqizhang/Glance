@@ -5,5 +5,6 @@
     android:id="@+id/gridview_posts"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    app:item_margin="8dp"
+    android:dividerHeight="2dp"
+    android:divider="@drawable/post_divider"
     app:column_count="2" />

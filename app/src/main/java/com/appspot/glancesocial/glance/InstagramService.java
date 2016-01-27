@@ -36,11 +36,11 @@ import java.util.concurrent.ExecutionException;
 public class InstagramService extends IntentService {
     // Use LOG_TAG when logging anything
     final String LOG_TAG = InstagramService.class.getSimpleName();
-    final static int USER_PAGES = 5;
-    final static int FEED_PAGES = 5;
+    final static int USER_PAGES = 10;
+    final static int FEED_PAGES = 10;
     final static String INSTA_BASE_URL = "https://api.instagram.com/v1/";
     final String ACCESS = "access_token";
-    final int MAX_FRIENDS = 10;
+    final int MAX_FRIENDS = 20;
     String lastLikeID = null;
     URL url;
     HttpURLConnection urlConnection = null;
@@ -90,7 +90,6 @@ public class InstagramService extends IntentService {
     public void getInstagramFeed() {
         //TODO: add functionality to go to next page when user reaches bottom of screen
         try {
-            Log.d(LOG_TAG, "Instagram feed called");
             StringBuilder builtUri = new StringBuilder();
             String feedJsonStr;
             BufferedReader reader;
@@ -102,8 +101,6 @@ public class InstagramService extends IntentService {
             url = new URL(builtUri.toString());
             StringBuffer buffer = new StringBuffer();
             reader = null;
-//            final int numPosts = 0;
-//            while(numPosts < 10){
             for(int j = 0; j < FEED_PAGES; j++) { // gets first FEED_PAGES pages of posts
                 urlConnection = (HttpURLConnection) url.openConnection();
                 urlConnection.setRequestMethod("GET");
@@ -121,35 +118,31 @@ public class InstagramService extends IntentService {
                 JSONObject feedJson = new JSONObject(feedJsonStr);
                 JSONObject page = feedJson.getJSONObject("pagination");
                 final JSONArray feedArray = feedJson.getJSONArray("data");
-
-                for (int i = 0; i < feedArray.length(); i++) {
-                    final int cur = i;
-                    JSONObject post = feedArray.getJSONObject(i);
-                    JSONObject user = post.getJSONObject("user");
-                    ParseQuery postQuery = new ParseQuery("InstagramUser");
-                    postQuery.whereEqualTo("userId", user.getString("id"));
-                    postQuery.findInBackground(new FindCallback<ParseObject>() {
-                        @Override
-                        public void done(List<ParseObject> objects, ParseException e) {
-                            if (!objects.isEmpty()) {
-                                try {
-                                    ParseObject user = objects.get(0);
-                                    String userId = (String) user.get("userId");
-                                    Utility.AddPostToParse addPost = new Utility()
-                                            .new AddPostToParse(feedArray.getJSONObject(cur), userId);
-                                    Log.d(LOG_TAG, "Executing asynctask ***********");
-                                    addPost.execute();
-                                } catch (JSONException ex) {
-                                    ex.printStackTrace();
+                if (j == FEED_PAGES-1) {
+                    for (int i = 0; i < feedArray.length(); i++) {
+                        final int cur = i;
+                        JSONObject post = feedArray.getJSONObject(i);
+                        JSONObject user = post.getJSONObject("user");
+                        ParseQuery postQuery = new ParseQuery("InstagramUser");
+                        postQuery.whereEqualTo("userId", user.getString("id"));
+                        postQuery.findInBackground(new FindCallback<ParseObject>() {
+                            @Override
+                            public void done(List<ParseObject> objects, ParseException e) {
+                                if (!objects.isEmpty()) {
+                                    try {
+                                        final ParseObject user = objects.get(0);
+                                        String userId = (String) user.get("userId");
+                                        Utility.AddPostToParse addPost = new Utility().new AddPostToParse(feedArray.getJSONObject(cur), userId);
+                                        addPost.execute();
+                                    } catch (Exception ex) {
+                                        ex.printStackTrace();
+                                    }
                                 }
-                            } else {
-                                Log.d(LOG_TAG, "ID NOT FOUND ******");
                             }
-                        }
-                    });
+                        });
+                    }
                 }
                 url = new URL(page.getString("next_url"));
-                Log.d(LOG_TAG, "NEXT URL: " + page.getString("next_url"));
             }
         } catch (IOException e) {
             e.printStackTrace();
@@ -183,7 +176,6 @@ public class InstagramService extends IntentService {
         if(InstaWebViewActivity.getID != null) {
             try { //waits for thread to finish, if not done
                 InstaWebViewActivity.getID.get();
-                Log.d(LOG_TAG, "Owner ID = " + Utility.ownerID + " **************************************************************");
                 SharedPreferences sharedPref =  getSharedPreferences("userInfo", Context.MODE_PRIVATE);
                 SharedPreferences.Editor editor = sharedPref.edit();
                 editor.putString(getString(R.string.owner_id), Utility.ownerID);
@@ -208,7 +200,6 @@ public class InstagramService extends IntentService {
 //                            Log.d(LOG_TAG, "Object List " + objects);
 //                            if (ex == null && objects.isEmpty()) {
                                 String userId = ((Map.Entry<String, Integer>) post).getKey();
-                                Log.d(LOG_TAG, "id " + id + " userId " + userId);
                                 int rank = ((Map.Entry<String, Integer>) post).getValue();
                                 Utility.AddUserToParse addUserTask = new Utility()
                                         .new AddUserToParse(userId, rank);
@@ -259,7 +250,6 @@ public class InstagramService extends IntentService {
                     JSONObject user = imageEntry.getJSONObject("user");
                     likedUsers.add(user.getString("id"));
                 }
-                Log.d(LOG_TAG, likedUsers.toString());
                 JSONObject page = jObj.getJSONObject("pagination");
                 url = new URL(page.getString("next_url"));
             }

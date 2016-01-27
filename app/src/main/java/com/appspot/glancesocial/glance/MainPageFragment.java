@@ -51,19 +51,19 @@ public class MainPageFragment extends Fragment {
                         try {
                             newPost = new Post("instagram",
                                     // TODO: Need to get the user name/handle from ID
-                                    object.get(i).getString("userID"),
-                                    object.get(i).getString("userID"),
-                                    object.get(i).getString("createdTime"),
+                                    object.get(i).getString("fullName"),
+                                    object.get(i).getString("username"),
+                                    object.get(i).getInt("createdTime"),
                                     // TODO: Need to get the user's profile picture
                                     Uri.parse(object.get(i).getString("thumbnail")),
                                     object.get(i).getString("caption"),
-                                    Uri.parse(object.get(i).getString("lowImage")));
+                                    Uri.parse(object.get(i).getString("standardImage")));
+                            posts.add(newPost);
                         } catch (ArrayIndexOutOfBoundsException exc) {
                             //Create empty post
                             exc.printStackTrace();
                             newPost = new Post();
                         }
-                        posts.add(newPost);
                     }
                 } else {
                     e.printStackTrace();

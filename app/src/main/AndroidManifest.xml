@@ -52,9 +52,17 @@
                 android:value=".SettingsActivity"/>
         </activity>
 
-        <!--Meta Data for Fabric API (Twitter)-->
+        <!-- Meta Data for Fabric API (Twitter) -->
         <meta-data
             android:name="io.fabric.ApiKey"
             android:value="405c243a6b84b90e237341477a4fdd8425b5c233" />
+
+        <!-- Meta Data for Parse API (Backend) -->
+        <meta-data
+            android:name="com.parse.APPLICATION_ID"
+            android:value="6O4jMqC1ayeD7s5ndDh2i3x2iKu0xSVjiQS1xLHn" />
+        <meta-data
+            android:name="com.parse.CLIENT_KEY"
+            android:value="MYCqitNiiuUpHiEHi1VcIA4tOjWiR42Ilc4rSrzY" />
     </application>
 </manifest>
