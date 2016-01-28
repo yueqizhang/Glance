@@ -5,6 +5,13 @@
     android:layout_height="match_parent"
     tools:context="com.appspot.glancesocial.glance.AccountActivity$AccountFragment">
 
+    <Button
+        android:id="@+id/more_account_info"
+        android:layout_width="match_parent"
+        android:layout_height="100dp"
+        android:gravity="center|center_vertical"
+        android:onClick="moreAccountClickHandler"
+        android:alpha="0"/>
     <TextView
         android:id="@+id/account_name"
         android:text="@string/default_account"
@@ -14,39 +21,20 @@
         android:textSize="34sp"
         android:textColor="@color/white"
         android:background="@color/blue"/>
-
     <Button
         android:id="@+id/disconnect_account"
         android:layout_width="match_parent"
-        android:layout_height="60dp"
+        android:layout_height="100dp"
+        android:gravity="center|center_vertical"
         android:text="@string/disconnect_account"
-        android:layout_below="@+id/account_name"
         android:onClick="disconnectAccountClickHandler"/>
 
     <ListView
         android:id="@+id/friend_list"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/disconnect_account"
-        android:layout_above="@+id/add_friend">
+        android:layout_below="@+id/account_name"
+        android:layout_alignParentBottom="true">
     </ListView>
-
-    <Button
-        android:id="@+id/add_friend"
-        android:layout_width="match_parent"
-        android:layout_height="60dp"
-        android:text="@string/add_friend"
-        android:layout_above="@+id/delete_friend"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
-        android:onClick="addFriendClickHandler"/>
-
-    <Button
-        android:id="@+id/delete_friend"
-        android:layout_width="match_parent"
-        android:layout_height="60dp"
-        android:text="@string/delete_friend"
-        android:layout_alignParentBottom="true"
-        android:onClick="deleteFriendClickHandler"/>
 
 </RelativeLayout>

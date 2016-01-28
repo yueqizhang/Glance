@@ -96,6 +96,12 @@ public class AccountActivity extends ActionBarActivity {
         builder.show();
     }
 
+    public void moreAccountClickHandler(View target) {
+        this.findViewById(R.id.more_account_info).setVisibility(View.GONE);
+        this.findViewById(R.id.disconnect_account).setVisibility(View.VISIBLE);
+        this.findViewById(R.id.account_name).setVisibility(View.INVISIBLE);
+    }
+
     public void deleteFriendClickHandler(View target) {
         //TODO: Hook up this to the back end
         AlertDialog.Builder builder = new AlertDialog.Builder(this);

@@ -163,6 +163,7 @@ public class Utility {
             StringBuilder builtUri = new StringBuilder();
             BufferedReader reader = null;
             String userName = "";
+            String fullName = "";
             String proPic = "";
 
             builtUri.append(InstagramService.INSTA_BASE_URL)
@@ -188,6 +189,8 @@ public class Utility {
                 JSONObject obj = new JSONObject(buffer.toString());
                 JSONObject user = obj.getJSONObject("data");
                 userName = user.getString("username");
+                fullName = user.getString("full_name");
+                Log.d(LOG_TAG,fullName);
                 proPic = user.getString("profile_picture");
             } catch (JSONException e) {
                 e.printStackTrace();
@@ -210,7 +213,7 @@ public class Utility {
 
             ParseObject parseUser = new ParseObject("InstagramUser");
 
-
+            parseUser.put("fullName", fullName);
             parseUser.put("userName", userName);
             parseUser.put("userId", userID);
             parseUser.put("profilePic", proPic);
@@ -267,6 +270,9 @@ public class Utility {
                             thumbnail = user.getString("profile_picture");
                             JSONObject standardImageObj = image.getJSONObject("standard_resolution");
                             standardImage = standardImageObj.getString("url");
+                            Log.d(LOG_TAG,"IMAGE URL: "+standardImage);
+                            Log.d(LOG_TAG,"WIDTH: "+standardImageObj.getString("width"));
+                            Log.d(LOG_TAG,"HEIGHT: "+standardImageObj.getString("height"));
                             JSONObject captionObj = post.getJSONObject("caption");
                             caption = captionObj.getString("text");
                             createdTime = Integer.parseInt(captionObj.getString("created_time"));

@@ -32,7 +32,11 @@ public class Post {
     // Constructor used for the friends list in the account management page
     public Post(String userName, String userHandle, Uri userPic) {
         this.postType = null;
-        this.userName = userName;
+        if (userName.isEmpty()) {
+            this.userName = userHandle;
+        } else {
+            this.userName = userName;
+        }
         this.userHandle = userHandle;
         this.postTime = -1;
         this.userPic = userPic;
@@ -43,7 +47,11 @@ public class Post {
     // Full Constructor
     public Post(String postType, String userName, String userHandle, int postTime, Uri userPic, String postText, Uri postPic) {
         this.postType = postType;
-        this.userName = userName;
+        if (userName.isEmpty()) {
+            this.userName = userHandle;
+        } else {
+            this.userName = userName;
+        }
         this.userHandle = userHandle;
         this.postTime = postTime;
         this.userPic = userPic;

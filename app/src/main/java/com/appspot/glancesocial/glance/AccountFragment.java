@@ -6,6 +6,9 @@ import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.transition.Fade;
+import android.transition.Transition;
+import android.transition.TransitionInflater;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -27,7 +30,8 @@ import java.util.List;
 public class AccountFragment extends Fragment {
     // Use LOG_TAG when logging anything
     private final String LOG_TAG = AccountFragment.class.getSimpleName();
-
+    private Fade mFade;
+    private ViewGroup mRootViewGroup;
     public static FriendAdapter mFriendAdapter;
 
     //Default Constructor
@@ -38,6 +42,7 @@ public class AccountFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         final View rootView = inflater.inflate(R.layout.account_fragment, container, false);
+        rootView.findViewById(R.id.disconnect_account).setVisibility(View.GONE);
         Intent intent = getActivity().getIntent();
         if (intent != null && intent.hasExtra(intent.EXTRA_TEXT)) {
             String accountName = intent.getStringExtra(intent.EXTRA_TEXT);
@@ -58,7 +63,7 @@ public class AccountFragment extends Fragment {
                         // Create a new list item for every best friend they have
                         for (int i = 0; i < object.size(); i++) {
                             try {
-                                newFriend = new Post(object.get(i).getString("userName"),
+                                newFriend = new Post(object.get(i).getString("fullName"),
                                         object.get(i).getString("userName"),
                                         Uri.parse(object.get(i).getString("profilePic")));
                             } catch (ArrayIndexOutOfBoundsException exc) {
@@ -84,11 +89,18 @@ public class AccountFragment extends Fragment {
                         AccountActivity.friends);
         ListView listView = (ListView) rootView.findViewById(R.id.friend_list);
         listView.setAdapter(mFriendAdapter);
+        mRootViewGroup = (ViewGroup) rootView.findViewById(R.id.friend_list);
+        final Transition mFadeTransition =
+                TransitionInflater.from(getActivity()).
+                        inflateTransition(R.transition.fade_transition);
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int position, long l) {
                 // Doesn't get the correct handle value
-                Utility.deleteUserInstagram(view.findViewById(R.id.friend_handle).toString(), getActivity());
+                //Utility.deleteUserInstagram(view.findViewById(R.id.friend_handle).toString(), getActivity());
+                //mFade = new Fade(Fade.OUT);
+                // Start recording changes to the view hierarchy
+                //TransitionManager.beginDelayedTransition(mRootViewGroup, mFade);
             }
         });
         return rootView;
