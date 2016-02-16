@@ -47,4 +47,5 @@
     <string name="instagram_added">false</string>
     <string name="seen_intro">false</string>
     <string name="owner_id" />
+    <string name="add_user">Add User</string>
 </resources>

@@ -42,7 +42,7 @@ public class AccountFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         final View rootView = inflater.inflate(R.layout.account_fragment, container, false);
-        rootView.findViewById(R.id.disconnect_account).setVisibility(View.GONE);
+        //rootView.findViewById(R.id.disconnect_account).setVisibility(View.GONE);
         Intent intent = getActivity().getIntent();
         if (intent != null && intent.hasExtra(intent.EXTRA_TEXT)) {
             String accountName = intent.getStringExtra(intent.EXTRA_TEXT);

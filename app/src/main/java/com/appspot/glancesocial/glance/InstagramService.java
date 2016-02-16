@@ -37,7 +37,7 @@ public class InstagramService extends IntentService {
     // Use LOG_TAG when logging anything
     final String LOG_TAG = InstagramService.class.getSimpleName();
     final static int USER_PAGES = 10;
-    final static int FEED_PAGES = 10;
+    final static int FEED_PAGES = 20;
     final static String INSTA_BASE_URL = "https://api.instagram.com/v1/";
     final String ACCESS = "access_token";
     final int MAX_FRIENDS = 20;

@@ -9,6 +9,7 @@ import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.mopub.nativeads.MoPubAdAdapter;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
@@ -23,6 +24,8 @@ public class CardAdapter extends ArrayAdapter<Post> {
     private final Context context;
     private final ArrayList<Post> posts;
     private final int layoutResourceId;
+    private MoPubAdAdapter adAdapter;
+
 
     //Constructor
     public CardAdapter(Context context, int layoutResourceId, ArrayList<Post> posts) {

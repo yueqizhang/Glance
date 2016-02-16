@@ -10,9 +10,9 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.AnimationUtils;
 import android.widget.AdapterView;
+import android.widget.ListView;
 import android.widget.ViewFlipper;
 
-import com.etsy.android.grid.StaggeredGridView;
 import com.parse.FindCallback;
 import com.parse.ParseException;
 import com.parse.ParseObject;
@@ -39,7 +39,7 @@ public class MainPageFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.main_fragment, container, false);
-        StaggeredGridView gridView = (StaggeredGridView) rootView.findViewById(R.id.gridview_posts);
+        ListView listView = (ListView) rootView.findViewById(R.id.listview_posts);
         ParseQuery<ParseObject> query = new ParseQuery("InstagramPosts");
         SharedPreferences sharedPref = getActivity().getSharedPreferences("userInfo", Context.MODE_PRIVATE);
         String ownerID = sharedPref.getString(getString(R.string.owner_id), "");
@@ -74,8 +74,8 @@ public class MainPageFragment extends Fragment {
                 updateTimeLine();
             }
         });
-        updateGridView(gridView, posts, rootView);
-        gridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+        updateListView(listView, posts, rootView);
+        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             public void onItemClick(AdapterView<?> parent, View v, int position, long id) {
                 viewFlipper = (ViewFlipper) v;
                 // There may not be a card currently flipped so check for that
@@ -114,18 +114,18 @@ public class MainPageFragment extends Fragment {
                         getActivity(), // The current context (this activity)
                         R.layout.card, // The name of the layout ID.
                         posts);
-        StaggeredGridView gridView = (StaggeredGridView) getActivity().findViewById(R.id.gridview_posts);
-        gridView.setAdapter(mPostAdapter);
+        ListView listView = (ListView) getActivity().findViewById(R.id.listview_posts);
+        listView.setAdapter(mPostAdapter);
     }
 
-    public void updateGridView(StaggeredGridView gridView, ArrayList<Post> posts, View rootView) {
+    public void updateListView(ListView listView, ArrayList<Post> posts, View rootView) {
         mPostAdapter =
                 new CardAdapter(
                         getActivity(), // The current context (this activity)
                         R.layout.card, // The name of the layout ID.
                         posts);
-        gridView = (StaggeredGridView) rootView.findViewById(R.id.gridview_posts);
-        gridView.setAdapter(mPostAdapter);
+        listView = (ListView) rootView.findViewById(R.id.listview_posts);
+        listView.setAdapter(mPostAdapter);
     }
 }
 

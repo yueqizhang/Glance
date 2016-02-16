@@ -5,13 +5,6 @@
     android:layout_height="match_parent"
     tools:context="com.appspot.glancesocial.glance.AccountActivity$AccountFragment">
 
-    <Button
-        android:id="@+id/more_account_info"
-        android:layout_width="match_parent"
-        android:layout_height="100dp"
-        android:gravity="center|center_vertical"
-        android:onClick="moreAccountClickHandler"
-        android:alpha="0"/>
     <TextView
         android:id="@+id/account_name"
         android:text="@string/default_account"
@@ -21,13 +14,14 @@
         android:textSize="34sp"
         android:textColor="@color/white"
         android:background="@color/blue"/>
+
     <Button
-        android:id="@+id/disconnect_account"
+        android:id="@+id/more_account_info"
         android:layout_width="match_parent"
         android:layout_height="100dp"
         android:gravity="center|center_vertical"
-        android:text="@string/disconnect_account"
-        android:onClick="disconnectAccountClickHandler"/>
+        android:onClick="moreAccountClickHandler"
+        android:alpha="0"/>
 
     <ListView
         android:id="@+id/friend_list"

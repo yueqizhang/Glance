@@ -7,7 +7,7 @@ import android.net.Uri;
  */
 public class Post {
     // Use LOG_TAG when logging anything
-    private final String LOG_TAG = TwitterActivity.class.getSimpleName();
+    private final String LOG_TAG = Post.class.getSimpleName();
 
     //Private Variables for the post
     private String postType;

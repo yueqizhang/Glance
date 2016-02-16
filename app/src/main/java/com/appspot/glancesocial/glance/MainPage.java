@@ -151,7 +151,7 @@ public class MainPage extends ActionBarActivity {
     @TargetApi(19)
     public void onWindowFocusChanged(boolean hasFocus) {
         super.onWindowFocusChanged(hasFocus);
-        View view = getWindow().getDecorView().findViewById(R.id.gridview_posts);
+        View view = getWindow().getDecorView().findViewById(R.id.listview_posts);
         if (hasFocus) {
             view.setSystemUiVisibility(
                     View.SYSTEM_UI_FLAG_IMMERSIVE

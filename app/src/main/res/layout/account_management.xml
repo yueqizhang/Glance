@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent" android:layout_height="match_parent">
+    <RelativeLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:id="@+id/relativeLayout">
+        <ImageView
+            android:layout_width="128dp"
+            android:layout_height="128dp"
+            android:id="@+id/user_profile_picture"
+            android:layout_margin="10dp"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:src="@drawable/ic_launcher"/>
+
+        <Button
+            android:id="@+id/disconnect_account"
+            android:layout_width="200dp"
+            android:layout_height="60dp"
+            android:gravity="center|center_vertical"
+            android:text="@string/disconnect_account"
+            android:textColor="#FFF"
+            android:background="@drawable/rounded_button_theme"
+            android:onClick="disconnectAccountClickHandler"
+            android:layout_toRightOf="@+id/user_profile_picture"
+            android:layout_marginTop="10dp"
+            android:layout_marginLeft="0dp"
+            android:layout_marginRight="10dp"
+            android:layout_marginBottom="8dp"/>
+        <Button
+            android:id="@+id/add_user"
+            android:layout_width="200dp"
+            android:layout_height="60dp"
+            android:gravity="center|center_vertical"
+            android:text="@string/add_user"
+            android:textColor="#FFF"
+            android:background="@drawable/rounded_button_theme"
+            android:layout_alignBottom="@+id/user_profile_picture"
+            android:layout_toRightOf="@+id/user_profile_picture"
+            android:layout_toEndOf="@+id/user_profile_picture" />
+
+
+    </RelativeLayout>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Bio"
+        android:id="@+id/textView"
+        android:layout_below="@+id/relativeLayout"
+        android:layout_margin="10dp"
+        android:layout_alignRight="@+id/relativeLayout"
+        android:layout_alignLeft="@+id/relativeLayout"/>
+
+</RelativeLayout>
