@@ -8,9 +8,9 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.animation.AnimationUtils;
 import android.widget.AdapterView;
 import android.widget.ListView;
+import android.widget.Toast;
 import android.widget.ViewFlipper;
 
 import com.parse.FindCallback;
@@ -75,34 +75,14 @@ public class MainPageFragment extends Fragment {
             }
         });
         updateListView(listView, posts, rootView);
-        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            public void onItemClick(AdapterView<?> parent, View v, int position, long id) {
-                viewFlipper = (ViewFlipper) v;
-                // There may not be a card currently flipped so check for that
-                if (currentlyFlipped != null) {
-                    currentlyFlipped.setInAnimation(AnimationUtils.loadAnimation(getActivity(), android.R.anim.slide_in_left));
-                    currentlyFlipped.setOutAnimation(AnimationUtils.loadAnimation(getActivity(), android.R.anim.slide_out_right));
-                }
-                viewFlipper.setInAnimation(AnimationUtils.loadAnimation(getActivity(), android.R.anim.slide_in_left));
-                viewFlipper.setOutAnimation(AnimationUtils.loadAnimation(getActivity(), android.R.anim.slide_out_right));
-                // Flip the card that is currently flipped over
-                if (currentlyFlipped != null && currentlyFlipped != viewFlipper) {
-                    currentlyFlipped.setDisplayedChild(0);
-                } else {
-                    viewFlipper.setDisplayedChild(0);
-                }
-                // Flip the card to the correct child view (Ex. Twitter or Instagram)
-                if (currentlyFlipped != viewFlipper && posts.get(position).getPostType().equals("twitter")) {
-                    viewFlipper.setDisplayedChild(1);
-                } else if (currentlyFlipped != viewFlipper && posts.get(position).getPostType().equals("instagram")) {
-                    viewFlipper.setDisplayedChild(2);
-                }
-                // Update which card is currently flipped over
-                if (currentlyFlipped == viewFlipper) {
-                    currentlyFlipped = null;
-                } else {
-                    currentlyFlipped = viewFlipper;
-                }
+        listView.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
+            @Override
+            public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
+                //Create a Custom Alert Dialog
+                CharSequence text = "Show Custom Alert Dialog with Interaction";
+                Toast toast = Toast.makeText(getActivity(), text, Toast.LENGTH_LONG);
+                toast.show();
+                return false;
             }
         });
         return rootView;

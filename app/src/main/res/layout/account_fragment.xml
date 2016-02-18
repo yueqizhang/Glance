@@ -15,20 +15,46 @@
         android:textColor="@color/white"
         android:background="@color/blue"/>
 
-    <Button
+    <ImageButton
         android:id="@+id/more_account_info"
-        android:layout_width="match_parent"
-        android:layout_height="100dp"
-        android:gravity="center|center_vertical"
-        android:onClick="moreAccountClickHandler"
-        android:alpha="0"/>
+        android:src="@drawable/info_icon"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignRight="@+id/account_name"
+        android:layout_alignBottom="@+id/account_name"
+        android:layout_margin="10dp"
+        android:background="#0000"
+        android:onClick="flipAccountInfoViewClickHandler"/>
 
-    <ListView
-        android:id="@+id/friend_list"
+    <!--This allows us to animate between the two views-->
+    <ViewFlipper
+        android:id="@+id/account_info_flipper"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@+id/account_name"
-        android:layout_alignParentBottom="true">
-    </ListView>
+        android:layout_alignParentBottom="true"
+        android:gravity="center"
+        android:orientation="horizontal">
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:id="@+id/friend_list_view">
+            <ListView
+                android:id="@+id/friend_list"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+            </ListView>
+        </RelativeLayout>
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:id="@+id/account_info_view">
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:text="WOOHOO"/>
+        </RelativeLayout>
+
+    </ViewFlipper>
 
 </RelativeLayout>

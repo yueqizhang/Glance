@@ -15,6 +15,7 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.parse.FindCallback;
 import com.parse.ParseException;
@@ -42,13 +43,11 @@ public class AccountFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         final View rootView = inflater.inflate(R.layout.account_fragment, container, false);
-        //rootView.findViewById(R.id.disconnect_account).setVisibility(View.GONE);
         Intent intent = getActivity().getIntent();
         if (intent != null && intent.hasExtra(intent.EXTRA_TEXT)) {
             String accountName = intent.getStringExtra(intent.EXTRA_TEXT);
             ((TextView) rootView.findViewById(R.id.account_name)).setText(accountName);
         }
-
         if (AccountActivity.friends == null || AccountActivity.friends.isEmpty()) {
             AccountActivity.friends = new ArrayList<>();
             // Get the Owner ID so we can access information
@@ -101,6 +100,9 @@ public class AccountFragment extends Fragment {
                 //mFade = new Fade(Fade.OUT);
                 // Start recording changes to the view hierarchy
                 //TransitionManager.beginDelayedTransition(mRootViewGroup, mFade);
+                CharSequence text = "Delete User";
+                Toast toast = Toast.makeText(getActivity(), text, Toast.LENGTH_SHORT);
+                toast.show();
             }
         });
         return rootView;

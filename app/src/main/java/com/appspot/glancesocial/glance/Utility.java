@@ -316,6 +316,9 @@ public class Utility {
     }
 
     // Twitter Date Formatting
+    // --------------------------------------------------------------------
+    // LEAVE THIS IN HERE - WE WILL BE USING IT WHEN WE ADD TWITTER BACK IN
+    // --------------------------------------------------------------------
     public static String formatTwitterDate(int unformattedDate) {
         String howLongAgo = "";
         if (unformattedDate != -1) {

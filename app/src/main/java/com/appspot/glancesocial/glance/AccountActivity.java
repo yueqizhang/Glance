@@ -9,9 +9,12 @@ import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
 import android.text.InputType;
 import android.view.View;
+import android.view.animation.AnimationUtils;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
+import android.widget.ViewFlipper;
 
 import java.util.ArrayList;
 
@@ -25,6 +28,7 @@ public class AccountActivity extends ActionBarActivity {
     public static ArrayList<Post> friends;
     private String userToAdd;
     private String userToDelete;
+    public ViewFlipper viewFlipper;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -67,6 +71,25 @@ public class AccountActivity extends ActionBarActivity {
         finish();
     }
 
+    public void flipAccountInfoViewClickHandler(View target) {
+        viewFlipper = (ViewFlipper) findViewById(R.id.account_info_flipper);
+        if (viewFlipper.getDisplayedChild()==0) {
+            ((ImageButton) findViewById(R.id.more_account_info)).setImageResource(R.drawable.x_icon);
+            // There may not be a card currently flipped so check for that
+            viewFlipper.setInAnimation(AnimationUtils.loadAnimation(this, android.R.anim.slide_in_left));
+            viewFlipper.setOutAnimation(AnimationUtils.loadAnimation(this, android.R.anim.slide_out_right));
+            // Flip the card that is currently flipped over
+            viewFlipper.setDisplayedChild(1);
+        } else {
+            ((ImageButton) findViewById(R.id.more_account_info)).setImageResource(R.drawable.info_icon);
+            // There may not be a card currently flipped so check for that
+            viewFlipper.setInAnimation(AnimationUtils.loadAnimation(this, android.R.anim.slide_in_left));
+            viewFlipper.setOutAnimation(AnimationUtils.loadAnimation(this, android.R.anim.slide_out_right));
+            // Flip the card that is currently flipped over
+            viewFlipper.setDisplayedChild(0);
+        }
+    }
+
     public void addFriendClickHandler(View target) {
         //TODO: Hook up this to the back end
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
@@ -94,12 +117,6 @@ public class AccountActivity extends ActionBarActivity {
             }
         });
         builder.show();
-    }
-
-    public void moreAccountClickHandler(View target) {
-        this.findViewById(R.id.more_account_info).setVisibility(View.GONE);
-        this.findViewById(R.id.disconnect_account).setVisibility(View.VISIBLE);
-        this.findViewById(R.id.account_name).setVisibility(View.INVISIBLE);
     }
 
     public void deleteFriendClickHandler(View target) {
