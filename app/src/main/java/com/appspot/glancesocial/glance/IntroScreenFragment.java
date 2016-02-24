@@ -45,7 +45,7 @@ public class IntroScreenFragment extends Fragment {
             case 0:
                 // The First Introduction Page
                 ((TextView) rootView.findViewById(R.id.intro_title)).setText(
-                        getString(R.string.app_name, mPageNumber));
+                        getString(R.string.app_name));
                 ((TextView) rootView.findViewById(R.id.text_instructions)).setText(
                         getString(R.string.intro_text_1));
                 rootView.findViewById(R.id.slide_1).setBackgroundColor(
@@ -73,16 +73,6 @@ public class IntroScreenFragment extends Fragment {
             default:
                 break;
         }
-        //Typeface typeFace=Typeface.createFromAsset(getActivity().getAssets(),"fonts/josefinsanslight.ttf");
-        //((TextView) rootView.findViewById(R.id.intro_title)).setTypeface(typeFace);
-        //((TextView) rootView.findViewById(R.id.text_instructions)).setTypeface(typeFace);
         return rootView;
-    }
-
-    /**
-     * Returns the page number represented by this fragment object.
-     */
-    public int getPageNumber() {
-        return mPageNumber;
     }
 }

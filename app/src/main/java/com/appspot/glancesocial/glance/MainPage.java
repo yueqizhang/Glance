@@ -3,6 +3,7 @@ package com.appspot.glancesocial.glance;
 import android.annotation.TargetApi;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.content.pm.ResolveInfo;
 import android.net.ConnectivityManager;
@@ -43,6 +44,7 @@ public class MainPage extends ActionBarActivity {
         }
         Intent testIntent = new Intent(this, InstagramService.class);
         startService(testIntent);
+
         //Intent testIntent2 = new Intent(this, TwitterService.class);
         //startService(testIntent2);
     }
@@ -56,6 +58,8 @@ public class MainPage extends ActionBarActivity {
             Toast toast = Toast.makeText(this, text, Toast.LENGTH_LONG);
             toast.show();
         }
+        Intent testIntent = new Intent(this, InstagramService.class);
+        startService(testIntent);
     }
 
     @Override
@@ -71,10 +75,21 @@ public class MainPage extends ActionBarActivity {
         // automatically handle clicks on the Home/Up button, so long
         // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
-
+        SharedPreferences sharedPref =  getSharedPreferences("accountsAdded", Context.MODE_PRIVATE);
         //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
-            startActivity(new Intent(this, SettingsActivity.class));
+        if (id == R.id.action_instagram) {
+            // Checks if you have gave instagram permission
+            if (sharedPref.getString(getString(R.string.instagram_added), "false").equals("true")) {
+                // Sends the user to the account Management Page
+                Intent intent = new Intent(this, AccountActivity.class)
+                        .putExtra(Intent.EXTRA_TEXT, "Instagram");
+                startActivity(intent);
+            } else {
+                // Sends you to the instagram Authentication Page
+                Intent intentInstagram = new Intent(this, InstaWebViewActivity.class);
+                intentInstagram.putExtra("MainPage", true);
+                startActivity(intentInstagram);
+            }
             return true;
         }
         return super.onOptionsItemSelected(item);
