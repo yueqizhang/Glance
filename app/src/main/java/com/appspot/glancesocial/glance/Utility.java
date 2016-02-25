@@ -219,6 +219,7 @@ public class Utility {
             parseUser.put("profilePic", proPic);
             parseUser.put("rank", rank);
             parseUser.put("ownerID", ownerID);
+
             parseUser.saveInBackground();
             return null;
         }

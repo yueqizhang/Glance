@@ -24,7 +24,7 @@ public class InstaWebViewActivity extends Activity {
     final String SCOPE_PARAMS = "likes+comments"; //extra permissions
     public static String accessToken= null;
     public static GetOwnerId getID;
-    public boolean fromSettingsActivity;
+    public boolean fromMainPage;
     private WebView instaWebView;
     final Context context = this;
 
@@ -33,8 +33,8 @@ public class InstaWebViewActivity extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.insta_webview);
         Intent intent = getIntent();
-        fromSettingsActivity = intent.getBooleanExtra("SettingsActivity", false);
-        Log.d(LOG_TAG, "fromsettingsactivity: " + fromSettingsActivity);
+        fromMainPage = intent.getBooleanExtra("MainPage", false);
+        Log.d(LOG_TAG, "fromMainPage: " + fromMainPage);
         StringBuilder instaUrl = new StringBuilder();
         instaUrl.append(INSTA_BASE_URL)
                 .append(ID_PARAM + "=" + IntroScreenActivity.INSTA_ID + "&")
@@ -57,7 +57,7 @@ public class InstaWebViewActivity extends Activity {
                     accessToken = url.substring(url.indexOf("token=") + 6, url.length());
                     Log.d(LOG_TAG, "url: " + url);
                     Log.d(LOG_TAG, "access token: " + accessToken);
-                    if(fromSettingsActivity) { //if this is launched from Settings, returns user back to settings
+                    if(fromMainPage) { //if this is launched from Settings, returns user back to settings
                         CharSequence text = "Instagram login was successful";
                         SharedPreferences.Editor editor = sharedPref.edit();
                         editor.putString(getString(R.string.instagram_added), "true");
